@@ -1,0 +1,38 @@
+	<div class="calculator row inner justify-content-sm-center position-relative">
+		<!-- <button type="button" class="btnTenela btnBack" title="Regresar al paso anterior" id="btnBack"><i class="fas fa-arrow-left"></i></button> -->
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<div class="innerCalculator mx-auto d-flex flex-column justify-content-between">
+				<div class="d-flex justify-content-around mb-4">
+					<div class="numStyle numBg">1</div>
+					<div class="numStyle numBg">2</div>
+					<div class="numStyle numBg">3</div>
+					<div class="numStyle numBg">4</div>
+				</div>
+
+
+				<div class="d-flex flex-column justify-content-between">
+					<img class="verificationImg mb-4 mx-auto" src="/svg/botón_x.svg" alt="Icono préstamo desaprobado">
+					<h3 class="titleSize my-0">UPS!</h3>
+					<p class="summaryTable">LAMENTABLEMENTE NO PODEMOS<br>APROBAR TU SOLICITUD</p>
+				</div>
+
+				<div class="mb-5">
+					<p class="summaryTable summaryText">
+						COMUNÍCATE CON NOSOTROS<br>
+						AL <span>“NUMERO DE TELÉFONO”</span>
+					</p>
+				</div>
+
+			</div>
+		</div>
+
+<?php
+require_once("simulador-calculadora.htm");
+?>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('solicitud-rechazada');
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","js":"solicitud-rechazada","callback":"InitSolicRechazada"}');
+?></json>

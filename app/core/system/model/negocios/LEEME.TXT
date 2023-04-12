@@ -1,0 +1,3 @@
+Estas son las clases para manejar los negocios.
+
+Recordar que los negocios es una tabla que está en el BACKEND y que hay que usar la API del Backend para acceder.

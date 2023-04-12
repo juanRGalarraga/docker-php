@@ -1,0 +1,14 @@
+.table-border-white{
+  background-color: #ffffff;
+  border-top: 2px solid #c0c6d1;
+}
+
+.table-blue-ligth{
+  background-color: #f2f7ff;
+  border-top: 2px solid white;
+}
+
+.empty-template-msg{
+  background-color: #9cadef;
+  padding: 12px;
+}

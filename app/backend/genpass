@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+require_once('initialize.php');
+require_once(DIR_config.'config.inc.php');
+require_once(DIR_includes."common.inc.php"); // Contiene las funciones comunes.
+require_once(DIR_includes."class.fechas.inc.php"); // Funciones de tratamiento de fechas y horas.
+require_once(DIR_model.'class.fundation.inc.php'); // Clase base para el manejo de la base de datos.
+require_once(DIR_model."usuarios".DS."class.usuarios_backend.inc.php"); // Clase para manejar los usuarios del sistema.
+
+$objeto_db = new cModels();
+if ($objeto_db->error) {
+	EchoLog($objeto_db->errmsg);
+	exit;
+}
+
+if (!isset($argv[1])) {
+	EchoLog('Parámetro requerido no fue indicado.');
+	exit;
+}
+if (!isset($argv[2])) {
+	EchoLog('Falta indicar password.');
+	exit;
+}
+
+$usuario_id = SecureInt($argv[1],null);
+$password = substr($argv[2],0,32);
+
+$usuario = new cUsrBackend();
+$usuario->id = $usuario_id;
+
+if ($usuario->Get()) {
+	$usuario->SetNewPassword($password);
+	EchoLog('Guardada como: '.$usuario->password);
+} else {
+	EchoLog('Usuario con id '.$usuario_id.' no encontrado.');
+}
+
+EchoLog('Hecho.');
+
+$objeto_db->Disconnect();

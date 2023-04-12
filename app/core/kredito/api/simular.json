@@ -1,0 +1,16 @@
+[
+	{
+		"methods":"GET",
+		"route":"simular/todo",
+		"resolver":"simular/getall",
+		"restricted":false,
+        "description":"Devuelve una cotización completa, para el backend"
+	},
+	{
+		"methods":"GET",
+		"route":"simular/{plazo}?:int/{monto}?:num/{plan}?:int/?",
+		"resolver":"simular/get",
+		"restricted":false,
+        "description":"Devuelve una cotización simple, para el onboarding"
+	}
+]

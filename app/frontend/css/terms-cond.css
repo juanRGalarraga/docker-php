@@ -1,0 +1,33 @@
+.termCondTitle {
+    font-size: 35px;
+}
+
+.termCondPara p {
+    color: var(--text-gray);
+    font-size: 14px;
+}
+
+.termCondPara h5 {
+    font-size: 1em;
+}
+
+.termCondPara li::marker {
+    color: var(--main-orange);
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.letterList li {
+    list-style: lower-latin !important;
+    line-height: 1em !important;
+}
+
+.persDataUl {
+    line-height: 20px;
+}
+
+@media (max-width: 425px) {
+    .container {
+        padding: 0 !important;
+    }
+}

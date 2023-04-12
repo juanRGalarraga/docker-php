@@ -1,0 +1,49 @@
+	<div class="calculator row inner justify-content-sm-center position-relative">
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<div class="innerCalculator mx-auto d-flex flex-column justify-content-between">
+				<div class="d-flex justify-content-around mb-4">
+					<div class="numStyle numBg">1</div>
+					<div class="numStyle numBg">2</div>
+					<div class="numStyle numBg">3</div>
+					<div class="numStyle numBg">4</div>
+				</div>
+
+
+				<div class="d-flex flex-column justify-content-between">
+					<img class="verificationImg mb-4 mx-auto" src="/svg/chulito.svg" alt="Icono préstamo aprobado">
+					<h3 class="titleSize my-0">FELICITACIONES</h3>
+					<span class="summaryTable mb-2">TU PRÉSTAMO HA SIDO APROBADO</span>
+					<p class="summaryTable summaryText">
+						DENTRO DE LAS PRÓXIMAS<br>
+						24HS RECIBIRÁS <?php echo $calculadora->respuesta->Simbolo_Moneda??null; ?> $ <?php echo $calculadora->respuesta->Capital; ?><br>
+						EN TU CUENTA DEL BANCO <span><?php echo $onboarding->solic_temp->data->nombreBanco??null; ?></span>
+					</p>
+				</div>
+
+				<div class="pb-4">
+				<?php if (!empty($onboarding->solic_temp->data->prestamo_id)) { ?>
+					<span class="summaryTable">N° TRANSACCIÓN <span><?php 
+					echo $onboarding->solic_temp->data->prestamo_id;
+					?></span></span>
+				<?php } ?>
+				</div>
+
+			</div>
+		</div>
+
+			<div class="col-12 col-md-6">
+<?php
+require_once("datos-prestamo.htm");
+?>
+				<div class="mt-4">
+					<A class="requestCalcBtn font-weight-bold btnTenela btn btn-lg m-0 obBtnCallToAction" href="<?php echo URL_MI_CUENTA; ?>" id="IrAMiCuenta" title="Donde podrás hacerle seguimiento a tu préstamo">IR a MI CUENTA<span class="click">, CLICK AQUÍ</span></A>
+				</div>
+
+			</div>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('prestamo-aprobado');
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","js":"prestamo-aprobado","callback":"InitPrestamoAprobado"}');
+?></json>

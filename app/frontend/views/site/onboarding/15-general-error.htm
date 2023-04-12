@@ -1,0 +1,27 @@
+	<div class="calculator row inner justify-content-sm-center obstep" id="ir-a-mi-cuenta">
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<div class="innerCalculator mx-auto d-flex align-items-strat flex-column">
+				
+<?php if (!empty($stepMessage)) { ?>
+				<p class="text-center"><?php echo $stepMessage; ?></p>
+<?php } ?>
+			
+				<div class="btnContainers btnContainers-center">
+<?php
+if (DEVELOPE) {
+?>
+	<button type="button" class="btnTenela calculatorBtn px-4" title="Regresar al paso anterior" id="btnBack"><i class="fas fa-arrow-left"></i></button>
+<?php
+	}
+?>
+					<a class="btnTenela calculatorBtn px-4" href="?home">Reiniciar solicitud</a>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php
+$onboarding->EndFail();
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":""}');
+?></json>

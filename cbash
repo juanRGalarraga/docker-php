@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo --------------------
+echo Ejecutados
+echo --------------------
+
+docker ps --format "ID\t{{.ID}}\nNAME\t{{.Names}}\nSTATUS\t{{.Status}}\n"
+
+echo --------------------
+echo "\n"
+
+echo ID del container:
+
+read containerId
+
+if [ ! -z "$containerId" ] 
+then
+docker exec -it $containerId bash 
+else 
+exit
+fi

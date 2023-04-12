@@ -1,0 +1,484 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Ejecuta todos los SQL que no esten registrados en la tabla correspondiente.
+ * Created: 2021-11-05
+ * Author: Gonza
+ * info: La herramienta permite ejecutar distintas acciones entre ellas:
+ *       -help => Brinda informacion sobre la herramienta, ademas de indicar los paramrestos y funcionamientos.
+ *       -all => Ejecuta todos los SQL que no esten registrados en la BDD.
+ *       -id => Permite re-ejecutar una consulta mediante su ID en la BDD.
+ *       -date => Permite ejecutar los SQL de un mes en concreto de un N año EJ: [2020-10]
+ *       -name => Permite ejecutar una consulta en base a su nombre fisico.
+ *       -db => Agrega todos los SQL's a la tabla sin ejecutarlos previamente.
+ */
+
+//  Define
+define("DEVELOPE_NAME", "metropol");
+define("INTERFACE_MODE", "backend");
+defined("TBL_sqlupdate") || define("TBL_sqlupdate", "sqlupdate");
+defined("INTERFACE_MODE") ||define("INTERFACE_MODE", "backend");
+define("VERSION","1.2");
+
+// Initialize
+require_once("initialize.php");
+
+// includes
+include(DIR_config."config.inc.php");
+include(DIR_includes."common.inc.php");
+
+// Require
+require_once(DIR_includes."class.fechas.inc.php");
+require_once(DIR_includes."class.logging.inc.php");
+require_once(DIR_includes."core_constants.inc.php");
+require_once(DIR_model."class.dbutil.3.0.inc.php");
+
+$this_file = substr(__FILE__,strlen(DIR_BASE))." ";
+
+// intanciamos y conectamos con la base de datos
+$objeto_db = new cDb(DBHOST, DBNAME, DBUSER, DBPASS, DBPORT);
+$objeto_db->Connect();
+$continue = false;
+
+// Ante un error cortamos
+if ($objeto_db->error) {
+    cLogging::Write($this_file . " DBErr: " . $objeto_db->errmsg);
+    return;
+}
+const actions = array("-help","-all","-id","-date","-name","-db");
+const sql_create = "DROP TABLE IF EXISTS `sqlupdate`; CREATE TABLE IF NOT EXISTS `sqlupdate` (`id` int(11) NOT NULL AUTO_INCREMENT,`nombre` varchar(255) NOT NULL,`ronda` int(11) DEFAULT NULL, `sys_fecha_alta` datetime NOT NULL,PRIMARY KEY (`id`)) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+
+try{
+
+    // Si no mandan nada, si el primer parametro no es valido o si es -help, muestro la ayuda.
+    if ((!isset($argv[1]) OR !in_array($argv[1],actions)) OR ($argv[1] == "-help")) {
+        Help();
+        exit;
+    }
+    
+    if (!in_array(strtolower($argv[1]),['-db','-all']) AND (!isset($argv[2]) OR empty($argv[2]))) {
+        EchoLog("\tEs necesario pasar el parametro requerido. Consulte -help para mas información.");    
+        exit;
+    }
+
+    // Paso el nombre a una unica funcion
+    $base = EnsureTrailingSlash(DIR_sql.SQLUP);
+    
+    // Se controla que exista el directorio dentro de BASE
+    if (!ExisteCarpeta($base)){
+        EchoLog('No se encontro el directorio indicado denteo de '.DIR_sql.'.');
+        exit;
+    }
+
+    // Instancia de listado de SQL's, listado de directorios SQL's, ronda iniciada
+    $list_sqls = array();
+    $list_direct = array();
+    $rondabdd = 1;
+
+    // Controles de tabla
+    checkInfoTable();
+
+    // Depende de la accion, es la funcion que se ejecuta
+    switch ($argv[1]) {
+        case '-all':
+            all($base);
+        break;
+        case '-id':
+            id($base,$argv[2]);
+        break;
+        case '-name':
+            name($base,$argv[2]);
+        break;
+        case '-date':
+            fecha($base,$argv[2]);
+        break;
+        case '-db':
+            marcaDb($base,$argv[2]);
+        break;
+    }
+}catch(Exception $e){
+    clogging::Write($e->getMessage());
+}finally{
+    $objeto_db->Disconnect();
+}
+
+
+// Help => Arma la vista de la ayuda.
+function Help(){
+    echo CLI_COLORES['Azul claro'];
+    EchoLog("\t\tEjecutor de SQL's V ".VERSION);
+    echo CLI_COLORES['Ninguno'];
+    echo CLI_COLORES['Verde'];
+    EchoLog("Ayuda para la Ejecución de SQL's");
+    echo CLI_COLORES['Ninguno'];
+    $ayuda = "Los parámetros para la funcionalidad son: ";
+    $ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . " -help" . CLI_COLORES['Ninguno'] . " Muestra este texto de ayuda.";
+    $ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . " -all" . CLI_COLORES['Ninguno'] . " Indica que tiene que recorrer todos los SQL del desarrollo y ejecutar aquellos que no estan en la BDD.";
+    $ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . " -id" . CLI_COLORES['Ninguno'] . " Permite Re-ejecutar un SQL sabiendo su ID de la tabla correspondiente.";
+    $ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . " -date" . CLI_COLORES['Ninguno'] . " Ejecuta todas las consultas SQL en el rango de una fecha 'año-mes' => Ej: 2021-11";
+    $ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . " -name" . CLI_COLORES['Ninguno'] . " Permite ejecutar un SQL atraves de su nombre completo sin extencion.";
+    $ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . " -db" . CLI_COLORES['Ninguno'] . " Crea un registro en la DB por cada SQL, sin ejecutarlos previamente. También se le puede pasar un segundo parametro que sea un listado de nombres, este tiene que ser un ARRAY o tiene que estar entre Comillas Dobles separado por ',', estos seran agregados a la DB sin ser ejecutas. Es importante que los nombres no tengan la extención";
+    EchoLog($ayuda);
+    return;
+}
+
+// Ejecuta todos los SQL's
+function all($direct){
+    global $objeto_db;
+
+    fun_direc($direct);
+    $elementos = listSqls($objeto_db);
+
+    if (empty($elementos)){
+        MNJERROR("ele");
+        return false;
+    }
+
+    if (!EjecutarYmas($elementos,true)){
+        MNJERROR("eje");
+        return false;
+    }
+}
+
+// Ejecuta uno de la BDD que exista fisicamente
+function id($direct,$date){
+    global $objeto_db;
+
+    if (!SecureInt($date)){
+        EchoLog("El valor del parametro '-id' tiene que ser numerico .");
+        echo PHP_EOL;
+        cLogging::Write(__LINE__." Se ingreso un valor no numerico para el indice '-id'.");
+        return;
+    }
+
+    $objeto_db->Query("SELECT * FROM ".SQLQuote(TBL_sqlupdate)." WHERE `id` = $date");
+    if (!$resul = $objeto_db->First()){
+        EchoLog("No se encontro ningun registro con el ID indicado.");
+        echo PHP_EOL;
+        cLogging::Write(__LINE__." No se encontro ningun SQL con el ID indicado en la BDD.");
+        return;
+    }
+
+    fun_direc($direct);
+
+    if (EjecutarYmas([$resul['nombre'].".sql"],true)){
+        $objeto_db->Delete(TBL_sqlupdate," `id`= ".$resul['id']);
+    }else{
+        MNJERROR("eje");
+        return false;
+    }
+}
+
+// Ejecuta uno fisico siempre y cuando tengas el nombre
+function name($direct,$date){
+    global $objeto_db;
+
+    fun_direc($direct);
+    if (EjecutarYmas([$date.".sql"],true)){
+        $objeto_db->Delete(TBL_sqlupdate," `nombre` LIKE '".$date."' ORDER BY `id` ASC LIMIT 1");
+    }else{
+        MNJERROR("eje");
+        return false;
+    }
+}
+
+// Ejecuta todos los de una carpeta
+function fecha($direct,$date){
+    global $list_direct;
+    global $objeto_db;
+
+    $date = substr($date,0,7);
+
+    if (!ExisteCarpeta($direct.$date)){
+        EchoLog("La feha indica no existe como punto de SQL's, consulte la ayuda ante la duda.");
+        echo PHP_EOL;
+        cLogging::Write(__LINE__." El directorio indicado no existe fisicamente..");
+        return;
+    }
+
+    fun_direc($direct.$date);
+    $list_direct[] = $date;
+
+    $elementos = listSqls($objeto_db);
+
+    if (empty($elementos)){
+        MNJERROR("ele");
+        return false;
+    }
+
+    if (!EjecutarYmas($elementos,true)){
+        MNJERROR("eje");
+        return false;
+    }
+}
+
+// Crea un registro en la BDD por cada archivo
+function marcaDb($direct,$date = false){
+    global $objeto_db;
+    global $list_sqls;
+
+    fun_direc($direct);
+    
+    if (!empty($date)){ 
+        $date = str_replace(['"','[',']'],'',$date);
+        $list_sqls = explode(",",$date);
+    }
+
+    $elementos = listSqls($objeto_db);
+
+    if (empty($elementos)){
+        MNJERROR("ele");
+        return false;
+    }
+
+    if (!EjecutarYmas($elementos)){
+        MNJERROR("eje");
+        return false;
+    }
+}
+
+/**
+ * Extrae el contenido de las carpetas y lo agrega a un array que tiene el listado de los nombres fisicos de archivos.
+ * @param int $base ruta completa de carpeta
+ */
+function fun_direc($base){
+    global $list_sqls;
+    global $list_direct;
+
+    // Abrimos la carpeta para obtener todos los sql que hay
+    $dir_open = scandir($base);
+    $dir_open = array_diff($dir_open,['.','..']);
+    
+    // Recorrer el o los direcctorios
+    foreach ($dir_open as $value) {
+        $rut_correct = str_replace("\\\\",DS,$base.DS.$value);
+
+        if (ExisteCarpeta($rut_correct)){
+            array_push($list_direct,$base.$value);
+            fun_direc($rut_correct);
+        }
+        if (ExisteArchivo($rut_correct)){
+            $list_sqls[] = $value;
+        }
+    }
+}
+
+/**
+ * Summary. Busca el listado de los SQL que no estan en la BDD
+ * @return array $resul
+ */
+function listSqls($obj){
+    global $list_sqls;
+    $result = false;
+    try{
+        // Creal la tabla temporal de la lista
+        $create_table = "CREATE TEMPORARY TABLE IF NOT EXISTS `SQL_list` (`id` int(11) NOT NULL AUTO_INCREMENT, `item_name` varchar(255), PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+        $obj->Query($create_table);
+        
+        // Carga el listo en la tabla temporal
+        foreach ($list_sqls AS $indice){
+            $sql_name = ExtraerNombre($indice);
+            $insert_table = "INSERT INTO `SQL_list` (`item_name`) VALUES('".$sql_name."')";
+            $obj->Query($insert_table);
+        }
+
+        // Busca los elementos de la lista que no estan en la BDD
+        $sql = "SELECT `list`.`item_name` FROM `SQL_list` AS `list` WHERE `list`.`item_name` NOT IN (SELECT `nombre` FROM ".SQLQuote(TBL_sqlupdate).")";
+
+        $obj->Query($sql);
+
+        if ($v = $obj->First()){
+            do{
+                $ext = ExtraerExtension($v['item_name']);
+                if ($ext != "sql"){
+                    $result[] = $v['item_name'].".sql";
+                }else{
+                    $result[] = $v['item_name'];
+                }
+            }while ($v = $obj->Next());
+        }
+    }catch(Exception $e){
+        cLogging::write($e->getMessage());
+    }
+
+    return $result;
+}
+
+/**
+ * Summary. Abre el archivo indicado, lee y intenta ejecutar, en caso de no poder sigue con el siguiente archivo
+ * @param string $direct
+ * @param string $sql
+ * @return boolean true/false
+ */
+function whileFun($direct,$sql){
+    global $objeto_db;
+    
+    $result = false;
+    $theQuery = "";
+
+    try{
+        // Se abre el archivo para leer el contenido
+        $fh = fopen($direct.$sql, 'r');
+
+        // Recorrer los renglones.
+        while($theLine = fgets($fh, 1048576)){
+            $theLine = trim($theLine);
+
+            if (in_array(substr($theLine,0,2),['--','/*']) OR empty($theLine)){
+                continue;
+            }
+        
+            $theQuery .= $theLine;
+            
+            if (substr(trim($theQuery),-1)==';'){
+                $objeto_db->Query($theQuery);
+                $theQuery = '';
+
+                if ($objeto_db->error) {
+                    clogging::Write($objeto_db->errmsg);
+                    echo PHP_EOL;
+                    EchoLog($objeto_db->errmsg);
+                    fclose($fh);
+                    return false;
+                }
+
+                clogging::Write("Se ejecutaron las consultas del archivo: $sql, localizado en la el directorio: $direct.");
+                echo PHP_EOL;
+                EchoLog("Se ejecutaron las consultas del archivo: $sql, localizado en la el directorio: $direct.");
+                $result = true;
+            }
+        } // while
+
+        fclose($fh);
+    }catch(Exception $e){
+        cLogging::Write($e->GetMessage());
+	}
+    return $result;
+}
+
+/**
+ * Summary. Controla que exista en la DB la tabla correspondiente.
+ */
+function checkInfoTable(){
+    global $objeto_db;
+    global $rondabdd;
+
+    $sql = "SHOW TABLES like '".TBL_sqlupdate."'";
+
+    $objeto_db->Query($sql);
+    if (!$objeto_db->First()){
+        
+        // Crea la tabla de SQLupdate
+        $sql_create = "CREATE TABLE IF NOT EXISTS `sqlupdate` (`id` int(11) NOT NULL AUTO_INCREMENT,`nombre` varchar(255) NOT NULL,`ronda` int(11) DEFAULT NULL,`sys_fecha_alta` datetime NOT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+        $objeto_db->Query($sql_create);
+    }else{
+
+        // Si existe saco la informacion de la tabla
+        $sql = "SELECT `ronda` FROM ".SQLQuote(TBL_sqlupdate)." ORDER BY `ronda` DESC LIMIT 1";
+        $objeto_db->Query($sql);
+        if ($r = $objeto_db->First()){ $rondabdd = $r['ronda'] + 1;}
+    }
+}
+
+/**
+ * Summary. Crea el registro en la DB
+ * @param array $reg contiene el nombre del archivo fisico y numero de ronda
+ * @return bool $result true si sale todo bien.
+ */
+function GuardarLog($reg){
+    global $objeto_db;
+	   
+    $reg['sys_fecha_alta']= cFechas::Ahora();
+    $objeto_db->Insert(TBL_sqlupdate,$reg);
+    $result = true;
+
+    if ($objeto_db->error) { 
+        cLogging::Write('DBErr: '.$objeto_db->errmsg);
+        $result = false;
+    }
+
+	return $result;
+}
+
+/**
+ * Summary. Recorre el listado que se le pasa buscando que existan fisicamente, si se le indica como segundo parametro un TRUE la funcion tratara de ejecutar las consultas que cotiene el archivo, indiferente del segundo parametro se crea un log en la BDD sobre la accion realizada.
+ * @param array $list
+ * @param boolean $ejecutar
+ * @return boolean true/false
+ */
+function EjecutarYmas($list,$ejecutar = false){
+    global $list_direct;
+    global $rondabdd;
+
+    // recorremos los elementos si estos no estan vacíos
+    foreach ($list as $value) {
+        // desarmo el nombre
+        $sqlName = ExtraerNombre($value);
+        $ext = ExtraerExtension($value);
+    
+        // Controlo que sea un archivo calido y que no este vacío.
+        for ($i=0; $i < count($list_direct); $i++) {
+            if (ExisteArchivo($list_direct[$i].DS.$value)){
+
+                // Control para saber que tenga mas de un renglon habilitado y que la extencion sea un SQL
+                if (filesize($list_direct[$i].DS.$value) < 1 OR $ext != 'sql'){
+                    EchoLog('El archivo "'.$value.'" esta vacío o no es un SQL.');
+                    echo PHP_EOL;
+                    cLogging::Write(__LINE__.' El archivo está vacío o no es un SQL');
+                    continue;
+                }
+                
+                // Llamo a la funcion que se encarga de leer el archivo y ejecutar el SQL
+                if ($ejecutar){
+                    if (!whileFun($list_direct[$i].DS,$value)){
+                        EchoLog('No se pudo ejecutar el SQL correctamente.');
+                        echo PHP_EOL;
+                        cLogging::Write(__LINE__.' No se pudo ejecutar el SQL correctamente');
+                        continue;
+                    }
+                }
+
+                $data = array (
+                    'nombre'=>	$sqlName,
+                    'ronda'=> $rondabdd
+                );
+                
+                // Si se ejecuto la consulta guardo el registro en la base de datos
+                if (!GuardarLog($data)){
+                    return false;
+                }
+                EchoLog('Se ah guardado el registro del SQL en la BDD.');
+                echo PHP_EOL;
+                cLogging::Write(__LINE__.' Se ah guardado el registro del SQL en la BDD.');
+            }
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Summary. Marca el mensaje de error
+ * @param string $aux
+ */
+function MNJERROR($aux){
+    switch ($aux) {
+        case 'ele':
+            EchoLog("No se encontraron SQL's para agregar al BDD.");
+            echo PHP_EOL;
+            cLogging::Write(__LINE__." No se encontraron SQL's para agregar al BDD");
+        break;
+        
+        case 'eje':
+            EchoLog("No se pudo ejecutar el listado de SQL's, por favor revisar el log del sistema.");
+            echo PHP_EOL;
+            cLogging::Write(__LINE__." No fue posible ejecutar el listado de SQL.");
+        break;
+
+        default:
+            EchoLog("Ocurrio un error inesperado y que no esta controlado, por favor revise el codigo 'ES MUCHO MUY IMPORTANTE'.");
+            echo PHP_EOL;
+            cLogging::Write(__LINE__." A mi tambien me gustaria saber que pasa, A revisar el codigo BATMAN!.");
+        break;
+    }
+}

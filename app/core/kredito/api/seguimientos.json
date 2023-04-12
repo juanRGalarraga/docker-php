@@ -1,0 +1,51 @@
+[
+	{
+		"methods":"GET",
+		"route":"seguimientos/{id}:int",
+		"resolver":"seguimientos/get",
+		"restricted":true,
+		"description":"Obtiene un seguimiento específico"
+	},
+	{
+		"methods":"POST",
+		"route":"seguimientos/{prestamo}:int",
+		"resolver":"seguimientos/post",
+		"restricted":true,
+		"description":"Añade un nuevo seguimiento"
+	},
+	{
+		"methods":"PUT",
+		"route":"seguimientos/{id}:int",
+		"resolver":"seguimientos/put",
+		"restricted":true,
+		"description":"Actualiza un registro dado un ID"
+	},
+	{
+		"methods":"GET",
+		"route":"seguimientos/persona/{id}:id",
+		"resolver":"seguimientos/listPersona",
+		"restricted":true,
+		"description":"Obtiene un listado de todos los seguimientos de una persona"
+	},
+	{
+		"methods":"GET",
+		"route":"seguimientos/prestamo/{prestamo}:id",
+		"resolver":"seguimientos/preCheck,seguimientos/listPrestamo",
+		"restricted":true,
+		"description":"Obtiene un listado de todos los seguimientos de un prestamo"
+	},
+	{
+		"methods":"GET",
+		"route":"seguimientos/config",
+		"resolver":"seguimientos/config",
+		"restricted":true,
+		"description":"Devuelve todos los datos accesorios a los registros de seguimiento."
+	},
+	{
+		"methods":"GET",
+		"route":"seguimientos/",
+		"resolver":"seguimientos/listTodos",
+		"restricted":true,
+		"description":"Obtiene un listado de todos los seguimientos accesibles por el usuario del backend"
+	}
+]

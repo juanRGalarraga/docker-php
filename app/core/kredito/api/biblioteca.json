@@ -1,0 +1,37 @@
+[
+	{
+		"methods":"GET",
+		"route":"biblioteca/byname/{id}:int",
+		"resolver":"biblioteca/GetByName",
+		"restricted":true,
+		"description":"Dado el nombre de un archivo y el ID de la persona obtiene los datos del archivo"
+	},
+	{
+		"methods":"POST",
+		"route":"biblioteca/folder/{id}:int",
+		"resolver":"biblioteca/NuevaCarpeta",
+		"restricted":true,
+		"description":"Agrega una nueva carpeta a una persona"
+	},
+	{
+		"methods":"GET",
+		"route":"biblioteca/{id}:int",
+		"resolver":"biblioteca/get",
+		"restricted":true,
+		"description":"Dado el ID de un archivo obtiene sus datos y los devuelve como un objeto"
+	},
+	{
+		"methods":"GET",
+		"route":"biblioteca/list/{persona_id}?:int",
+		"resolver":"biblioteca/list",
+		"restricted":true,
+		"description":"Obtiene un listado"
+	},
+	{
+		"methods":"POST",
+		"route":"biblioteca/{id}:int",
+		"resolver":"biblioteca/post",
+		"restricted":true,
+		"description":"Añade un nuevo archivo a la biblioteca de una persona"
+	}
+]

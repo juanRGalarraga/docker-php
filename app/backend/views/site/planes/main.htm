@@ -1,0 +1,36 @@
+<div id="carouselExampleControls" class="carousel slide" data-bs-interval="false" data-bs-ride="carousel">
+    
+    <div class="carousel-inner carousel-item active" id="contListado">
+        <div class="card">
+			<div class="card-header">
+				Listado de planes
+			</div>
+            <div class="card-body row">
+                <div class="col-12 col-md-3 form-group">
+                    <label for="sel_state">Estado</label>
+                    <select class="form-select form-select" name="sel_state" id="sel_state">
+                        <?php foreach (ESTADOS_VALIDOS as $key => $value) {   ?>
+                            <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                        <?php   }   ?>
+                    </select>
+                </div>
+                <div class="col-md"></div>
+                <div class="col-12 col-md-2 align-items-end d-flex justify-content-end form-group ">
+                    <button id="btnNewPlan" data-bs-target="#carouselExampleControls" data-bs-slide-to="1" aria-label="Slide 2" class="btn btn-primary" title="Crear Nuevo plan"><i class="fas fa-plus"></i> Nuevo plan</button>
+                </div>
+            </div>
+        </div>
+
+    
+        <div class="card">
+            <div class="card-body">
+                <div id="listado_planes"><?php
+				include(DIR_ajax."planes".DS."listado.php");
+				?></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="carousel-item carousel-item" id="contFormPlan"><?php require_once("newPlanes.htm"); ?></div>
+</div>

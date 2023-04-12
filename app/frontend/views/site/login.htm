@@ -1,0 +1,57 @@
+<div class="row">
+	<div class="d-none d-sm-block col-sm-2 col-lg-4">
+	</div>
+	<div class="col-sm-8 col-lg-4">
+		<div class="login-box mx-auto" id="login-area">
+			<div class="login-logo">
+				<img class="brand-image" style="width: 200px; margin: 20px; " src="<?php echo SITE_mainlogo; ?>">
+			</div>
+			<div class="card">
+				<div class="card-body login-card-body">
+					<form class="login-form_" id="loginform">
+						<div class="input-group mb-3">
+							<input class="form-control" placeholder="<?php EchoLang('Usuario'); ?>" type="text" name="username" id="username" value="" data-toggle="tooltip" data-placement="right" autofocus title="<?php EchoLang('Usuario'); ?>">
+							<div class="input-group-append">
+								<div class="input-group-text">
+									<span class="fas fa-user"></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="input-group mb-3">
+							<input class="form-control" placeholder="<?php EchoLang('Contraseña'); ?>" type="password" name="password" id="password" value="" data-toggle="tooltip" data-placement="right" title="<?php EchoLang('Contraseña'); ?>">
+							<div class="input-group-append">
+								<div class="input-group-text">
+									<span class="fas fa-lock"></span>
+								</div>
+							</div>
+						</div>
+						<p class="text-center text-danger border border-danger p-2 form-control d-none" id="msg-error"><i class="fas fa-exclamation-triangle"></i> <?php EchoLang('Credenciales no válidas'); ?>.</p>
+						<div class="row">
+							<div class="col-7">
+								<div class="icheck-primary">
+									<input type="checkbox" id="remember">
+									<label for="remember">
+										<!--Recordar Contraseña-->
+										<?php EchoLang('recordar_contraseña','Recordar contraseña'); ?>
+									</label>
+								</div>
+							</div>
+							<!-- /.col -->
+							<div class="col-5">
+								<button type="button" class="btn btn-primary btn-block" id="btn-acceder" onClick="CheckLogin(); return false;"><?php EchoLang('acceder','Acceder'); ?></button>
+							</div>
+							<!-- /.col -->
+						</div>
+
+						<p class="text-info text-center mt-4 mb-0 fs8"><a href="<?php echo BASE_URL; ?>" onClick="ForgotPass(); return false;"><?php EchoLang('olvidaste_contraseña','¿Olvidaste la contraseña?'); ?>
+								<!--¿Olvidaste la contraseña?--></a></p>
+					</form>
+					<div id="form_forgot"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="d-none d-sm-block col-sm-2 col-lg-4">
+	</div>
+</div>

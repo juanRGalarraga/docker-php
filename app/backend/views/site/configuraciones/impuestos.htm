@@ -1,0 +1,39 @@
+<div class="row">
+	<div class="col-12">
+		<div id="carouselImpuestos" class="carousel slide" data-bs-interval="false" data-bs-ride="carousel">    
+			<div class="carousel-inner carousel-item active">
+				<div class="card">
+					<div class="card-header">
+						<ul class="nav nav-tabs card-header-tabs" role="tablist">
+							<li class="nav-item">
+								<a onclick="CargarVista('list-impuestos')" class="nav-link active" id="nav-Impuestos-tab" data-bs-toggle="tab" href="#nav-impuestos" role="tab" aria-controls="nav-impuestos" aria-selected="true">Impuestos</a>
+							</li>
+							<li class="nav-item">
+								<a onclick="CargarVista('list-cargos')" class="nav-link" id="nav-Cargos-tab" data-bs-toggle="tab" href="#nav-cargos" role="tab" aria-controls="nav-cargos" aria-selected="false">Cargos</a>
+							</li>
+						</ul>
+						<div class="col-12 mt-3">
+							<button type="button" class="btn btn-primary float-end" onclick="modalImpCargo.Show()"><i class="fas fa-plus me-2"></i> Nuevo</button>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<div class="tab-content" id="nav-tabContent">
+							<div class="tab-pane fade show active" id="nav-impuestos" role="tabpanel" aria-labelledby="nav-Impuestos-tab">
+								<div id="list-impuestos"></div>
+							</div>
+							<div class="tab-pane fade" id="nav-cargos" role="tabpanel" aria-labelledby="nav-Cargos-tab">
+								<div id="list-cargos"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<div class="carousel-item carousel-item" id="contFormImpuesto">
+				<?php require_once("formImpuestos.htm"); ?>
+			</div>
+		</div>
+	</div>
+</div>

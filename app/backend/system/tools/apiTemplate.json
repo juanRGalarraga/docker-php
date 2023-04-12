@@ -1,0 +1,23 @@
+[
+	{
+		"methods":"GET",
+		"route":"[apiName]/{id}?:int",
+		"resolver":"[folderName]/ver",
+		"restricted":true,
+        "description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"POST",
+		"route":"[apiName]/",
+		"resolver":"[folderName]/agregar",
+		"restricted":true,
+        "description":"Añade un nuevo registro"
+	},
+	{
+		"methods":"GET",
+		"route":"[apiName]/",
+		"resolver":"[folderName]/listado",
+		"restricted":true,
+        "description":"Obtiene un listado"
+	}
+]

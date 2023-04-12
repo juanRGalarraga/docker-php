@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-12 col-sm-6 form-group">
+        <label class="fw-bolder" for="ts_nm_anual">Tasa Nominal Anual</label>
+        <input type="text" id="ts_nm_anual" name="ts_nm_anual" class="form-control" value="<?php echo F($plan->tasa_nominal_anual??null,2); ?>">
+    </div>
+    <div class="col-12 col-sm-6 form-group">
+        <label class="fw-bolder" for="mnt_fianza">Monto Fianza</label>
+        <input type="text" id="mnt_fianza" name="mnt_fianza" class="form-control" value="<?php echo F($plan->monto_fianza??null,2); ?>">
+    </div>
+
+    <div class="col-12 col-sm-6 form-group mt-2">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Cargos</h4>
+            </div>
+            <div class="card-body">
+<?php
+if (isset($plan->cargos) and (count($plan->cargos)>0)) {
+	foreach ($plan->cargos as $cargo) {
+?>
+                <div class="col-12 form-check d-flex align-items-center mt-3">
+                    <input class="form-check-input" type="checkbox" value="<?php echo $cargo->id; ?>" id="cargo-<?php echo $cargo->id; ?>" name="cargos[]"<?php echo ($cargo->included == 'SI')?" checked":"";?>>
+                    <label class="mx-2 mb-0 mt-2 form-check-label fw-bolder form-label" class="fw-bolder" for="cargo-<?php echo $cargo->id; ?>"><?php echo $cargo->nombre; ?> (<?php echo $cargo->valor; ?>)</label>
+                </div>
+<?php
+	}
+}
+?>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-sm-6 form-group mt-2">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Impuestos</h4>
+            </div>
+            <div class="card-body">
+<?php
+if (isset($plan->impuestos) and (count($plan->impuestos)>0)) {
+	foreach ($plan->impuestos as $impuesto) {
+?>
+                <div class="col-12 form-check d-flex align-items-center mt-3">
+                    <input class="form-check-input" type="checkbox" value="<?php echo $impuesto->id; ?>" id="imp-<?php echo $impuesto->id; ?>" name="impuestos[]"<?php echo ($impuesto->included == 'SI')?" checked":"";?>>
+                    <label class="mx-2 mb-0 mt-2 form-check-label fw-bolder form-label" class="fw-bolder" for="imp-<?php echo $impuesto->id; ?>"><?php echo $impuesto->nombre; ?> (<?php echo $impuesto->valor; ?>)</label>
+                </div>
+<?php
+	}
+}
+?>
+            </div>
+        </div>
+    </div>
+</div>

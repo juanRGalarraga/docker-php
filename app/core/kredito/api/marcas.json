@@ -1,0 +1,44 @@
+[
+	{
+        "methods": "GET",
+        "route": "marcas/listado",
+        "resolver": "marcas/listado",
+        "restricted": true,
+        "description": "Obtiene un listado de marcas"
+    },
+	{
+        "methods": "GET",
+        "route": "marcas/byname",
+        "resolver": "marcas/getByName",
+        "restricted": true,
+        "description": "Obtiene una marca dado su nombre"
+    },
+	{
+        "methods": "GET",
+        "route": "marcas/buscar/{buscar}:string",
+        "resolver": "marcas/buscar",
+        "restricted": true,
+        "description": "Busca las marcas en base a un string"
+    },
+    {
+        "methods": "GET",
+        "route": "marcas/{id}?:int",
+        "resolver": "marcas/ver",
+        "restricted": true,
+        "description": "Obtiene un registro dado un ID"
+    },
+    {
+        "methods": "POST",
+        "route": "marcas",
+        "resolver": "marcas/agregar",
+        "restricted": true,
+        "description": "Crea una nueva marcas"
+    },
+    {
+        "methods": "PUT",
+        "route": "marcas/{id}:int",
+        "resolver": "marcas/modificar",
+        "restricted": true,
+        "description": "Modifica una marcas existente"
+    }
+]

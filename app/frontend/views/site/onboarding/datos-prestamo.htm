@@ -1,0 +1,33 @@
+				<h3 class="titleSize m-0 mb-2">Tu préstamo</h3>
+				<div class="position-relative">
+				<div class="innerCalculator mx-auto">
+					<p class="totalText font-weight-bold m-0">Monto total a devolver:</p>
+					<h2 class="totalNumber font-weight-bold"> <?php echo $calculadora->respuesta->Simbolo_Moneda??null; ?> $ <span id="res-total"><?php echo $calculadora->respuesta->Total; ?></span></h2>
+				</div>
+					<div class="orangeLine mb-2 w-100"></div>
+<?php
+	//ShowVar($calculadora);
+?>
+					<ul class="summaryTable position-relative">
+						<li class="d-flex justify-content-between">
+							<span class="label">Préstamo</span><span class="valor"><?php echo $calculadora->respuesta->Simbolo_Moneda??null; ?> $ <span id="conf-capital"><?php echo $calculadora->respuesta->Capital; ?></span></span>
+						</li>
+						<li class="d-flex justify-content-between">
+							<span class="label">Plazo</span><span class="valor"><span id="conf-periodo"><?php echo $calculadora->respuesta->Periodo; ?></span> días</span>
+						</li>
+						<li class="d-flex justify-content-between">
+							<span class="label">Fecha de pago</span><span class="valor" id="conf-fecha_pago_txt"><?php echo $calculadora->respuesta->Fecha_Pago_Display; ?></span>
+						</li>
+						<li class="d-flex justify-content-between">
+							<span class="label" id="etiqueta_1"><?php echo $calculadora->respuesta->Etiqueta_1; ?></span>
+							<span class="valor"><?php echo $calculadora->respuesta->Simbolo_Moneda??null; ?> $ <span id="conf-intereses"><?php echo $calculadora->respuesta->Intereses; ?></span></span>
+						</li>
+						<li class="d-flex justify-content-between">
+							<span class="label" id="etiqueta_2" title="Costos administrativos incluye IVA"><?php echo $calculadora->respuesta->Etiqueta_2; ?></span>
+							<span class="valor"><?php echo $calculadora->respuesta->Simbolo_Moneda??null; ?> $ <span id="conf-gastos_administrativos"><?php echo $calculadora->respuesta->Gastos_Administrativos; ?></span></span>
+						</li>
+					</ul>
+
+					<div class="orangeLine mt-2 w-100"></div>
+
+				</div>

@@ -1,0 +1,42 @@
+<?php
+/*
+	Template para la página de login.
+	Created: 2019-10-15
+	Author: Dalloglio, DriverOp
+	
+	Modif: 2021-01-30
+	Author: DriverOp
+	Desc:
+		- Traido el tag body porque ahora depende del contenido y no del head.htm
+*/
+
+	if (!empty($contenidos['head']))
+		include($contenidos['head']);
+
+?>
+<body class="login-page">
+<?php
+	if (ExisteArchivo("noscript.htm")) { include("noscript.htm"); }
+?>
+	<div class="wrapper flex-wrap">
+<?php
+	if (!empty($contenidos['header']))
+		//include($contenidos['header']);
+?>
+		<main role="main" class="" id="main_<?php echo $objeto_contenido->alias; ?>">
+			<div class="content-wrapper" style="margin-left: 0;">
+				<div class="content-header">
+					<div class="container-fluid">
+<?php
+	if (!empty($contenidos['vista']))
+		include($contenidos['vista']);
+?>
+					</div><!-- container-fluid -->
+				</div>
+			</div>
+		</main>
+		<footer class="main-footer fixed fixed-bottom" style="margin-left: 0;">
+		<?php if (!is_null($contenidos['footer'])) include($contenidos['footer']); ?>
+		</footer>
+	</div>
+</body>

@@ -1,0 +1,35 @@
+<?php
+/*
+	Plantilla para mostrar el error 404 cuando no hay usuario logeado.
+	La idea es no revelar información que solo puede ser accesible a los usuario con sesión abierta.
+
+	Modif: 2021-02-06
+	Author: DriverOp
+*/
+
+
+	if (!empty($contenidos['head']))
+		include($contenidos['head']);
+
+?>
+<body class="login-page">
+<?php
+	if (ExisteArchivo("noscript.htm")) { include("noscript.htm"); }
+?>
+	<div class="wrapper">
+<?php
+	if (!empty($contenidos['header']))
+		include($contenidos['header']);
+?>
+		<main role="main" class="" id="main_404">
+			<div class="content-wrapper d-flex justify-content-center align-items-center" style="margin-left: 0;">
+<?php
+	include(DIR_errordocs."404p.htm");
+?>
+			</div>
+		</main>
+		<footer class="main-footer" style="margin-left: 0;">
+		<?php if (!is_null($contenidos['footer'])) include($contenidos['footer']); ?>
+		</footer>
+	</div>
+</body>

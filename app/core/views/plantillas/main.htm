@@ -1,0 +1,46 @@
+<?php
+/*
+	Template para todos los contenidos genéricos.
+	Created: 2021-02-05
+	Author: DriverOp
+	
+	Updated: 2021-11-03
+	Author: DriverOp
+		Tag inicial html debe estar acá. Agregadas clases a <html>, <body> y <footer> para hacer el sticky-footer.
+*/
+?>
+<!DOCTYPE html>
+<html class="h-100">
+<?php
+	if (!empty($contenidos['head']))
+		include($contenidos['head']);
+?>
+	<body class="d-flex flex-column h-100">
+<?php
+	if (ExisteArchivo("noscript.htm")) { include("noscript.htm"); }
+
+?>
+		<div id="app">	
+		<div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+				<div class="page-content">
+					<section class="row">
+<?php
+
+						if (!empty($contenidos['vista'])){
+							include($contenidos['vista']);
+						}
+?>
+					</section>
+				</div><!-- container-fluid -->
+			</div>
+		</div><!-- app -->
+		<footer class="main-footer mt-auto">
+			<?php if (!is_null($contenidos['footer'])) include($contenidos['footer']); ?>
+		</footer>
+	</body>
+</html>

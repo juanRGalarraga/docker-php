@@ -1,0 +1,9 @@
+- Cuando se crea un usuario hacer lo siguiente:
+	* Si se le asigna un rol, buscar la plantilla y setearla.
+	* Si no se le asigna un rol, aplicar una plantilla por defecto
+	* Se le asigne un rol o no, las plantillas van a almacenarse en la tabla plantillas_usuarios
+	
+- Al asignar un rol a un usuario, el ID del rol se guarda en la tabla backend_usuarios. 
+- Controlar el tema de los mensajes que llegan del servidor y se muestran al usuario
+
+- Cuando guardo un json se altera el orden las propiedades. 

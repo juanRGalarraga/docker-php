@@ -1,0 +1,56 @@
+<?php
+require_once(DIR_model."negocios".DS."class.negocios.inc.php");
+
+$negocios = new cNegocios;
+$negocios = $negocios->GetListSimple();
+
+?>
+<div class="row">
+    <!-- Negocio select -->
+    <div class="form-group col-12 col-sm-4">
+        <label class="fw-bolder form-label" for="selc_negocio">Seleccionar negocio:</label>
+        <select name="selc_negocio" id="selc_negocio" class="form-select">
+<?php
+	foreach ($negocios as $key => $value) { 
+?>
+	<option value="<?php echo $key; ?>"<?php echo ($key == ($plan->negocio_id??null))?"selected":""; ?>><?php echo $value; ?></option>
+<?php
+	}
+?>
+        </select>
+    </div>
+
+    <!-- Name Plan -->
+    <div class="form-group col-12 col-sm-4">
+        <label class="fw-bolder form-label" for="name_negocio">Nombre comercial:</label>
+        <input type="text" class="form-control" name="name_negocio" id="name_negocio" onkeyup="ArmarAlias(this);" value="<?php echo $plan->nombre_comercial??null; ?>">
+    </div>
+
+    <!-- Alias Plan -->
+    <div class="form-group col-12 col-sm-4">
+        <label class="fw-bolder form-label" for="alias_negocio">Alias Negocio:</label>
+        <input type="text" class="form-control" name="alias_negocio" id="alias_negocio" value="<?php echo $plan->alias??null; ?>">
+    </div>
+
+    <!-- State Plan -->
+    <div class="form-group col-12 col-sm-4">
+        <label class="fw-bolder form-label" for="state_negocio">Estado:</label>
+        <select name="state_negocio" id="state_negocio" class="form-select">
+<?php
+	foreach (ESTADOS_VALIDOS as $key => $value) {
+?>
+	<option value="<?php echo $key; ?>"<?php echo ($key == ($plan->estado??'HAB'))?" selected":""; ?>><?php echo $value; ?></option>
+<?php
+	}
+?>
+        </select>
+    </div>
+
+    <!-- Checket plan omisión -->
+    <div class="col-12 col-sm-4 d-flex align-items-center mt-3">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" value="SI" id="esdefault" name="esdefault"<?php echo ($plan->esdefault??false)?"checked":""; ?>>
+            <label class="mx-2 mb-0 mt-2 form-check-label fw-bolder form-label" for="esdefault">Plan por omision</label>
+        </div>
+    </div>
+</div>

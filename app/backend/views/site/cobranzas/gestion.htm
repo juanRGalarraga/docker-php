@@ -1,0 +1,65 @@
+<?php
+/*
+	Gestionar la cobranza de un préstamo.
+	Created: 2019-12-02
+	Author: DriverOp.
+	
+	Modif: 2020-12-29
+	Author: dcapponi
+	Desc:
+		Agregado buscar préstamos por DNI del cliente.
+*/
+require_once(DIR_model ."prestamos".DS."class.prestamos.inc.php");
+$this_file = substr(__FILE__, strlen(DIR_BASE)) . " ";
+
+$prestamo = new cPrestamos();
+if (SecureInt(@$objeto_contenido->parametros[0])) {
+	$prestamo->Get($objeto_contenido->parametros[0]);
+}
+?>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				Gestión de un préstamo
+			</div>
+			<div class="card-body">
+				<div class="row justify-content-start align-items-end" id="barra-de-filtros">
+					<div class="row mr-2">
+						<div class="col-6">
+							<div class="input-group mb-3">
+								<!-- <span class="input-group-text" id="basic-addon1"><i class="fas fa-search pr-2"></i></span> -->
+								<input type="text" class="form-control" onkeydown="checkInputEnter(event)" name="nro_prestamo" id="nro_prestamo" placeholder="Ingrese Nº de Préstamo" value="<?php echo (isset($objeto_contenido->parametros[0]) && SecureInt($objeto_contenido->parametros[0])) ? $objeto_contenido->parametros[0] : ''; ?>" aria-label="Ingrese Nº de Préstamo" aria-describedby="button-prestamo_id">
+								<button class="btn btn-outline-primary" onClick="BuscarPorId();" type="button" id="button-prestamo_id"> <i class="fas fa-search "></i> </button>
+							</div>
+						</div>
+						<div class="col-6 d-none">
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" name="nro_documento" id="nro_documento" placeholder="Ingrese DNI" aria-label="Ingrese DNI" aria-describedby="button-by-dni">
+								<button class="btn btn-outline-primary" onClick="verCreditosDNI()" onkeydown="checkInputEnter(event)" onClick="BuscarPorId();" type="button" id="button-by-dni"> <i class="fas fa-search "></i> </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="card">
+			<div class="card-body" id="areaPremensaje">
+				<p class="text-center text-info my-2"><?php EchoLang("buscar_prestamo", 'Buscar préstamo'); ?></p>
+			</div>
+			<div id="areaTabs" style="display:none;">
+				<!-- <div class="card card-primary card-outline "> -->
+					<div class="card-body" id="areaDatas"></div>
+				<!-- </div> -->
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+    .rbtDropZone{
+        background-color: #e7e7e7;
+    }
+</style>

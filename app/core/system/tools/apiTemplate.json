@@ -1,0 +1,30 @@
+[
+	{
+		"methods":"GET",
+		"route":"[apiName]/{id}:int",
+		"resolver":"[folderName]/get",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"POST",
+		"route":"[apiName]/",
+		"resolver":"[folderName]/post",
+		"restricted":true,
+		"description":"Añade un nuevo registro"
+	},
+	{
+		"methods":"GET",
+		"route":"[apiName]/",
+		"resolver":"[folderName]/list",
+		"restricted":true,
+		"description":"Obtiene un listado"
+	},
+	{
+		"methods":"PUT",
+		"route":"[apiName]/{id}:int",
+		"resolver":"[folderName]/put",
+		"restricted":true,
+		"description":"Actualiza un registro dado un ID"
+	}
+]

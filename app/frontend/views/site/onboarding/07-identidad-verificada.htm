@@ -1,0 +1,36 @@
+	<div class="calculator row inner justify-content-sm-center position-relative">
+		
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<div class="innerCalculator mx-auto d-flex flex-column justify-content-between">
+				<div class="d-flex justify-content-around mb-4">
+					<div class="numStyle numBg">1</div>
+					<div class="numStyle numBg">2</div>
+					<div class="numStyle">3</div>
+					<div class="numStyle">4</div>
+				</div>
+
+				<h3 class="titleSize m-0">Validación de tu identidad</h3>
+
+				<div class="d-flex flex-column justify-content-between">
+					<img class="verificationImg mb-3 mx-auto" src="/svg/chulito.svg" alt="Icono identidad verificada">
+					<span class="verificationState font-weight-bold">IDENTIDAD<br>VERIFICADA</span>
+				</div>
+
+				<div class="pt-3 btnContainers">
+					<button type="button" class="btnTenela btnBack" title="Regresar al paso anterior" id="btnBack"><i class="fas fa-arrow-left"></i></button>
+					<button class="btnTenela calculatorBtn px-4" type="button" id="btnNext" title="Ir al siguiente paso">SIGUIENTE <i class="fas fa-arrow-right"></i> </button>
+				</div>
+
+			</div>
+		</div>
+
+<?php
+require_once("simulador-calculadora.htm");
+?>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('identidad-verificada');
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","js":"identidad-verificada","callback":"InitIdentidadVerificada"}');
+?></json>

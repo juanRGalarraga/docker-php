@@ -1,0 +1,31 @@
+[
+	{
+		"methods":"GET",
+		"route":"visitas/{id}:int",
+		"resolver":"visitas/get",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"POST",
+		"route":"visitas/generator",
+		"resolver":"visitas/generator",
+		"restricted":true,
+		"description":"Añade muchos registros falsos"
+	},
+	{
+		"methods":"POST",
+		"route":"visitas/",
+		"resolver":"visitas/post",
+		"restricted":true,
+		"description":"Añade un nuevo registro"
+	},
+	
+	{
+		"methods":"GET",
+		"route":"visitas/",
+		"resolver":"visitas/list",
+		"restricted":true,
+		"description":"Obtiene un listado"
+	}
+]

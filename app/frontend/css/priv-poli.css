@@ -1,0 +1,32 @@
+.privPoliTitle {
+    font-size: 35px;
+}
+
+.privPoliPara p {
+    color: var(--text-gray);
+    font-size: 14px;
+}
+
+.privPoliPara h5 {
+    font-size: 1em;
+}
+
+.privPoliPara li > p {
+    margin-bottom: 8px;
+}
+
+.privPoliPara li {
+    list-style: disc;
+    line-height: 20px;
+}
+
+.privPoliPara li::marker {
+    color: var(--main-orange);
+}
+
+
+@media (max-width: 425px) {
+    .container {
+        padding: 0 !important;
+    }
+}

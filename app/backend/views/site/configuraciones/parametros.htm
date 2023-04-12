@@ -1,0 +1,99 @@
+<?php
+require_once(DIR_model."configuraciones".DS."class.parametros.inc.php");
+$parametros = new cParametros;
+$grupos = $parametros->GetGrupos(['ord'=>['nombre'=>'ASC']]);
+
+?>
+<div id="seccionParametros" class="carousel slide" data-bs-interval="false" data-bs-ride="carousel">
+	<section class="section carousel-inner carousel-item active" id="listados">
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">
+							<div class="row">
+								<div class="col-10">
+									Parámetros generales del sistema
+								</div>
+								<div class="col-2">
+									<!-- <button data-bs-target="#seccionParametros" data-bs-slide-to="1" aria-label="Slide 2" class="btn btn-primary" title="Crear Nuevo Usuario"><i class="fas fa-plus"></i> Editar parámetro</button> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="row mb-4">
+							<div class="col-3 d-flex align-items-center justify-content-end">
+								<label class="align-middle" for="buscar">Buscar</label>
+							</div>
+							<div class="col-9">
+								<input type="text" class="form-control" id="buscar" name="buscar" placeholder="Buscar parámetro" onKeyUp="elListador.SetTargetElement(targetDiv);elListador.Get(this,{'grupo':targetGrupo});">
+							</div>
+						</div>
+						<div class="row">
+							<!-- Start nav -->
+							<div class="col-12 col-md-2">
+								<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+									<a class="nav-link active text-center text-md-start" id="tab-list-todos" data-bs-toggle="pill" href="#list-todos" role="tab" aria-controls="list-todos" aria-selected="true" onClick="loadListado();">Todos</a>
+<?php
+	if (!empty($grupos)) {
+		foreach($grupos as $grupo) {
+			if ($grupo->estado == 'HAB') {
+			$alias = camelCase($grupo->nombre);
+?>
+									<a class="nav-link text-center text-md-start" id="tab-list-<?php echo $alias; ?>" data-bs-toggle="pill" href="#list-<?php echo $alias; ?>" role="tab" data-target-content="<?php echo $alias; ?>" data-target-group-id="<?php echo $grupo->id; ?>" aria-controls="list-<?php echo $alias; ?>" aria-selected="true" title="<?php echo htmlentities(strip_tags($grupo->descripcion)); ?>"><?php echo strip_tags($grupo->nombre); ?></a>
+<?php 
+			} // if
+		} // foreach
+	} // if
+?>
+								</div>
+							</div>
+							<!-- End nav -->
+							<div class="col-12 col-md-10">
+								<div class="tab-content" id="v-pills-tabContent">
+									<div class="tab-pane fade show active" id="list-todos" role="tabpanel" aria-labelledby="tab-list-todos">
+										<div class="list-content" id="content-todos"></div>
+									</div>
+<?php
+	if (!empty($grupos)) {
+		foreach($grupos as $grupo) {
+			if ($grupo->estado == 'HAB') {
+			$alias = camelCase($grupo->nombre);
+?>
+									<div class="tab-pane fade" id="list-<?php echo $alias; ?>" role="tabpanel" aria-labelledby="tab-list-<?php echo $alias; ?>">
+										<p><span class="display-6"><?php echo $grupo->nombre; ?></span> <small class="small"><?php echo htmlentities(strip_tags($grupo->descripcion)); ?></small></p>
+										<div class="list-content" id="content-<?php echo $alias; ?>"></div>
+									</div>
+<?php
+			} // if
+		} // foreach
+	} // if
+?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="section carousel-item carousel-item" id="edicion">
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">
+							<div class="row">
+								<div class="col-12 text-end">
+									<button data-bs-target="#seccionParametros" data-bs-slide-to="0" aria-label="Slide 2" class="btn btn-primary" title="Volver al listado"><i class="fa fa-arrow-left"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-body" id="formularioEdicion"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

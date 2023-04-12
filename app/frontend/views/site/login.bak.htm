@@ -1,0 +1,20 @@
+<div class="main-content">
+    <div id="login">
+        <section class="d-flex flex-column align-items-center" id="login-intro">
+
+            <h4 class="dark m-0">
+                Log in
+            </h4>
+            <form class="d-flex flex-column justify-content-center align-items-center" id="loginform" name="loginform" action="" style="width: 430px;">
+                <input class=" px-2" type="text" id="username" name="username" placeholder="<?php EchoLang("Usuario"); ?>">
+                <input class="mb-2  px-2" type="password" id="password" name="password" placeholder="<?php EchoLang("Contraseña"); ?>">
+                <a class="w-100 text-right forgot-pass" onclick="ForgotPass(); return false;"><?php EchoLang('¿Olvidaste tu contraseña?'); ?></a>
+            </form>
+            <div class="botones-wrapper mt-5 d-flex justify-content-center">
+                <a class="btn chico btn-gradient-oscuro" onclick="CheckLogin();"><?php EchoLang('Ingresar'); ?> <i class="pl-2 fas fa-chevron-right"></i></a>
+                
+            </div>
+            <div id="form_forgot"></div>
+        </section>
+    </div>
+</div>

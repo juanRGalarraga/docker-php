@@ -1,0 +1,41 @@
+- Estos son los "buckets" de montos a almacenar.
+Préstamo
+ ├Capital
+ ├Interés
+ │  ├Capital
+ │  └Mora
+ ├Cargos
+ │  ├Administrativos
+ │  └Cobranza
+ └Impuestos
+    ├IVA
+    │  ├Interés
+    │  │  ├Capital
+    │  │  └Mora
+    │  └Cargos
+    │     ├Administrativos
+    │     └Cobranzas
+    ├IIBB?
+    └IDC?
+
+
+- Correspondencia con los nombres de campos en la tabla ombu_prestamos:
+
+ombu_prestamos
+	capital
+	total_intereses
+		interes_capital
+		total_mora
+	total_cargos
+		cargos_administrativos
+		cargos_cobranza
+	total_impuestos
+		total_iva
+			total_iva_interes
+				iva_interes_capital
+				iva_mora
+			total_iva_cargos
+				iva_cargos_administrativos
+				iva_cargos_cobranza
+		total_impuestos_1
+		total_impuestos_2

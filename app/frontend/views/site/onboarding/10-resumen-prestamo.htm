@@ -1,0 +1,70 @@
+	<div class="calculator row inner justify-content-sm-center position-relative">
+		
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<div class="innerCalculator mx-auto d-flex flex-column justify-content-between">
+				<div class="d-flex justify-content-around mb-4">
+					<div class="numStyle numBg">1</div>
+					<div class="numStyle numBg">2</div>
+					<div class="numStyle numBg">3</div>
+					<div class="numStyle numBg">4</div>
+				</div>
+
+				<h3 class="titleSize mt-0 mb-5">Resumen de tu préstamo</h3>
+
+				<div class="position-relative">
+
+					<div class="orangeLine position-absolute lineTop"></div>
+<?php
+	//ShowVar($calculadora);
+?>
+					<ul class="summaryTable position-relative">
+						<li class="d-flex justify-content-between">
+							<span class="label">Préstamo</span><span class="valor"><?php echo $calculadora->respuesta->Simbolo_Moneda??null; ?> $ <span id="conf-capital"><?php echo $calculadora->respuesta->Capital; ?></span></span>
+						</li>
+						<li class="d-flex justify-content-between">
+							<span class="label">Plazo</span><span class="valor"><span id="conf-periodo"><?php echo $calculadora->respuesta->Periodo; ?></span> días</span>
+						</li>
+						<li class="d-flex justify-content-between">
+							<span class="label">Fecha de pago</span><span class="valor" id="conf-fecha_pago_txt"><?php echo $calculadora->respuesta->Fecha_Pago_Display; ?></span>
+						</li>
+						<li class="d-flex justify-content-between">
+							<span class="label" id="etiqueta_1"><?php echo $calculadora->respuesta->Etiqueta_1; ?></span>
+							<span class="valor"><?php echo $calculadora->respuesta->Simbolo_Moneda??null; ?> $ <span id="conf-intereses"><?php echo $calculadora->respuesta->Intereses; ?></span></span>
+						</li>
+						<li class="d-flex justify-content-between">
+							<span class="label" id="etiqueta_2" title="Costos administrativos incluye IVA"><?php echo $calculadora->respuesta->Etiqueta_2; ?></span>
+							<span class="valor"><?php echo $calculadora->respuesta->Simbolo_Moneda??null; ?> $ <span id="conf-gastos_administrativos"><?php echo $calculadora->respuesta->Gastos_Administrativos; ?></span></span>
+						</li>
+					</ul>
+
+					<div class="orangeLine position-absolute lineBottom"></div>
+
+				</div>
+
+				<div class="innerCalculator mx-auto mt-4">
+					<p class="totalText font-weight-bold m-0">Monto total a devolver:</p>
+					<h2 class="totalNumber font-weight-bold"><?php echo $calculadora->respuesta->Simbolo_Moneda??null; ?> $ <span id="conf-total"><?php echo $calculadora->respuesta->Total; ?></span></h2>
+				</div>
+
+				<div class="">
+					<button class="btnTenela calculatorBtn px-4 py-2" id="btnNext">CONFIRMAR TU PRÉSTAMO</button>
+				</div>
+
+				<div class="btnContainers">
+					<button type="button" class="btnTenela btnBack" title="Regresar al paso anterior" id="btnBack"><i class="fas fa-arrow-left"></i></button>
+					<p class="expiration pt-3">Si deseas modificar el monto y el plazo,<br>podés hacerlo ahora</p>
+				</div>
+
+			</div>
+		</div>
+
+<?php
+require_once("simulador-calculadora.htm");
+?>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('resumen-prestamo');
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","js":"resumen-prestamo","callback":"InitResumenPrestamo"}');
+?></json>

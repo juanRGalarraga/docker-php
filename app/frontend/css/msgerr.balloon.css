@@ -1,0 +1,61 @@
+/*
+	CSS styles for msgerr 2.0 by  Rebrit SRL - 2021.
+	Font Awesome Free 5.11.2 by @fontawesome - https://fontawesome.com. License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+*/
+:root {
+	--balloon-color: #FFFFFF;
+	--balloon-bg-color: #dc3545;
+	--balloon-exclam-color: #FFFFFF;
+	--balloon-pin-color: #333333;
+}
+.balloon {
+    background-color: var(--balloon-bg-color);
+    border-radius: 5px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+	box-shadow: 0 0 3px 3px #333333;
+	color: var(--balloon-color);
+	font-family: 'Source Sans Pro';
+	font-size: 0.8rem;
+    height: auto;
+    margin-top: -3px;
+    padding: 5px 15px 3px 15px;
+    position: absolute;
+    width: auto;
+    z-index: 1051;
+}
+.balloon .exclamation {
+	color: var(--balloon-exclam-color);
+	margin-left: -5px;
+}
+.balloon:before {
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-top-color: var(--balloon-pin-color);
+    opacity: 1;
+    pointer-events: none;
+    transition: all .18s ease-out .18s;
+    content: "";
+    position: absolute;
+    z-index: 10;
+	
+    transform: translate(-50%, 0);
+    transform-origin: top;
+	
+}
+.balloon.bm:before {
+	bottom: -20px;
+    left: 50%;
+}
+.balloon.bl:before {
+	bottom: -20px;
+    left: 15px;
+}
+.balloon.br:before {
+	bottom: -20px;
+    right: 15px;
+}
+.olred {
+	outline: 1px solid rgba(255,0,0,0.5);
+}

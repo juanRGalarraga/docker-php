@@ -1,0 +1,30 @@
+[
+	{
+		"methods":"GET",
+		"route":"impuestos/{id}:int",
+		"resolver":"impuestos/get",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"POST",
+		"route":"impuestos/?",
+		"resolver":"impuestos/post",
+		"restricted":true,
+		"description":"Añade un nuevo registro"
+	},
+	{
+		"methods":"GET",
+		"route":"impuestos/",
+		"resolver":"impuestos/list",
+		"restricted":true,
+		"description":"Obtiene un listado"
+	},
+	{
+		"methods":"PUT",
+		"route":"impuestos/{id}:int",
+		"resolver":"impuestos/put",
+		"restricted":true,
+		"description":"Obtiene un listado"
+	}
+]

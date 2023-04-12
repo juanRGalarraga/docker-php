@@ -1,0 +1,255 @@
+<?php
+if (!$step = $onboarding->GoStep()) {
+	$step = $onboarding->FirstStep();
+}
+
+?>
+<!------------------------------------ONBOARDING------------------------------------>
+<section class="container-fluid main" id="mainOnBoarding"><!--INDEXSCREEN-->
+<?php
+// Cargar el siguiente paso.
+$vista = onBoardingViews.$step->vista;
+if (ExisteArchivo($vista)) {
+	require_once($vista);
+} else {
+	if (DEVELOPE) { EchoLogP("Ups!, no encuentro el archivo ".$vista); }
+	if (DEPLOY != 'prod') { EchoLog("<!-- Ups!, no encuentro el archivo ".$vista." -->"); }
+}
+?>
+<!------------------------------------ONBOARDING------------------------------------>
+</section>
+<section class="pt-5" id="HowToGet"><!--¿Como pido mi préstamo?-->
+	<div class="inner container">
+		<h2 class="zoomIn scroll-content">¿Cómo pido mi préstamo?</h2>
+		<h4 class="d-flex align-items-center">
+			<span class="infoI">i</span>
+			<span class="ml-2">Solo con DNI y cuenta bancaria</span>
+		</h4>
+		<div class="row">
+			<div class="minicard my-2 mx-auto col-xl-auto col-lg-auto col-12 col-sm-6 my-sm-0">
+				<img class="fiveImg" src="<?php echo BASE_URL; ?>svg/icono_tenela_1.svg" alt="Creá tu perfil">
+				<div class="fiveParag">
+					<div class="number fadeInLeft1 scroll-content">
+						1
+					</div>
+					<h5>Creá tu perfil</h5>
+					<p>
+						Ingresá tus datos para<br>
+						registrarte como<br>
+						cliente.<br>
+					</p>
+				</div>				
+			</div>
+			<div class="minicard my-2 mx-auto col-xl-auto col-lg-auto col-12 col-sm-6 my-sm-0">
+				<img class="fiveImg" src="<?php echo BASE_URL; ?>svg/icono_tenela_2.svg" alt="Solicitá tu préstamo">
+				<div class="fiveParag">
+					<div class="number fadeInLeft2 scroll-content">
+						2
+					</div>
+					<h5>Solicitá tu préstamo</h5>
+					<p>
+						Solo ingresando tu DNI<br>
+						accedes a un préstamo.<br>
+					</p>
+				</div>				
+			</div>
+			<div class="minicard my-2 mx-auto col-xl-auto col-lg-auto col-12 col-sm-6 my-sm-0">
+				<img class="fiveImg" src="<?php echo BASE_URL; ?>svg/icono_tenela_3.svg" alt="Verificación de identidad">
+				<div class="fiveParag">
+					<div class="number fadeInLeft3 scroll-content">
+						3
+					</div>
+					<h5>Verificación de identidad</h5>
+					<p>
+						Te enviaremos un código<br>
+						para verificar tu identidad.<br>
+					</p>
+				</div>				
+			</div>
+			<div class="minicard my-2 mx-auto col-xl-auto col-lg-auto col-12 col-sm-6 my-sm-0">
+				<img class="fiveImg" src="<?php echo BASE_URL; ?>svg/icono_tenela_5.svg" alt="Pago de tus cuotas">
+				<div class="fiveParag">
+					<div class="number fadeInLeft4 scroll-content">
+						4
+					</div>
+					<h5>Pago de tus cuotas</h5>
+					<p>
+						Decidí donde queres<br>
+						pagar las cuotas del<br>
+						préstamo.<br>
+					</p>
+				</div>				
+			</div>
+			<div class="minicard my-2 mx-auto col-xl-auto col-lg-auto col-12 col-sm-6 my-sm-0">
+				<img class="fiveImg" src="<?php echo BASE_URL; ?>svg/icono_tenela_4.svg" alt="Recepción del dinero">
+				<div class="fiveParag">
+					<div class="number fadeInLeft5 scroll-content">
+						5
+					</div>
+					<h5>Recepción del dinero</h5>
+					<p>
+						Decidí tu CBU y te <br>
+						transferiremos el dinero <br>
+						en 24hs.<br>
+					</p>
+				</div>				
+			</div>
+		</div>
+		<div class="line btnTenela"></div>
+	</div>
+	<div class="sectfoot text-center d-flex justify-content-between">
+		<img class="points" src="<?php echo BASE_URL; ?>svg/puntos.svg" alt="Puntos decorativos">
+		<button type="button" class="requestBtn btnTenela btn btn-lg">SOLICITALO AHORA<span class="click">, CLICK AQUÍ</span></button>
+		<img class="points" src="<?php echo BASE_URL; ?>svg/puntos.svg" alt="Puntos decorativos">
+		<img class="sideFlower" src="<?php echo BASE_URL; ?>svg/flor costado.svg" alt="Flor Tenela">
+	</div>
+	<div class="inner">
+		<img class="shadows my-3" src="<?php echo BASE_URL; ?>svg/shadow.png" alt="Sombra">
+	</div>
+</section>
+
+
+<section class="pt-5">
+	<div class="inner position-relative">
+		<h2 class="zoomIn scroll-content">¿Por qué tomar un préstamo?</h2>
+		<div class="inner parent row justify-content-center">
+			<div class="div1 col-lg-4 col-6 col-md-5 col-sm-6 my-5 rotateInDownLeft scroll-content">
+				<img class="mediumImg" src="<?php echo BASE_URL; ?>svg/icono_tenela_6.svg" alt="Seguridad">
+				<p>
+					<h5>Seguridad</h5>
+					Utilizamos las más avanzadas<br>
+					herramientas de encriptación<br>
+					de datos para asegurar<br>
+					tu privacidad.<br>
+				</p>
+			</div>
+			<div class="col"></div>
+			<div class="div3 col-lg-4 col-6 col-md-5 col-sm-6 my-5 rotateInDownRight scroll-content">
+				<img class="mediumImg" src="<?php echo BASE_URL; ?>svg/icono_tenela_7.svg" alt="Transparencia">
+				<p>
+					<h5>Transparencia</h5>
+					Conocé exactamente cuando<br>
+					vas a pagar.<br>
+				</p>
+			</div>
+		</div>
+		<div class="inner parent row justify-content-center">
+			<div class="div5">
+				<img src="<?php echo BASE_URL; ?>svg/imagen_2.svg" alt="Tomá un prestamo">
+			</div>	
+			<div class="div2 col-lg-4 col-6 col-md-5 col-sm-6 my-5 rotateInDownLeft scroll-content">
+				<img class="mediumImg" src="<?php echo BASE_URL; ?>svg/icono_tenela_8.svg" alt="Velocidad">
+				<p>
+					<h5>Velocidad</h5>
+					El proceso de aprobación<br>
+					es 100% online.<br>
+				</p>
+			</div>
+			<div class="col"></div>
+			<div class="div4 col-lg-4 col-6 col-md-5 col-sm-6 my-5 rotateInDownRight scroll-content">
+				<img class="mediumImg" src="<?php echo BASE_URL; ?>svg/icono_tenela_9.svg" alt="Confianza">
+				<p>
+					<h5>Confianza</h5>
+					Estamos para ayudarte, podrás<br>
+					ver toda la información de<br>
+					tu préstamo dentro de la<br>
+					plataforma.<br>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="sectfoot text-center d-flex justify-content-between">
+		<img class="points" src="<?php echo BASE_URL; ?>svg/puntos.svg" alt="Puntos decorativos">
+		<button type="button" class="requestBtn btnTenela btn btn-lg">SOLICITALO AHORA<span class="click">, CLICK AQUÍ</span></button>
+		<img class="points" src="<?php echo BASE_URL; ?>svg/puntos.svg" alt="Puntos decorativos">
+		<img class="sideFlower" src="<?php echo BASE_URL; ?>svg/flor costado.svg" alt="Flor Tenela">
+	</div>
+	<div class="inner"><img class="shadows my-3" src="<?php echo BASE_URL; ?>svg/shadow.png" alt="Sombra"></div>
+</section>
+
+
+<section class="pt-5" id="FAQ">
+	<div class="inner">
+		<div class="double d-flex align-items-center col-12 justify-content-end">
+			<img class="mediumImg col-4" src="<?php echo BASE_URL; ?>svg/icono_tenela_10.svg" alt="Sumate">
+			<h3 class="col-6 zoomIn scroll-content">Dejá de dar vueltas y <br>Sacá tu préstamo hoy mismo</h3>
+		</div>
+		<h3 class="zoomIn scroll-content">Preguntas Frecuentes</h3>
+		<div class="faqArt align-items-center row justify-content-around">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-5 col-md-6 col-sm-6 col-12">
+				<img class="faqImg" src="<?php echo BASE_URL; ?>svg/imagen_f.a.q.svg" alt="Preguntas Frecuentes">
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-12">	
+				<ul class="faqUl text-left font-weight-bold">
+					<li><a href=""><img class="miniIcon" src="<?php echo BASE_URL; ?>svg/icono_configuracion.svg" alt="MarkerIcon"><span>¿Quiénes somos?</span></a></li>
+					<li><a href=""><img class="miniIcon" src="<?php echo BASE_URL; ?>svg/icono_configuracion.svg" alt="MarkerIcon"><span>Solicitud de crédito</span></a></li>
+					<li><a href=""><img class="miniIcon" src="<?php echo BASE_URL; ?>svg/icono_configuracion.svg" alt="MarkerIcon"><span>Requisitos y calificación</span></a></li>
+					<li><a href=""><img class="miniIcon" src="<?php echo BASE_URL; ?>svg/icono_configuracion.svg" alt="MarkerIcon"><span>Datos bancarios</span></a></li>
+					<li><a href=""><img class="miniIcon" src="<?php echo BASE_URL; ?>svg/icono_configuracion.svg" alt="MarkerIcon"><span>Cuotas y Pagos</span></a></li>
+					<li><a href=""><img class="miniIcon" src="<?php echo BASE_URL; ?>svg/icono_configuracion.svg" alt="MarkerIcon"><span>Retrasos y mora</span></a></li>
+					<li><a href=""><img class="miniIcon" src="<?php echo BASE_URL; ?>svg/icono_configuracion.svg" alt="MarkerIcon"><span>Renovación</span></a></li>
+					<li><a href=""><img class="miniIcon" src="<?php echo BASE_URL; ?>svg/icono_configuracion.svg" alt="MarkerIcon"><span>¿Qué es Tenela?</span></a></li>
+					<li><a href=""><img class="miniIcon" src="<?php echo BASE_URL; ?>svg/icono_configuracion.svg" alt="MarkerIcon"><span>¿Cómo funciona?</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="sectfoot mt-5 text-center d-flex justify-content-between">
+		<img class="points" src="<?php echo BASE_URL; ?>svg/puntos.svg" alt="Puntos decorativos">
+		<button type="button" class="requestBtn btnTenela btn btn-lg">SOLICITALO AHORA<span class="click">, CLICK AQUÍ</span></button>
+		<img class="points" src="<?php echo BASE_URL; ?>svg/puntos.svg" alt="Puntos decorativos">
+	</div>
+	<div class="inner"><img class="shadows my-3" src="<?php echo BASE_URL; ?>svg/shadow.png" alt="Sombra"></div>
+</section>
+
+
+<section class="centerBg">
+	<div class="center inner pb-4">
+		<img class="tenelaFlor d-flex" src="<?php echo BASE_URL; ?>svg/flor_centro_atencion.svg" alt="Tenela">
+		<img class="mediumImg phone" src="<?php echo BASE_URL; ?>svg/icono_tenela_11.svg" alt="Centro de atención">
+		<h3 class="zoomIn scroll-content">Centro de atención Online</h3>
+		<ul class="infoCenter font-weight-bold">
+			<li>¿De qué manera podemos ayudarte?</li>
+			<li>info@tenela.com</li>
+			<li>+ 54 9 11 3180 3555</li>
+			<li>Nuestro horario de atención es de:</li>
+			<li>Lunes a Viernes de 09:00 a 18:00hs.</li>
+		</ul>
+		<div class="socialMedias d-inline-flex">
+			<div><a target="_blank" href="https://www.facebook.com/Tenela-103711331890981"><img class="my-4 mx-3" src="<?php echo BASE_URL; ?>svg/icon-facebook.svg" alt="Icono Facebook"></a></div>
+			<div><a target="_blank" href="https://twitter.com/tenela_ar"><img class="my-4 mx-3" src="<?php echo BASE_URL; ?>svg/icon-tw.svg" alt="Icono Twitter"></a></div>
+			<div><a target="_blank" href="https://www.instagram.com/tenela_ar/"><img class="my-4 mx-3" src="<?php echo BASE_URL; ?>svg/icon-insta.svg" alt="Icono Instagram"></a></div>
+		</div>
+	</div>
+</section>
+
+
+<section class="pt-5" id="AboutUs">
+	<div class="inner">
+		<img class="sideFlower" src="<?php echo BASE_URL; ?>svg/flor costado.svg" alt="Flor Tenela">
+		<h2 class="zoomIn scroll-content">¿Quiénes somos?</h2>
+		<p class="aboutPara text-left p-3">
+			¡Hola! Queremos presentarnos, que nos conozcas. Somos una nueva empresa de tecnología e innovación Financiera, que brinda soluciones en préstamos personales accesibles y a medida. Queremos que puedas contar con el dinero que necesites, de manera simple, rápida, en el momento que quieras y desde cualquier parte del país. Sin trámites, sin demoras. 100% Digitales, como vos. Somos Tenela. Un nuevo Servicio de préstamos personales para que puedas alcanzar todos los objetivos que te propongas. Descubrí Tenela y viví en el mundo lleno de oportunidades.
+		</p>
+	</div>
+	<div class="sectfoot text-center d-flex justify-content-between">	
+		<img class="points" src="<?php echo BASE_URL; ?>svg/puntos.svg" alt="Puntos decorativos">
+		<button type="button" class="requestBtn btnTenela btn btn-lg">SOLICITALO AHORA<span class="click">, CLICK AQUÍ</span></button>
+		<img class="points" src="<?php echo BASE_URL; ?>svg/puntos.svg" alt="Puntos decorativos">
+	</div>
+	<div class="inner"><img class="shadows my-3" src="<?php echo BASE_URL; ?>svg/shadow.png" alt="Sombra"></div>
+</section>
+
+
+<section class="info">
+	<div class="inner divInfo text-left">
+		<img class="infoImg m-3" src="<?php echo BASE_URL; ?>svg/alerta.svg" alt="Advertencia">
+		<p class="infopara m-0 p-3">
+			Información exclusiva para el tomador del préstamo <br>	
+			<br>
+			El Costo Financiero total de nuestras operaciones varía según el resultado del análisis crediticio del cliente que se efectúa al solicitar cada préstamo y de la aplicación o no de descuentos. Debido a lo expuesto, y en una operación a 30 días, el Costo Financiero Total (mensual), (plazo máximo de los préstamos otorgados por la Compañia), oscila entre un mínimo de 6,20% y un máximo de 18,29%. Por la misma razón, el Costo Financiero Total (anual) (CFT) es como mínimo de 105,82% y como máximo de 650,54%. La expresión del CFT analizado responde a la exigencia normativa, y préstamo por idéntica suma y bajo idénticas condiciones. El costo concreto de cada operación se encuentra claramente indicado en las condiciones especifícas del contrato, que podrán consultarse antes de solicitar dicho préstamo.
+		</p>
+	</div>
+</section>
+

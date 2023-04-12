@@ -1,0 +1,133 @@
+<?php
+/*
+	Implementación de cálculos comunes a cualquier tenant.
+	Esta es la clase específica para Tenela/Metropol
+*/
+
+require_once(DIR_model."calculos".DS."class.calculoBase.inc.php");
+
+class cCalculo extends cCalculoBase implements iCalculo {
+/**
+* Summary. Ejecuta el cálculo y devuelve los resultados.
+* @param array $args. La lista de argumentos para pasar al cálculo.
+* @return bool.
+* @note Dependiendo de qué tipo de cálculo hay que ejecutar, los resultados se almacenan en las propiedades ->totales ->tasas ->cuotas
+*/
+	public function Calcular(array $args = []):bool {
+		$result = false;
+		if (!$this->CanCalculate($args)) { return $result; }
+		try {
+			$this->calculo = @$this->plan->data->calculo;
+			switch ($this->plan->data->calculo) {
+				case 'calcular_prestamo':
+					$this->calcular_prestamo($args);
+					break;
+				case 'calcular_refinanciacion':
+					$this->calcular_refinanciacion($args);
+					break;
+			}
+			$result = true;
+		} catch(Exception $e) {
+			$this->SetErrorEx($e);
+		}
+		return $result;
+	}
+
+/**
+* Summary. Calcular el total de intereses de un monto.
+* @param float $monto. El monto del cual calcular el interés,
+* @param float $tasa. El porcentaje de interés.
+* @return float.
+*/
+	public function CalcularIntereses():float {
+		$base = 1+$this->tasas->TED;
+		$res = $this->capital*(pow($base, 1)-1);
+		return calcHelpers::DivCien($this->capital * $this->tasas->TED);
+	}
+
+/**
+* Summary. Calcula un préstamo simple. CASO 1.
+* @param array $args. La lista de argumentos para pasar al cálculo.
+* $return bool.
+*/
+	public function calcular_prestamo(array $args = []):bool {
+		if (!CanUseArray($args)) {
+			$args['tna'] = SecureFloat($this->plan->tasa_nominal_anual,0);
+		}
+		$args = array_change_key_case($args);
+		$args['tnm'] = isset($args['tnm'])?$args['tnm']:0;
+		$args['tna'] = isset($args['tna'])?$args['tna']:0;
+		if (empty($args['tnm']) and ($args['tna']>0)) {
+			$args['tnm'] = $args['tna']/12;
+		} else {
+			$args['tna'] = $args['tnm']*12;
+		}
+		
+		$this->tasas = new stdClass();
+		$this->tasas->TNA = $args['tna']; // Tasa Nominal Anual
+		$this->tasas->TNM = $args['tnm']; // Tasa Nominal Mensual
+		$this->tasas->TND = $this->CalcularTnd($this->tasas->TNA); // Tasa Nominal Diaria (Se parte de la TNA).
+		$this->tasas->TED = $this->CalcularTed($this->tasas->TNM); // Tasa Efectiva Estimada Diaria (Se parte de la TNM).
+		
+		if (!empty($args['cargos_administrativos'])) {
+			$this->tasas_cargos->gastos_admin = $args['cargos_administrativos'];
+		}
+		if (!empty($args['cargos_cobranza'])) {
+			$this->tasas_cargos->cargos_cobranzas = $args['cargos_cobranza'];
+		}
+		
+		$this->totales->capital = $this->capital;
+		$this->totales->desembolso = $this->totales->capital;
+		$this->totales->total_imponible = $this->capital;
+		
+		$this->totales->interes_capital = 0;
+		$this->totales->iva_interes_capital = 0;
+		$this->totales->cargos_admin = 0;
+		$this->totales->iva_cargos_admin = 0;
+		$this->totales->cargos_admin = 0;
+		$this->totales->cargos_cobranza = 0;
+
+		// El total de intereses sobre el capital se basa en la TED y luego se multiplica por el plazo actual.
+		$this->totales->interes_capital = $this->CalcularIntereses() * $this->plazo;
+		$this->totales->iva_interes_capital = $this->CalcularIVA($this->totales->interes_capital);
+		
+		if (!empty($this->tasas_cargos->gastos_admin)) {
+			$this->totales->cargos_admin = $this->CalcularUnCargo($this->capital, $this->tasas_cargos->gastos_admin) * $this->plazo;
+			$this->totales->iva_cargos_admin = $this->CalcularIVA($this->totales->cargos_admin);
+		}
+
+		if (!empty($this->tasas_cargos->cargos_cobranzas)) {
+			// Esto es la suma de todo lo anterior multiplicado por la tasa.
+			$this->totales->cargos_cobranza = (
+					$this->capital+
+					$this->totales->interes_capital +
+					$this->totales->iva_interes_capital +
+					$this->totales->cargos_admin +
+					$this->totales->iva_cargos_admin
+				)*$this->tasas_cargos->cargos_cobranzas/100;
+			$this->totales->iva_cargos_cobranza = $this->CalcularIVA($this->totales->cargos_cobranza);
+		}
+		
+		
+		$this->totales->total_intereses = $this->totales->interes_capital;
+		$this->totales->total_cargos = $this->totales->cargos_admin+$this->totales->cargos_cobranza;
+		$this->totales->total_impuestos = $this->totales->iva_interes_capital+$this->totales->iva_cargos_admin+$this->totales->iva_cargos_cobranza;
+		$this->tasas->CFT = $this->CalcularCft();
+		
+		$this->totales->sobrecargo = $this->totales->total_intereses+$this->totales->total_cargos+$this->totales->total_impuestos;
+
+		$this->totales->total = $this->capital+$this->totales->sobrecargo;
+
+		$this->SetReg();
+		return true;
+	}
+
+/**
+* Summary. Esto es un alias de ->calcular_prestamo() ya que no hay diferencia entre un cálculo de préstamo o de refinanciación. Excepto el plan pero ese es problema del implementador.
+*/
+	public function calcular_refinanciacion($args):bool {
+		return $this->calcular_prestamo($args);
+	}
+}
+
+?>

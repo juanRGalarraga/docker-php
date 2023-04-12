@@ -1,0 +1,15 @@
+#!/bin/bash
+echo ------------------------
+echo       Construyendo
+echo ------------------------
+docker-compose build
+
+echo ------------------------
+echo       Montando
+echo ------------------------
+docker-compose up -d
+
+echo ------------------------
+echo       Ejecutados
+echo ------------------------
+docker ps

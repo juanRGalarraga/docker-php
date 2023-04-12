@@ -1,0 +1,37 @@
+[
+	{
+		"methods":"GET",
+		"route":"checkcbu/{cbu}?:int",
+		"resolver":"checkcbu/ver",
+		"restricted":false,
+        "description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"GET",
+		"route":"infocbu/{cbu}?:int/{sid}?",
+		"resolver":"checkcbu/info",
+		"restricted":false,
+        "description":"Devuelve información sobre el CBU indicado, alternativamente verificar su aceptacion"
+	},
+	{
+		"methods":"GET",
+		"route":"cbu/gen",
+		"resolver":"checkcbu/gen",
+		"restricted":false,
+        "description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"POST",
+		"route":"checkcbu/",
+		"resolver":"checkcbu/agregar",
+		"restricted":true,
+        "description":"Añade un nuevo registro"
+	},
+	{
+		"methods":"GET",
+		"route":"checkcbu/",
+		"resolver":"checkcbu/listado",
+		"restricted":true,
+        "description":"Obtiene un listado"
+	}
+]

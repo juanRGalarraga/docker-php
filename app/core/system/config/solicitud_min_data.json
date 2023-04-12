@@ -1,0 +1,54 @@
+{
+    "plan":{
+        "type":"int",
+        "required":false,
+        "msg":"El plan no fue indicado",
+        "type_msg":"El plan debe ser un número entero válido"
+    },
+    "plazo":{
+        "type":"int",
+        "required":true,
+        "msg":"El plazo no fue indicado",
+        "type_msg":"El plazo debe ser un número entero mayor a 0"
+    },
+    "capital":{
+        "type":"float",
+        "required":true,
+        "type_msg":"El capital debe ser un número mayor a 0"
+    },
+    "nro_doc":{
+        "type":"string",
+        "lenMin":"7",
+        "lenMax":"8",
+        "required":false,
+        "type_msg":"El número de documento no fue indicado o no es válido",
+        "validate":"cCheckInput::DNI"
+    },
+    "cbu":{
+        "type":"string",
+        "lenMin":"22",
+        "lenMax":"22",
+        "required":false,
+        "type_msg":"El CBU no fue indicado o no es válido",
+        "validate":"cCheckInput::CBU"
+    },
+    "email":{
+        "type":"string",
+        "lenMin":"8",
+        "lenMax":"256",
+        "required":false,
+        "type_msg":"El Email no fue indicado o no es válido",
+        "validate":"cCheckInput::Email"
+    },
+    "tel":{
+        "type":"string",
+        "lenMin":"6",
+        "required":false,
+        "type_msg":"El Teléfono no fue indicado o no es válido",
+        "validate":"cCheckInput::Tel"
+    },
+    "password":{
+        "type":"string",
+        "validate":"cPasswords::CheckSimplifiedPassword"
+    }
+}

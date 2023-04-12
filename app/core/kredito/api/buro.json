@@ -1,0 +1,30 @@
+[
+	{
+		"methods":"get",
+		"route":"buro/info/{dni}?:dni/{nombre}?:string/{apellido}?:string",
+		"resolver":"buro/info",
+		"restricted":false,
+		"description":"Buscar y devolver datos de un DNI"
+	},
+	{
+		"methods":"GET",
+		"route":"buro/{nombre}:string",
+		"resolver":"buro/get",
+		"restricted":true,
+		"description":"Devuelve los datos del buró según su nombre (alias)"
+	},
+	{
+		"methods":"POST",
+		"route":"buro/",
+		"resolver":"buro/post",
+		"restricted":true,
+		"description":"Crea un nuevo buró (aunque no estoy seguro de si alguna vez esto se llega a implementar)"
+	},
+	{
+		"methods":"PUT",
+		"route":"buro/{nombre}:string",
+		"resolver":"buro/put",
+		"restricted":true,
+		"description":"Modificar datos de un buró"
+	}
+]

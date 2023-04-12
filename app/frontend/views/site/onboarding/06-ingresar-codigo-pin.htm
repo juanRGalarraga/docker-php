@@ -1,0 +1,165 @@
+	<div class="calculator row inner justify-content-sm-center position-relative">
+		
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<div class="innerCalculator mx-auto d-flex flex-column justify-content-between">
+				<div class="d-flex justify-content-around mb-4">
+					<div class="numStyle numBg">1</div>
+					<div class="numStyle numBg">2</div>
+					<div class="numStyle">3</div>
+					<div class="numStyle">4</div>
+				</div>
+
+				<h3 class="titleSize mt-0 mb-3">Validación de tu identidad</h3>
+
+				<div class="text-center pinText">	
+					<p class="mb-1">Por razones de seguridad,<br>te hemos enviado un código <strong class="font-weight-bold">PIN</strong><br>a tu teléfono móvil</p>			
+					<label class="font-weight-bold mb-4">+54-<?php echo $onboarding->solictemp->data->telcod??null; echo "-";  echo $onboarding->solictemp->data->telnum??null; ?></label>
+				</div>
+				
+				<div class="position-relative">
+					<form id="frmPin" name="frmPin" class="form-group">
+						<input type="text" name="PIN" id="PIN" class="inputData borderTop" placeholder="INGRESA TU PIN" title="Escribe el número recibido" maxlength="5">
+					</form>
+				</div>
+				
+				<div class="mb-3 pt-1 d-none" id="msgResendPin">
+					<p class="forgot">¿No has recibido el código PIN?</p>
+					<a class="sendPinLink font-weight-bold" href="#" id="btnReenviarPin">Enviar nuevo PIN</a>
+				</div>
+				<div class="btnContainers btnContainers-right">
+<?php
+if (DEVELOPE) {
+?>
+<button type="button" class="btnTenela btnBack" title="Regresar al paso anterior" id="btnBack"><i class="fas fa-arrow-left"></i></button>
+<?php
+}
+?>
+					<button class="btnTenela calculatorBtn px-4 btnDisabled" type="button" id="btnNext" title="Ir al siguiente paso" disabled>SIGUIENTE <i class="fas fa-arrow-right"></i> </button>
+				</div>
+
+			</div>
+		</div>
+
+<?php
+require_once("simulador-calculadora.htm");
+?>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('codigo-pin',['retryPin'=>$onboarding->solictemp->data->retryPin??0, 'retryTimeout'=>$onboarding->solictemp->data->retryTimeout??10]);
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","js":"codigo-pin","callback":"InitCodigoPin"}');
+?></json>
+<script type="text/javascript" class="inlinejs">
+<?php
+require_once(DIR_model."smspin".DS."class.smspin.inc.php");
+require_once(DIR_model."solicitudes".DS."class.solictemp.inc.php");
+
+$smspin = new cSmspin;
+
+$solictemp = new cSolicTemp;
+
+$solictemp->GetSolic($_SESSION['onboarding']['solicTemp_id']??null);
+
+$allowResend = (($solictemp->data->retryPin??0) < $smspin->retryNumber);
+
+$retryTimeout = ($smspin->retryTimeout??10)*1000;
+
+?>
+
+var tmnRSend;
+
+function InitCodigoPin() {
+	getElem('btnReenviarPin').addEventListener('click', reSendPin);
+	getElem('btnNext').addEventListener('click', checkPin);
+	getElem('PIN').addEventListener('input', function() {
+		let nextBtn = getElem('btnNext');
+		if (this.value.trim().length == 5) {
+			nextBtn.removeAttribute('disabled');
+			nextBtn.removeClass('btnDisabled');
+		} else {
+			nextBtn.setAttribute('disabled','disabled');
+			nextBtn.addClass('btnDisabled');
+		}
+	});
+<?php
+if ($allowResend) {
+?>
+	tmnRSend = setTimeout(tickResend, <?php echo $retryTimeout; ?>);
+<?php
+	}
+?>
+}
+
+<?php
+if ($allowResend) {
+?>
+function tickResend() {
+	getElem('msgResendPin').removeClass('d-none');
+}
+<?php
+	}
+?>
+
+function reSendPin() {
+	rulo.Show('mainOnBoarding','Reenviando PIN...');
+	getAjax({
+		archivo: 'resendPin',
+		content: 'onboarding',
+		token: sessionStorage.getItem('token')
+	},function(a,b,c,d) {
+		rulo.Hide();
+		if (a == 200 && d) {
+			if (undefined !== d.ok && d.ok !== null) {
+				if (undefined !== d.restart && d.restart) {
+					sessionStorage.clear();
+					window.location.reload();
+					return;
+				}
+				if (undefined !== d.gostep && d.gostep) {
+					if (undefined !== d.msg && d.msg) {
+						Alerta({texto:d.msg,posicion:'CC',iconoAlerta:true});
+					}
+					return loadNextStep(c);
+				}
+				if (undefined !== d.msg && d.msg) {
+					Alerta({texto:d.msg,posicion:'TR',iconoAlerta:true,autoCerrar:2000});
+					getElem('msgResendPin').addClass('d-none');
+					<?php if ($allowResend) { ?>
+					clearTimeout(tmnRSend);
+					if (undefined !== d.retryPin && d.retryPin) {
+						tmnRSend = setTimeout(tickResend, <?php echo $retryTimeout; ?>);
+					}
+					<?php } ?>
+				}
+			}
+		}
+	});
+}
+
+function checkPin() {
+	let PIN = getElem('PIN');
+	let result = true;
+<?php
+if (!empty($smspin->pinFormat)) {
+?>
+	result = /<?php echo $smspin->pinFormat; ?>/.test(PIN.value.trim());
+<?php	
+} else {
+?>
+	result = (PIN.value.trim().length == 5);
+	result = (result)?isNumeric(PIN.value.trim()):result;
+<?php
+}
+?>
+	if (result) {
+		clearTimeout(tmnRSend);
+		checkCurrentStep(getElem('frmPin'));
+	} else {
+		PIN.msgerr('Formato incorrecto.');
+	}
+
+}
+
+InitCodigoPin();
+</script>

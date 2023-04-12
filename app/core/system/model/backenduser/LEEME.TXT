@@ -1,0 +1,1 @@
+Clase para extraer datos de un usuario desde el backend usando la API expuesta por el backend.

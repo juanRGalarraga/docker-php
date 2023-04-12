@@ -1,0 +1,84 @@
+version: '3'
+
+services:
+  
+  backend: 
+    container_name: mechaBackend
+    restart: always
+    build:
+      context: .
+      dockerfile: /app/backend/Dockerfile
+    ports: 
+      - "3000:80"
+    volumes:
+      - ./app/backend:/var/www/html
+    environment:
+      - DBHOST=mysql
+      - DBNAME=mecha_backend
+      - DBUSER=root
+      - DBPASS=root
+      - DBPORT=3306
+      - DOCKER_CORE=mechaCore
+    links:
+      - mysql
+  
+  frontend: 
+    container_name: mechaFrontend
+    restart: always
+    build:
+      context: .
+      dockerfile: /app/frontend/Dockerfile
+    ports: 
+      - "3001:80"
+    volumes:
+      - ./app/frontend:/var/www/html
+    environment:
+      - DBHOST=mysql
+      - DBNAME=mecha_frontend
+      - DBUSER=root
+      - DBPASS=root
+      - DBPORT=3306
+      - DOCKER_CORE=mechaCore
+    links:
+      - mysql
+    
+  core: 
+    container_name: mechaCore
+    restart: always
+    build:
+      context: .
+      dockerfile: /app/core/Dockerfile
+    ports: 
+      - "3002:80"
+    volumes:
+      - ./app/core:/var/www/html
+    environment:
+      - DBHOST=mysql
+      - DBNAME=mecha_core
+      - DBUSER=root
+      - DBPASS=root
+      - DBPORT=3306
+    links:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    container_name: mechaDatabase
+    restart: always
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./database:/var/lib/mysql
+    
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 4000:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root

@@ -1,0 +1,51 @@
+<div class="calculator row inner justify-content-sm-center position-relative">
+		
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<form id="frmTelefonoMail" name="frmTelefonoMail" class="form-group">
+				<div class="innerCalculator mx-auto d-flex flex-column justify-content-between">
+					<div>
+						<h3 class="mt-0 mb-5">Te faltan pocos pasos para tu préstamo</h3>
+					</div>
+
+					<div class="position-relative" id="tel">
+						<input type="text" name="telcod" id="telcod" class="codTel inputData borderTop" placeholder="COD." title="Código de área" required value="<?php echo $onboarding->solictemp->data->telcod??null; ?>" maxlength="4">
+						<input type="text" name="telnum" id="telnum" class="telNum inputData borderTop" placeholder="TELÉFONO" title="Número de abonado" required value="<?php echo $onboarding->solictemp->data->telnum??null; ?>" maxlength="8">
+					</div>
+
+					<div class="d-flex position-relative mb-5 mt-1">
+						<p class="mb-4 forgot position-absolute codCond">Sin el 0 ej:11</p>
+						<p class="mb-4 forgot position-absolute telCond">Sin el 15</p>
+					</div>
+
+
+					<div class="mb-4">
+						<label class="custom-radio-checkbox text-left justify-content-center">
+							<input class="custom-radio-checkbox__input" type="checkbox" name="optin" required <?php echo ((!empty($onboarding->solictemp->data->optin))?"checked":null); ?>>
+							<span class="custom-radio-checkbox__show custom-radio-checkbox__show--radio"></span>
+							<span class="custom-radio-checkbox__text summaryTable infoCheck">MANTENERME INFORMADO DEL ESTADO DE MI SOLICITUD A TRAVÉS DE MENSAJES DE TEXTO Y MAILS</span>
+						</label>
+						
+					</div>
+
+					<div class="position-relative">
+						<input type="email" name="email" id="email" class="inputData borderTop" placeholder="INGRESA TU E-MAIL" title="Dirección de correo electrónico" required value="<?php echo $onboarding->solictemp->data->email??null; ?>" maxlength="100">
+					</div>
+
+					<div class="btnContainers">
+						<button type="button" class="btnTenela calculatorBtn px-4" title="Regresar al paso anterior" id="btnBack"><i class="fas fa-arrow-left"></i> ANTERIOR</button>
+						<button class="btnTenela calculatorBtn px-4" type="button" id="btnNext" title="Ir al siguiente paso">SIGUIENTE <i class="fas fa-arrow-right"></i> </button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+<?php
+require_once("simulador-calculadora.htm");
+?>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('telefono-mail');
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","js":"telefono-mail","callback":"InitTelMail"}');
+?></json>

@@ -1,0 +1,21 @@
+	<div class="calculator row inner justify-content-sm-center obstep" id="forbidden">
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<div class="innerCalculator mx-auto d-flex align-items-strat flex-column">
+				<div>
+					<img src="/svg/boton_x.svg" alt="Omitido" style="max-width:300px;width:15%" />
+				</div>	
+				<div class="my-4">
+					<h5>LAMENTABLEMENTE NO PODEMOS OFRECERTE UNA PROPUESTA DE PRÉSTAMO.</h5>
+				</div>
+<?php if (!empty($stepMessage)) { ?>
+				<p class="text-center"><?php echo $stepMessage; ?></p>
+<?php } ?>
+			</div>
+		</div>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('forbidden');
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","js":"forbidden"}');
+?></json>

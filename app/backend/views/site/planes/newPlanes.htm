@@ -1,0 +1,91 @@
+<?php
+    /*
+        Vista de formulario para el alta o la edición de planes.
+        Author: Gonza
+        Create: 2021-09-20
+    */
+require_once(DIR_model."planes".DS."class.planes.inc.php");
+$p = new cPlanes();
+$tipos_pagos = $p->GetTiposPagos();
+if (!isset($plan)) {
+	$plan = new stdClass;
+	$plan->tipo = 'PRESTAMO';
+	$plan->tipo_pagos = null;
+}
+
+$new = empty($id);
+
+
+    // if (!$permiso){ return cSideKick::ShowNotAllowed("No tiene Permiso para realizar esta tarea.", true, "carouselExampleControls"); } <-- A la espera de implementar los permisos de usuario.
+?>
+<div class="card gap-3">
+    <div class="card-header">
+		<div class="card-title">
+			<div class="row">
+				<div class="col-10" id="tituloEdicion"><?php if (!empty($id)) { ?>Editar plan <?php echo $id; } else  { ?>Nuevo plan<?php } ?>.</div>
+			</div>
+		</div>
+		<ul class="nav nav-tabs card-header-tabs" role="tablist">
+			<li class="nav-item">
+				<a class="nav-link active" id="Identificacion-tab" data-bs-toggle="tab" href="#Identificacion" role="tab" aria-controls="Identificacion" aria-selected="true">Identificación</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="Comercial-tab" data-bs-toggle="tab" href="#Comercial" role="tab" aria-controls="Comercial" aria-selected="false">Comercial</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="Scores-tab" data-bs-toggle="tab" href="#Scores" role="tab" aria-controls="Scores" aria-selected="false">Scores</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="Financiero-tab" data-bs-toggle="tab" href="#Financiero" role="tab" aria-controls="Financiero" aria-selected="false">Financiero</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="Muestra-tab" data-bs-toggle="tab" href="#Muestra" role="tab" aria-controls="Muestra" aria-selected="false">Muestra</a>
+			</li>
+		</ul>
+    </div>
+    
+    <div class="card-body">
+        <form class="tab-content" id="frm_plan" name="frm_plan">
+			<input type="hidden" name="id" id="id" class="form-control" value="<?php echo (empty($id))?"new":$id; ?>" />
+           <!-- Identification -->
+            <div class="tab-pane fade show active" id="Identificacion" role="tabpanel" aria-labelledby="Identificacion-tab">
+                <?php require_once("formulario/identificacion.htm"); ?>
+           </div>
+           <!-- Comercial -->
+           <div class="tab-pane fade" id="Comercial" role="tabpanel" aria-labelledby="Comercial-tab">
+                <?php require_once("formulario/comercial.htm"); ?>
+           </div>
+           <!-- Scores -->
+           <div class="tab-pane fade" id="Scores" role="tabpanel" aria-labelledby="Scores-tab">
+                <?php require_once("formulario/score.htm"); ?>
+           </div>
+           <!-- Financiero -->
+           <div class="tab-pane fade" id="Financiero" role="tabpanel" aria-labelledby="Financiero-tab">
+                <?php require_once("formulario/financiero.htm"); ?>
+           </div>
+           <!-- Muestra -->
+           <div class="tab-pane fade" id="Muestra" role="tabpanel" aria-labelledby="Muestra-tab">
+                <?php require_once("formulario/muestra.htm"); ?>
+           </div>
+        </form>
+    </div>
+
+    <div class="card-footer d-flex justify-content-between">
+        <button class="btn btn-danger" data-bs-target="#carouselExampleControls" data-bs-slide-to="0" aria-label="Slide 1" id="btnBack"><i class="mx-3 fas fa-backspace"></i> Volver</button>
+		<?php if (!$new) { ?><button type="button" class="btn btn-primary" onclick="showTest('<?php echo $id; ?>')" title="Probar cálculo de préstamo con este plan"><i class="fas fa-calculator"></i> Probar</button><?php } ?>
+        <button class="btn btn-success" id="btnConfirm"><i class="mx-3 fas fa-check-double"></i> Confirmar</button>
+    </div>
+</div>
+<?php if (!$new) { ?>
+<div class="card gap-3">
+    <div class="card-header">
+		<div class="card-title">
+			<div class="row">
+				<div class="col-10" id="tituloEdicion">Calculadora.</div>
+			</div>
+		</div>
+	</div>
+	<div class="card-body" id="contenidoCalculadora">
+	</div>
+</div>
+<?php } ?>

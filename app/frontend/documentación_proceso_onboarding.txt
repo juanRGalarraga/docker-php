@@ -1,0 +1,50 @@
+Archivos y directorios implicados implicados:
+
+	system\model\onboarding\class.onboarding.inc.php: La clase cOnBoarding.
+	views\site\inicio.htm: Donde está el "frame" del onboarding, es donde se cargan los pasos section#mainOnBoarding
+	views\site\onboarding\onboarding.json: La configuración de cuáles son los pasos del proceso y cómo es el orden.
+	views\site\onboarding\*.htm: Las vistas de cada paso mecionado en onboarding.json.
+	ajax\onboarding\onboarding.php: Script que carga el paso correspondiente, responde a las peticiones Ajax.
+	ajax\onboarding\*.php: Los scrips PHP que se corresponden con cada uno de los pasos.
+	js\onboarding.js: Contiene las funciones que sigue la lógica de pasos del lado del cliente.
+	js\onboarding\*.js: Los scripts JS que corresponden a cada uno de los pasos.
+	
+
+El proceso.
+	
+	El proceso de onboarding está dirigido por la clase cOnBoarding que está declarada en system\model\onboarding\class.onboarding.inc.php:
+		Esta clase carga e interpreta el archivo onboarding.json (método LoadScript). A partir de él determina cuál es el primer paso (FirstStep), el paso siguiente del actual (NextStep), el anterior (PrevStep) y el siguiente con fallo (FailStep). Además de ir a un paso específico (GoStep).
+		El paso que actualmente se está mostrando al cliente, está indicado en la propiedad ->alias la cual se respalda en una variable de sesión nombrada por la propiedad ->sesname que a su vez toma valor de la constante global SES_onboarding.
+		Esta clase genera un token JWT que se le envía al cliente a travéz de un JSON (campo "token") que se escribe al final de las vistas de cada paso (views\site\onboarding\*.htm).
+		Ese JSON está encerrado en el tag HTML <json> el cual no se muestra al visitante (propiedad CSS display:none).
+		Solamente sirve para comunicarle al script JS (js\onboarding.js) cuál es el paso actual (función collectStep()).
+		Además se indica en ese JSON, cuál es la función que se debe ejecutar cuando se carga un paso (campo "callback").
+		Y el JS que corresponde con el paso actual (campo "js").
+		El "token" está cifrado y tiene el formato JWT, de forma tal que el cliente no pueda saber lo que contiene. Simplemente debe devolverlo al servidor tal como lo recibió.
+	
+	El script onboarding.js es el encargado de dirigir el proceso del lado del cliente:
+
+	La función collectStep() inicializa la calculadora (llamada a función InitCalculadora() que está en el script js\calculadora\calculadora.js).
+		Busca el tag <json> y lo parsea en caso que exista.
+		Carga el archivo JS dinámicamente (carga asíncrona) y ejecuta la función de "callback" si así está indicado en el JSON.
+		Almacena el "token" en el almacenamiento de sesión (sessionStorage).
+		Establece la función de evento para el botón de regresar la paso anterior si el paso actual tiene tal botón.
+
+	La función checkCurrentStep() puede ser llamada por el paso actual cuando se deben enviar los datos recolectados para ser verificados por el servidor y así seguir con el proceso de onboarding.
+		Recolecta todos los datos del formulario contenido en el paso actual (si el paso tiene formulario).
+		Envía esos datos (parámetro "data") junto al token (parámetro "token") previemente almacenado en sessionStorage vía Ajax a ajax\onboarding\onboarding.php
+		Si ajax\onboarding\onboarding.php responde correctamente inserta el nuevo paso actual en el "frame" (div#mainOnBoarding) del onboarding.
+	
+	Los datos de la petición Ajax que genera la función checkCurrentStep() son capturados por el scritp ajax\onboarding\onboarding.php:
+		Se verifica la existencia del parámetro "token".
+		Se analiza el contenido del parámetro "data".
+			Éste puede indicar que el paso a cargar a continuación sea el previo del actual o un paso de fallo. Si no se indica, se asume el siguiente paso según está especificado en el onboarding.json para el paso actual.
+		Se verifica la validez del token en el parámetro "token" usando el método ->ValidToken() de la clase cOnBoarding.
+			Si el token no es válido, se regresa al primer paso.
+		Si el alias indicado en el token no existe, se falla y se regresa al primer paso.
+		Si no se pidió el paso previo, se ejecuta el script que valida los datos específicos del paso actual. El script tiene el mismo nombre que el alias y está en el mismo lugar.
+		El script que valida el paso actual debe establecer la variable $continue a true para que se carge el siguiente paso, caso contrario no se avanza y el proceso termina ahí. El efecto de esto último es que el visitante sigue en el mismo paso.
+		Si la variable $continue es true, entonces se procede a enviar al cliente el paso siguiente o el previo como se determinó al inicio del script.
+		
+	
+	

@@ -1,0 +1,16 @@
+[
+	{
+		"methods":"GET",
+		"route":"user/todo/{user}",
+		"resolver":"user/getAll",
+		"restricted":true,
+        "description":"Devolver todos los datos de un usuario del backend"
+	},
+	{
+		"methods":"GET",
+		"route":"user/{user}",
+		"resolver":"user/get",
+		"restricted":true,
+        "description":"Devolver los datos de un usuario del backend"
+	}
+]

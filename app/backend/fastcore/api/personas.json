@@ -1,0 +1,27 @@
+[
+	{
+		"methods":"GET",
+		"route":"persona/{id}:int/extra/{field}?",
+		"resolver":"persona/verextras",
+		"restricted":true,
+		"description":"Devuelve los datos extras de la persona."
+	},
+	{
+		"methods":"GET",
+		"route":"persona/{id}?:int",
+		"resolver":"persona/ver",
+		"restricted":true
+	},
+	{
+		"methods":"POST",
+		"route":"persona/",
+		"resolver":"persona/agregar",
+		"restricted":true
+	},
+	{
+		"methods":"GET",
+		"route":"personas/",
+		"resolver":"personas/listado",
+		"restricted":true
+	}
+]

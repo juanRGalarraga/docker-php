@@ -1,0 +1,80 @@
+<?php
+defined("MAIN_MENU_MODE")||define("MAIN_MENU_MODE","static");
+$logout_option = (isset($objeto_usuario->opciones->logout)? $objeto_usuario->opciones->logout : "menu");
+?>
+<!-- Main Sidebar Container  -->
+<div id="sidebar" class="active">
+	<aside class="border-end sidebar-wrapper active ps ps--active-y">
+		<div class="sidebar-header">
+			<!-- Brand Logo -->
+			<div class="logo">
+				<a href="<?php echo BASE_URL; ?>" class="d-flex justify-content-center align-items-center brand-link" >
+					<img class="brand-image" id="img_logo_menu_site" src="<?php echo SITE_menulogo; ?>" alt="Logo">
+				</a>
+			</div>
+			<div class="toggler">
+				<a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+			</div>
+		</div>	
+
+		<div class="sidebar-menu" id="menu_desplegable">
+
+			<!-- Sidebar Menu -->
+			<ul class="menu">
+			<?php if ($logout_option == 'menu'){ ?>
+				<li class="sidebar-title">
+					<div class="d-flex align-items-center justify-content-between">
+						<div class="name border border-primary rounded-pill px-3">
+							<label for="a-perfil-label" class="font-bold" title="Mis opciones"><?php echo $objeto_usuario->iniciales; ?></label>
+							<a class="d-none" id="a-perfil-label" href="<?php echo BASE_URL; ?>usuario"></a>
+						</div>
+						<div class="avatar avatar-xl">
+							<i class="fas fa-bell" title="Alertas Sistema"></i>
+						</div>
+					</div>
+				</li>
+			<?php	}else{	?>
+				<div class="dropdown w-100">
+					<a class="btn btn-secondary border dropdown-toggle rounded-pill w-100" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+						<span class="font-bold"><?php echo $objeto_usuario->iniciales; ?></span>
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						<li style="background-color: #d6d6d678;">
+							<a class="dropdown-item" id="a-perfil-label" href="<?php echo BASE_URL; ?>usuario"><i class="fas fa-user-tie"></i> Perfil</a>
+						</li>
+						<li class="my-1"></li>
+						<li style="background-color: #d6d6d678;">
+							<a class="dropdown-item" id="btn_logout" href="" title="Alertas Sistema"><i class="fas fa-bell" title="Alertas Sistema"></i> Alertas</a>
+						</li>
+						<li class="my-1"></li>
+						<li style="background-color: #d6d6d678;">
+							<a class="dropdown-item" id="btn_logout" href="<?php echo BASE_URL; ?>logout" title="Cerrar sesión"><i class="fad fa-door-open"></i> Salir</a>
+						</li>
+					</ul>
+				</div>
+			<?php	}	?>
+
+		</ul>
+<?php if ($logout_option == "menu"){ ?>
+		<ul style="/*position: absolute; bottom: 0; width: 100%;*/">
+			<li class="sidebar-title d-flex justify-content-center footer-menu">
+				<a class="btn btn-secondary w-75" id="btn_logout" href="<?php echo BASE_URL; ?>logout" title="Cerrar sesión"><i class="fad fa-door-open"></i> Salir</a>
+			</li>
+		</ul>
+<?php } ?>
+			<!-- /.sidebar-menu -->
+		</div>
+		<!-- /.sidebar -->
+	</aside>
+</div>
+
+<script>
+	var menu = document.getElementById("menu"),
+		icono = document.getElementById("img_logo_menu_site");
+	
+	// if (menu.Event){
+	// 	menu.src = "<?php //echo SITE_mainlogo; ?>";
+	// }
+
+	apertura_menu = false;
+</script>

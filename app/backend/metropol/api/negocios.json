@@ -1,0 +1,23 @@
+[
+	{
+		"methods":"GET",
+		"route":"negocios/todo/{id}?:int",
+		"resolver":"negocios/getAll",
+		"restricted":true,
+        "description":"Devolver todos los datos de un negocio"
+	},
+	{
+		"methods":"GET",
+		"route":"negocios/{id}?:int",
+		"resolver":"negocios/get",
+		"restricted":true,
+        "description":"Devolver datos básicos de un negocio"
+	},
+	{
+		"methods":"GET",
+		"route":"negocios/",
+		"resolver":"negocios/list",
+		"restricted":true,
+        "description":"Obtiene un listado"
+	}
+]

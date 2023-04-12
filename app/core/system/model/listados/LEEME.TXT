@@ -1,0 +1,2 @@
+Clases para el manejo de listados remotos.
+Estas son las clases que arman los listados para los clientes del Web Service.

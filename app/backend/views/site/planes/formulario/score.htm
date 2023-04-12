@@ -1,0 +1,25 @@
+<p>Condiciones impuestas al solicitante.</p>
+<div class="row mb-2">
+	<div class="col-12"><h5>Score crediticio</h5></div>
+    <div class="col-12 col-sm-6 form-group">
+        <label class="fw-bolder" for="scr_min">Score Mínimo</label>
+        <input type="number" class="form-control" id="scr_min" name="scr_min" value="<?php echo I($plan->score_minimo??null); ?>">
+    </div>
+    <div class="col-12 col-sm-6 form-group">
+        <label class="fw-bolder" for="scr_max">Score Máximo</label>
+        <input type="number" class="form-control" id="scr_max" name="scr_max" value="<?php echo I($plan->score_maximo??null); ?>">
+    </div>
+</div>
+<div class="row mb-2">
+	<div class="col-12"><h5>Etario</h5></div>
+    <div class="col-12 col-sm-6 form-group">
+        <label class="fw-bolder" for="edad_min">Edad Mínima</label>
+        <input type="number" class="form-control" id="edad_min" name="edad_min" value="<?php echo I($plan->data->edad_minima??null); ?>">
+		<span><small>Cero sin límite mínimo</small></span>
+    </div>
+    <div class="col-12 col-sm-6 form-group">
+        <label class="fw-bolder" for="edad_max">Edad Máxima</label>
+        <input type="number" class="form-control" id="edad_max" name="edad_max" value="<?php echo I($plan->data->edad_maxima??null); ?>">
+		<span><small>Cero sin límite máximo</small></span>
+    </div>
+</div>

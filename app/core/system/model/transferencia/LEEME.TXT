@@ -1,0 +1,1 @@
+Clase para manejar la transferencia del capital de un préstamo.

@@ -1,0 +1,59 @@
+<section class="my-3">
+	<div class="d-flex justify-content-center">
+		<div class="card">
+			<div class="card-content">
+				<div class="card-body">
+					<h4 class="card-title">Generador de contraseñas</h4>
+					<form id="frm" name="frm" class="form form-vertical">
+						<div class="form-body">
+							<div class="row">
+								<div class="col-12">
+									<div class="form-group" title="El nombre de usuario de un usuario existente o su ID">
+										<label for="first-name-vertical">Username</label>
+										<input type="text" id="theUsername" class="form-control" name="theUsername" placeholder="Username o Id">
+									</div>
+								</div>
+								<div class="col-12">
+									<div class="form-group">
+										<label for="thePassword">Password</label>
+										<input type="text" id="thePassword" class="form-control" name="thePassword" placeholder="La nueva password">
+									</div>
+								</div>
+								<div class="col-12 d-flex justify-content-end">
+									<button type="button" class="btn btn-primary me-1 mb-1" onClick="Ejecutar()">Submitir</button>
+									<button type="button" class="btn btn-light-secondary me-1 mb-1">Resetear</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<script type="text/javascript">
+function Ejecutar() {
+	getAjax({
+		archivo: 'genpass',
+		content: 'tools',
+		theUsername: getElem('theUsername').value,
+		thePassword: getElem('thePassword').value
+	},function (a,b,c,d) {
+		if ('undefined' != typeof d.goodmsg) {
+			swal.fire({
+				icon: 'success',
+				html: 'Hecho.<br />'+d.goodmsg
+			});
+			getElem('theUsername').value = '';
+			getElem('thePassword').value = '';
+		} else {
+			swal.fire({
+				icon: 'error',
+				title: 'Oops!',
+				html: 'Se encontraron problemas al actualizar la contraseña<br />'+((typeof d.generr != 'undefined')?d.generr:''),
+			});
+		}
+	}, false);
+}
+</script>
+

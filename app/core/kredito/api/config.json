@@ -1,0 +1,37 @@
+[
+	{
+		"methods":"GET",
+		"route":"config/list/grupos",
+		"resolver":"config/grupos",
+		"restricted":true,
+		"description":"Devolver listado de configuraciones"
+	},
+	{
+		"methods":"GET",
+		"route":"config/filtros/mora",
+		"resolver":"config/filtroMora",
+		"restricted":true,
+		"description":"Devuelve los filtros de mora disponibles"
+	},
+	{
+		"methods":"GET",
+		"route":"config/list",
+		"resolver":"config/list",
+		"restricted":true,
+		"description":"Devolver listado de configuraciones"
+	},
+	{
+		"methods":"GET",
+		"route":"config/{name}:string",
+		"resolver":"config/get",
+		"restricted":true,
+		"description":"Obtiene un registro dado un nombre de configuracion"
+	},
+	{
+		"methods":"PUT",
+		"route":"config/{id}:int",
+		"resolver":"config/modif",
+		"restricted":true,
+		"description":"Guarda las modificaciones a una configuracion"
+	}
+]

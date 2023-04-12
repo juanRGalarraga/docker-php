@@ -1,0 +1,3 @@
+Clases para manejar los burós crediticios.
+Pidiendo al Core que devuelve el score o directamente desde aquí, ya veremos...
+

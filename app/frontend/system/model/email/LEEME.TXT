@@ -1,0 +1,1 @@
+Aquí la o las clases para manejar el envío de mensajes de correo electrónico para el solicitante.

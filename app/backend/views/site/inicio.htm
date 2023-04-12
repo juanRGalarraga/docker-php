@@ -1,0 +1,174 @@
+<?php 
+    /*
+        Vista de inicio.
+        Created: 2021-09-07
+        Author: Gonza
+    */
+
+require_once(DIR_model."special".DS."class.special.inc.php");
+$specials = new cSpecial();
+$response = array("clientes" => 0,"solicitudes" => 0,"monto_prestado" => 0,"monto_cobrado" => 0);
+$response = $specials->GetInicio();
+?>
+
+<!-- Presentacion -->
+<div class="content-header">
+	<!-- <div id="eventSourceMain"></div> -->
+	<div class="card">
+		<div class="card-borderless card-primary card-outline card-tabs">
+			<div class="card-header border-bottom-0">
+				<h3 class="title text-center">Bienvenido a <?php echo APP_NAME; ?></h3>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Fin Presentacion -->
+
+<div class="row">
+	<div class="col-md-6 col-xl-3">
+		<div class="widget-rounded-circle card bg-purple shadow-none">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-6">
+						<div class="avatar-lg rounded-circle bg-soft-light">
+							<i class="fas fa-user-tag font-28 avatar-title text-white"></i>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="text-end">
+							<h4 class="text-white mt-2"><span class="counter" data-count="<?php echo (isset($response->clientes) && is_numeric($response->clientes)) ? $response->clientes : 0; ?>" data-plugin="counterup">0</span></h4>
+							<p class="text-white mb-0 text-truncate">Clientes</p>
+						</div>
+					</div>
+				</div> <!-- end row-->
+			</div>
+		</div> <!-- end widget-rounded-circle-->
+	</div> <!-- end col-->
+
+	<div class="col-md-6 col-xl-3">
+		<div class="widget-rounded-circle card bg-info shadow-none">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-6">
+						<div class="avatar-lg rounded-circle bg-soft-light">
+							<i class="bi fab fa-slideshare font-28 avatar-title text-white"></i>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="text-end">
+							<h4 class="text-white mt-2"><span class="counter" data-count="<?php echo (isset($response->solicitudes) && is_numeric($response->solicitudes)) ? $response->solicitudes : 0; ?>" data-plugin="counterup">0</span></h4>
+							<p class="text-white mb-0 text-truncate">Solicitudes</p>
+						</div>
+					</div>
+				</div> <!-- end row-->
+			</div>
+		</div> <!-- end widget-rounded-circle-->
+	</div> <!-- end col-->
+
+	<div class="col-md-6 col-xl-3">
+		<div class="widget-rounded-circle card bg-pink shadow-none">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-6">
+						<div class="avatar-lg rounded-circle bg-soft-light">
+							
+							<!-- <i class="fas fa-coins font-28 avatar-title text-white"></i> -->
+							<i class="fas fa-hand-holding-usd font-28 avatar-title text-white"></i>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="text-end">
+							<h4 class="text-white mt-2"> $ <span class="counter"  data-count="<?php echo (isset($response->monto_prestado) && is_numeric($response->monto_prestado)) ? $response->monto_prestado : 0; ?>" data-format="true" data-plugin="counterup">0</span></h4>
+							<p class="text-white mb-0 text-truncate">Monto Prestado</p>
+						</div>
+					</div>
+				</div> <!-- end row-->
+			</div>
+		</div> <!-- end widget-rounded-circle-->
+	</div> <!-- end col-->
+
+	<div class="col-md-6 col-xl-3">
+		<div class="widget-rounded-circle card bg-success shadow-none">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-6">
+						<div class="avatar-lg rounded-circle bg-soft-light">
+							
+							<!-- <i class="fas fa-coins font-28 avatar-title text-white"></i> -->
+							<i class="fas fa-wallet font-28 avatar-title text-white"></i>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="text-end">
+							<h4 class="text-white mt-2"> $ <span class="counter"  data-count="<?php echo (isset($response->monto_cobrado) && is_numeric($response->monto_cobrado)) ? $response->monto_cobrado : 0; ?>" data-format="true" data-cformat="ARS $ %d -" data-plugin="counterup">0</span></h4>
+							<p class="text-white mb-0 text-truncate">Monto Cobrado</p>
+						</div>
+					</div>
+				</div> <!-- end row-->
+			</div>
+		</div> <!-- end widget-rounded-circle-->
+	</div> <!-- end col-->
+</div>
+
+
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+			<canvas id="chart_visitas" width="400" height="200"></canvas>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	
+</script>
+
+
+<style>
+.avatar-lg {
+    height: 4.5rem;
+    width: 4.5rem;
+}
+
+.bg-soft-light {
+    background-color: #ecf2f540!important;
+}
+.rounded-circle {
+    border-radius: 50%!important;
+}
+
+.bg-purple {
+    opacity: 1;
+    background-color: rgba(136,146,214)!important;
+}
+
+.avatar-title {
+    align-items: center;
+    color: #fff;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+}
+.font-28 {
+    font-size: 28px!important;
+}
+
+.bg-pink {
+    opacity: 1;
+    background-color: rgba(240,98,146)!important;
+}
+
+.bg-success {
+    opacity: 1;
+    background-color: rgba(120,195,80)!important;
+}
+
+.bg-info {
+    opacity: 1;
+    background-color: rgba(69,187,224)!important;
+}
+
+
+</style>

@@ -1,0 +1,1 @@
+UPDATE `backend_contenidos` SET `metadata` = '{\r\n \"js\": \"planes/planes_form\",\r\n \"css\": \"planes/planes_form\",\r\n \"vista\": \"planes/newPlanes\",\r\n \"menutag\": \"Formulario Planes\"\r\n}' WHERE `backend_contenidos`.`id` = 27;

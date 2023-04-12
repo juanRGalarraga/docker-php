@@ -1,0 +1,12 @@
+div#confirmar-por-mail {
+	display: block;
+}
+div#confirmar-por-mail p.inst { /* Texto de instrucciones */
+	margin-bottom: 0px;
+	padding-bottom: 10px;
+	text-align: left;
+	color: black;
+}
+div#confirmar-por-mail p.inst small {
+	color: var(--text-gray);
+}

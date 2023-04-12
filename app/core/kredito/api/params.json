@@ -1,0 +1,23 @@
+[
+	{
+		"methods":"GET",
+		"route":"param/{name}:string",
+		"resolver":"param/get",
+		"restricted":true,
+		"description":"Devolver el valor de un parámetro del sistema"
+	},
+	{
+		"methods":"GET",
+		"route":"params/{name}:string",
+		"resolver":"param/get",
+		"restricted":true,
+		"description":"Devolver el valor de un parámetro del sistema"
+	},
+	{
+		"methods":"GET",
+		"route":"parametro/{name}:string",
+		"resolver":"param/get",
+		"restricted":true,
+		"description":"Devolver el valor de un parámetro del sistema"
+	}
+]

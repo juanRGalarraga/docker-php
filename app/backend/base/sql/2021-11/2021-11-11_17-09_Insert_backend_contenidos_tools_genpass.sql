@@ -1,0 +1,3 @@
+INSERT INTO `backend_contenidos` (`id`, `alias`, `nombre`, `controlador`, `metadata`, `parent_id`, `parametros`, `en_menu`, `orden`, `es_default`, `esta_protegido`, `permit`, `perfiles`, `estado`, `last_modif`, `description`, `sys_fecha_alta`, `sys_fecha_modif`, `sys_usuario_id`) VALUES
+(10, 'genpass', 'Generador de contraseñas', 'login', '{\"js\": \"sweetalert2.all.min\", \"vista\": \"tools/genpass\", \"template\": \"login\"}', 5, 0, 0, 3, 0, 0, 0, '', 'HAB', NULL, 'Generador de contraseñas', '2021-11-11 14:54:01', '2021-11-11 14:54:01', 1),
+(5, 'tools', 'Herramientas internas', '', '{}', 0, 0, 0, 3, 0, 0, 0, '', 'HAB', NULL, 'Herramientas internas.', '2021-11-11 14:54:01', '2021-11-11 14:54:01', 1);

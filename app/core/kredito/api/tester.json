@@ -1,0 +1,23 @@
+[
+	{
+		"methods":"GET",
+		"route":"tester/checktoken",
+		"resolver":"tester/checktoken",
+		"restricted":true,
+        "description":"Probador de cosas"
+	},
+	{
+		"methods":"GET",
+		"route":"tester",
+		"resolver":"tester/get",
+		"restricted":false,
+        "description":"Probador de cosas"
+	},
+	{
+		"methods":"POST",
+		"route":"tester",
+		"resolver":"tester/post",
+		"restricted":false,
+        "description":"Probador de cosas"
+	}
+]

@@ -1,0 +1,63 @@
+<?php
+$cotizacion = $calculadora->Get(['solicitud_id'=>$onboarding->solic_id??null]);
+?>
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 d-flex flex-column justify-content-between" id="calculadoraSimulador">
+			<form id="frmCalculadora" name="frmCalculadora" class="form-group">
+				<div class="innerCalculator mx-auto">
+					<div class="input">
+						<div class="inputTitle font-weight-bold">MONTO:</div>
+						<input type="number" class="input-monto valor inputNumber font-weight-bold" value="<?php echo $cotizacion->Capital??'--'; ?>" placeholder="$" aria-label="monto" name="numberMonto" id="numberMonto" step="<?php echo $cotizacion->Step??'500'; ?>" min="<?php echo $cotizacion->Monto_Minimo??'--'; ?>" max="<?php echo $cotizacion->Monto_Maximo??'--'; ?>" tabindex="1" data-target="rangeMonto">
+						<img class="calculatorIcons" src="/svg/tarjeta.svg" alt="Icono tarjeta de crédito">
+					</div>
+
+					<div class="slide align-items-center d-flex justify-content-between my-3">
+						<span class="slideLimit font-weight-bold">$<?php echo $cotizacion->Monto_Minimo??'--'; ?></span>
+						<input type="range" min="<?php echo $cotizacion->Monto_Minimo??'--'; ?>" max="<?php echo $cotizacion->Monto_Maximo??'--'; ?>" value="<?php echo $cotizacion->Capital??'--'; ?>" step="<?php echo $cotizacion->Step??'500'; ?>" class="slide-barra rangeStyle" name="monto" id="rangeMonto" data-target="numberMonto">
+						<span class="slideLimit font-weight-bold">$<?php echo $cotizacion->Monto_Maximo??'--'; ?></span>
+					</div>
+
+
+					<div class="input">
+						<div class="pr-2 inputTitle font-weight-bold">PLAZO:</div>
+						<input type="number" class="input-plazo valor inputNumber font-weight-bold" value="<?php echo $cotizacion->Dias??'--'; ?>" placeholder="<?php echo $cotizacion->Dias??'--'; ?>" aria-label="plazo" name="numberPlazo" id="numberPlazo" min="<?php echo $cotizacion->Plazo_Minimo??'--'; ?>" max="<?php echo $cotizacion->Plazo_Maximo??'--'; ?>" step="1" tabindex="2" data-target="rangePlazo">
+						<div><img class="calculatorIcons" src="/svg/calendario.svg" alt="Icono de calendario"></div>
+					</div>
+
+					<div class="slide align-items-center d-flex justify-content-between my-3">
+						<span class="slideLimit font-weight-bold">DÍA <?php echo $cotizacion->Plazo_Minimo??'--'; ?></span>
+						<input type="range" min="<?php echo $cotizacion->Plazo_Minimo??'--'; ?>" max="<?php echo $cotizacion->Plazo_Maximo??'--'; ?>" class="slide-barra rangeStyle" value="<?php echo $cotizacion->Dias??'--'; ?>" id="rangePlazo" name="plazo" data-target="numberPlazo">
+						<span class="slideLimit font-weight-bold">DÍA <?php echo $cotizacion->Plazo_Maximo??'--'; ?></span>
+					</div>
+				</div>
+			</form>
+
+			<div class="innerCalculator mx-auto">
+				<p class="totalText font-weight-bold m-0">Monto total a devolver:</p>
+				<h2 class="totalNumber font-weight-bold"> <?php echo $cotizacion->Simbolo_Moneda??'ARS'; ?> $ <span id="res-total"><?php echo $cotizacion->Total??'--'; ?></span></h2>
+			</div>
+
+			<div class="innerCalculator mx-auto">
+				<ul class="summaryTable">
+					<li class="d-flex justify-content-between">
+						<span class="label">Préstamo</span><span class="valor"> $ <span id="res-capital"><?php echo $cotizacion->Capital??'--'; ?></span></span>
+					</li>
+					<li class="d-flex justify-content-between">
+						<span class="label">Plazo</span><span class="valor"><span id="res-periodo"><?php echo $cotizacion->Dias??'--'; ?></span> días</span>
+					</li>
+					<li class="d-flex justify-content-between">
+						<span class="label">Fecha de pago</span><span class="valor" id="res-fecha_pago_txt"><?php echo $cotizacion->Fecha_Pago_Display??'--'; ?></span>
+					</li>
+					<li class="d-flex justify-content-between">
+						<span class="label" id="etiqueta_1"><?php echo $cotizacion->Etiqueta_1??'--'; ?></span>
+						<span class="valor"> $ <span id="res-intereses"><?php echo $cotizacion->Intereses??'--'; ?></span></span>
+					</li>
+					<li class="d-flex justify-content-between">
+						<span class="label" id="etiqueta_2" title="Costos administrativos incluye IVA"><?php echo $cotizacion->Etiqueta_2??'--'; ?></span>
+						<span class="valor"> $ <span id="res-gastos_administrativos"><?php echo $cotizacion->Gastos_Administrativos??'--'; ?></span></span>
+					</li>
+				</ul>
+				<div>
+					<p class="expiration pt-3">Fecha de vencimiento del préstamo <span id="res-dias"><?php echo $cotizacion->Dias??'--'; ?></span> días a partir de la fecha de otorgamiento efectivo en la cuenta del cliente.</p>
+				</div>
+			</div>
+		</div>

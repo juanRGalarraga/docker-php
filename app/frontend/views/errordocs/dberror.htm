@@ -1,0 +1,85 @@
+<?php
+/*
+	Esto avisa que hubo problemas al conectar con la base de datos desde index.php
+*/
+cLogging::Write('index.php Error en la base de datos: '.$objeto_db->errmsg);
+?>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="Author" content="Rebrit" />
+<meta name="AuthorLink" content="http://rebrit.ar/" />
+<title>Error DB<?php echo (defined("MAINTITLE"))?" :: ".MAINTITLE:null; ?></title>
+<style type="text/css">
+* {
+margin: 0;padding: 0;
+}
+html, body {
+	font-family: 'Arial','Helvetica',sans-serif;
+}
+h1 {
+	font-size: 14pt;
+}
+main.main {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	min-height: 100%;
+}
+main.main h2 {
+	color: white;
+	max-width: 50%;
+	font-size: 4rem;
+	text-shadow: 0 0 10px black;
+}
+p {
+	font-size: 12pt;
+}
+h1, p {
+	text-align: center;
+}
+h1 {
+	margin-top: 1em;
+}
+p {
+	margin: 1em;
+}
+.cuadro {
+	padding: 2rem;
+	background-color: rgba(255,0,0,0.5);
+	border-radius: 1rem;
+	border: 1px solid #333;
+	box-shadow: 0 0 5px 5px #777;
+}
+footer p {
+	font-size: 8pt;
+	color: black;
+	text-align: right;
+}
+</style>
+</head>
+<body>
+	<header>
+	</header>
+	<main class="main">
+		<div class="cuadro">
+			<h1>Estamos experimentando problemas con nuestro sitio web.</h1>
+			<p>Momentaneamente no es posible mostrarle el contenido solicitado. Por favor intente más tarde.</p>
+			<p>Disculpe las molestias ocasionadas.</p>
+<?php
+if (DEVELOPE) {
+?>
+			<div style="margin:1em auto; padding:1em; border:1px solid #3333;background-color:#eeeeee;width:95%;">
+				<p style="color:#333;"><?php echo $objeto_db->ShowLastError(); ?></p>
+			</div>
+<?php
+}
+?>
+		</div>
+	</main>
+	<footer>
+		<p>&copy; RebritGen - <?php echo date('Y'); ?></p>
+	</footer>
+</body>
+</html>

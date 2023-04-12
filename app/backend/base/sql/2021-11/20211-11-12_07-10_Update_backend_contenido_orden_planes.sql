@@ -1,0 +1,1 @@
+UPDATE `backend_contenidos` SET `orden` = '25' WHERE `backend_contenidos`.`alias` = 'planes';

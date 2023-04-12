@@ -1,0 +1,12 @@
+[
+	{
+		"methods":"POST,PUT",
+		"route":"solicitud/{id}?:int",
+		"resolver":"solicitudes/crearOModificar",
+		"restricted":true
+	},
+	{
+		"route":"solicitud/{id}?:int",
+		"resolver":"solicitudes/verSolicitud"
+	}
+]

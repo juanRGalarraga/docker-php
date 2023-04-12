@@ -1,0 +1,44 @@
+[
+	{
+		"methods":"GET",
+		"route":"personas/nrodoc/{nro_doc}:num",
+		"resolver":"personas/obtener",
+		"restricted":false,
+        "description":"Obtiene un registro dado un Nro Doc."
+	},
+	{
+		"methods":"GET",
+		"route":"personas/data/{id}:int/{type}:?string",
+		"resolver":"personas/data",
+		"restricted":true,
+        "description":"Obtiene los datos asociados a una persona"
+	},
+	{
+		"methods":"GET",
+		"route":"personas/cbu/{id}:int",
+		"resolver":"personas/cbu/cbuList",
+		"restricted":true,
+        "description":"Obtiene la lista de CBU's/Alias de una persona"
+	},
+	{
+		"methods":"GET",
+		"route":"personas/nomape/{term}:str",
+		"resolver":"personas/nomape",
+		"restricted":true,
+        "description":"Obtiene una lista de clientes buscados por nombre o apellido"
+	},
+	{
+		"methods":"GET",
+		"route":"personas/listado",
+		"resolver":"personas/listado",
+		"restricted":true,
+        "description":"Obtiene una lista de clientes aplicando filtrados"
+	},
+	{
+		"methods":"GET",
+		"route":"personas/{id}:int",
+		"resolver":"personas/obtener",
+		"restricted":false,
+        "description":"Obtiene un registro dado un ID"
+	}
+]

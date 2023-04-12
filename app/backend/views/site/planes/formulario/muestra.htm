@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-12 row">
+        <div class="col-12">
+            <h5>Tasa Nominal Anual Público</h5>
+        </div>
+        <div class="col-12 col-sm-6 form-group">
+            <label class="fw-bolder" for="etiq_tasa_anual">Etiqueta</label>
+            <input type="text" name="etiq_tasa_anual" id="etiq_tasa_anual" class="form-control" value="<?php 
+			if (isset($plan->data->TNA_Publico) and isset($plan->data->TNA_Publico->etiqueta)) {
+				echo $plan->data->TNA_Publico->etiqueta;
+			}
+			?>" />
+        </div>
+        <div class="col-12 col-sm-6 form-group">
+            <label class="fw-bolder" for="valor_tasa_anual">Valor(%)</label>
+            <input type="number" name="valor_tasa_anual" id="valor_tasa_anual" class="form-control" value="<?php 
+			if (isset($plan->data->TNA_Publico) and isset($plan->data->TNA_Publico->valor)) {
+				echo I($plan->data->TNA_Publico->valor);
+			}
+			?>" />
+        </div>
+    </div>
+
+    <div class="col-12 row mt-2">
+        <div class="col-12">
+            <h5>Costos Administrativos Público</h5>
+        </div>
+        <div class="col-12 col-sm-6 form-group">
+            <label class="fw-bolder" for="etiq_cost_admin">Etiqueta</label>
+            <input type="text" name="etiq_cost_admin" id="etiq_cost_admin" class="form-control" value="<?php 
+			if (isset($plan->data->Costo_Publico) and isset($plan->data->Costo_Publico->etiqueta)) {
+				echo $plan->data->Costo_Publico->etiqueta;
+			}
+			?>" />
+        </div>
+        <div class="col-12 col-sm-6 form-group">
+            <label class="fw-bolder" for="valor_cost_admin">Valor(%)</label>
+            <input type="number" name="valor_cost_admin" id="valor_cost_admin" class="form-control" value="<?php 
+			if (isset($plan->data->Costo_Publico) and isset($plan->data->Costo_Publico->etiqueta)) {
+				echo $plan->data->Costo_Publico->valor;
+			}
+			?>" />
+        </div>
+    </div>
+</div>

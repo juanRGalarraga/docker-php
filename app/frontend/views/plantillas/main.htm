@@ -1,0 +1,35 @@
+<?php
+/*
+	Template para todos los contenidos genéricos.
+	Created: 2021-02-05
+	Author: DriverOp
+
+*/
+	if (!empty($contenidos['head']))
+		include($contenidos['head']);
+?>
+<body>
+<?php
+	if (ExisteArchivo("noscript.htm")) { include("noscript.htm"); }
+?>
+
+<?php
+	if (!empty($contenidos['header']))
+		include($contenidos['header']);
+	if (!empty($contenidos['mainmenu'])) 
+		include($contenidos['mainmenu']);
+?>
+
+<?php
+	if ($contenidos['hassubmenu'] and !empty($contenidos['submenu']))
+		include($contenidos['submenu']);
+	if (!empty($contenidos['vista']))
+		include($contenidos['vista']);
+?>
+
+		<footer class="main-footer">
+			<?php if (!is_null($contenidos['footer'])) include($contenidos['footer']); ?>
+		</footer>
+
+</body>
+</html>

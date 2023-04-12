@@ -1,0 +1,43 @@
+[
+	{
+		"methods":"GET",
+		"route":"planes/listado",
+		"resolver":"planes/listado",
+		"restricted":true
+	},
+	{
+		"methods":"GET",
+		"route":"planes/todo/{id}:int",
+		"resolver":"planes/getAll",
+		"restricted":true,
+		"description":"Devuelve todos los datos del plan según ID, aunque esté desactivado. Es para el backend"
+	},
+	{
+		"methods":"GET",
+		"route":"planes/tipos/{tipo}?",
+		"resolver":"planes/getTipos",
+		"restricted":true,
+		"description":"Devuelve los tipos de planes disponibles"
+	},
+	{
+		"methods":"GET",
+		"route":"planes/{id}?:int",
+		"resolver":"planes/get",
+		"restricted":true,
+		"description":"Devuelve los datos de un plan, para el cotizador del front"
+	},
+	{
+		"methods":"POST",
+		"route":"planes/?",
+		"resolver":"planes/post",
+		"restricted":true,
+		"description":"Crear un nuevo plan"
+	},
+	{
+		"methods":"PUT",
+		"route":"planes/{id}:int",
+		"resolver":"planes/put",
+		"restricted":true,
+		"description":"Modificar un plan existente"
+	}
+]

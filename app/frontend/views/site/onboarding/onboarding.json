@@ -1,0 +1,110 @@
+{
+	"solicitalo-ahora": {
+		"vista":"01-solicitalo-ahora.htm",
+		"next":"ingresa-cuenta",
+		"prev":null,
+		"descripcion":"Calculadora de préstamo que se muestra en el inicio.",
+		"solicitud":false
+	},
+	"ingresa-cuenta": {
+		"vista":"02-ingresa-a-tu-cuenta.htm",
+		"next":"crear-cuenta",
+		"prev":"solicitalo-ahora",
+		"descripcion":"Donde se le pide al visitante que ingrese a micuenta o bién cree una cuenta nueva",
+		"solicitud":false
+	},
+	"crear-cuenta": {
+		"vista":"03-crear-cuenta.htm",
+		"next":"telefono-mail",
+		"prev":"ingresa-cuenta",
+		"descripcion":"Se pide DNI y contraseña para crear la cuenta",
+		"solicitud":true
+	},
+	"telefono-mail": {
+		"vista":"04-telefono-mail.htm",
+		"next":"datos-personales",
+		"prev":"crear-cuenta",
+		"descripcion":"El visitante debe ingresar su número de teléfono y su dirección de correo electrónico."
+	},
+	"datos-personales": {
+		"vista":"05-modificar-datos-personales.htm",
+		"next":"codigo-pin",
+		"prev":"telefono-mail",
+		"descripcion":"El visitante confirma sus datos antes de proceder a la verificación de identidad, se presentan los datos del buró"
+	},
+	"codigo-pin": {
+		"vista":"06-ingresar-codigo-pin.htm",
+		"next":"identidad-verificada",
+		"prev":"datos-personales",
+		"fail":"identidad-no-valida",
+		"descripcion":"Donde el visitante ingresa el PIN enviado a su celular"
+	},
+	"identidad-verificada": {
+		"vista":"07-identidad-verificada.htm",
+		"next":"ingresar-cbu",
+		"prev":"codigo-pin",
+		"descripcion":"El PIN es correcto"
+	},
+	"ingresar-cbu": {
+		"vista":"09-ingresar-cbu.htm",
+		"next":"resumen-prestamo",
+		"prev":"identidad-verificada",
+		"fail":"solicitud-rechazada",
+		"descripcion":"Donde el visitante debe ingresar su CBU"
+	},
+	"resumen-prestamo": {
+		"vista":"10-resumen-prestamo.htm",
+		"next":"confirmar-por-mail",
+		"prev":"ingresar-cbu",
+		"fail":"solicitud-rechazada",
+		"descripcion":"El visitante confirma que es éste el préstamo que quiere que se le otorgue."
+	},
+	"confirmar-por-mail": {
+		"vista":"16-confirmar-por-mail.htm",
+		"next":"prestamo-aprobado",
+		"prev":"resumen-prestamo",
+		"descripcion":"Se le envió un mail y el visitante tiene que escribir la aceptación (código)."
+	},
+	"prestamo-aprobado": {
+		"vista":"11-prestamo-aprobado.htm",
+		"next":null,
+		"prev":null,
+		"reset":["cotizacion","solicitud"],
+		"descripcion":"Se le avisa que su préstamo fue aprobado"
+	},
+	"identidad-no-valida": {
+		"vista":"08-identidad-no-valida.htm",
+		"next":"solicitalo-ahora",
+		"prev":"solicitalo-ahora",
+		"reset":["solicitud"],
+		"descripcion":"Donde se le avisa al visitante que el buró no validó los datos que proporcionó."
+	},
+	"solicitud-rechazada": {
+		"vista":"12-solicitud-rechazada.htm",
+		"next":"solicitalo-ahora",
+		"prev":"solicitalo-ahora",
+		"reset":["cotizacion","solicitud"],
+		"descripcion":"Se le avisa que su préstamo fue rechazado."
+	},
+	"forbidden": {
+		"vista":"13-prohibido.htm",
+		"next":"solicitalo-ahora",
+		"prev":"solicitalo-ahora",
+		"reset":["cotizacion","solicitud"],
+		"descripcion":"Pantalla para rechazar al visitante porque está en la lista de bloqueos/omitidos/blacklist"
+	},
+	"forzar-micuenta": {
+		"vista":"14-mi-cuenta.htm",
+		"next":"ingresa-cuenta",
+		"prev":"ingresa-cuenta",
+		"reset":["cotizacion","solicitud"],
+		"descripcion":"Pantalla para forzar al visitante a ingresar a Mi Cuenta"
+	},
+	"general-error": {
+		"vista":"15-general-error.htm",
+		"next":"solicitalo-ahora",
+		"prev":"solicitalo-ahora",
+		"reset":["cotizacion","solicitud"],
+		"descripcion":"Pantalla para mostrar un mensaje de error general (como fallos en el core)"
+	}
+}

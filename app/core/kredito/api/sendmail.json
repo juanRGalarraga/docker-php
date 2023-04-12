@@ -1,0 +1,23 @@
+[
+	{
+		"methods":"GET",
+		"route":"sendmail/{id}:int",
+		"resolver":"sendmail/get",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"POST",
+		"route":"sendmail/acceptance/{id}:int",
+		"resolver":"sendmail/sendAcceptance",
+		"restricted":false,
+		"description":"Enviar el correo de pedido de aceptación al mail registrado en la solicitud"
+	},
+	{
+		"methods":"GET",
+		"route":"sendmail/acceptance/check/{cod}/{id}:int",
+		"resolver":"sendmail/checkAcceptance",
+		"restricted":true,
+		"description":"Verificar que el código de aceptación corresponde con el enviado."
+	}
+]

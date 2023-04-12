@@ -1,0 +1,31 @@
+	<div class="calculator row inner justify-content-sm-center obstep" id="confirmar-por-mail">
+		<h3 class="text-center mt-0 mb-1"><?php echo (($onboarding->solictemp->data->nombre??null)." ".($onboarding->solictemp->data->apellido??null)); ?></h3>
+		<p class="inst">Te hemos enviado un mensaje de correo electrónico a la dirección <b class="orange"><?php echo $onboarding->solictemp->data->email; ?></b> con un resumen del préstamo solicitado.</p>
+		<p class="inst">El mensaje contiene el código de aceptación del préstamo. Cuando recibas el mensaje, por favor escribe el código de aceptación aquí.</p>
+		<p class="inst"><small>Si no ves el mensaje en la bandeja de entrada, revisa también la bandeja de &quot;spam&quot; o correo no deseado.</small></p>
+		<div class="row mt-2">
+			<div class="col-12 col-md-6">
+				<h3 class="titleSize m-0 mb-2">Escribe el código de aceptación</h3>
+				<form id="frmAceptacion" name="frmAceptacion" class="form-group pt-md-5">
+					<div class="position-relative">
+						<input type="text" name="codigo_aceptacion" id="codigo_aceptacion" class="inputData borderTop" placeholder="CÓDIGO DE ACEPTACIÓN" title="Escribe el código de aceptación" required value="" maxlength="22">
+					</div>
+					<div class="pt-3 d-flex justify-content-around align-items-center">
+						<?php if (DEVELOPE) { ?><button type="button" class="btnTenela btnBack" title="Regresar al paso anterior" id="btnBack"><i class="fas fa-arrow-left"></i></button><?php } ?>
+						<button class="btnTenela calculatorBtn px-4" type="button" id="btnNext" title="Aceptar préstamo" disabled>CONFIRMAR ACEPTACIÓN <i class="fas fa-check"></i> </button>
+					</div>
+				</form>
+			</div>
+			<div class="col-12 col-md-6">
+<?php
+require_once("datos-prestamo.htm");
+?>
+			</div>
+		</div>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('confirmar-por-mail');
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","css":"confirmar-por-mail","js":"confirmar-por-mail","callback":"InitConfirmar"}');
+?></json>

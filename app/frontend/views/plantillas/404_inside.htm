@@ -1,0 +1,39 @@
+<?php
+/*
+	Template para el error 404 interno, es decir cuando el usuario está logueado.
+	Created: 2021-02-09
+	Author: DriverOp
+
+*/
+	if (!empty($contenidos['head']))
+		include($contenidos['head']);
+?>
+<body class="layout-fixed layout-navbar-fixed sidebar-mini">
+<?php
+	if (ExisteArchivo("noscript.htm")) { include("noscript.htm"); }
+?>
+	<div class="wrapper">
+<?php
+	if (!empty($contenidos['header']))
+		include($contenidos['header']);
+	if (!empty($contenidos['mainmenu'])) 
+		include($contenidos['mainmenu']);
+?>
+			<div class="content-wrapper">
+				<section class="content pt-3 back-content">
+					<div class="container-fluid">
+<?php
+	if ($contenidos['hassubmenu'] and !empty($contenidos['submenu']))
+		include($contenidos['submenu']);
+	if (!empty($contenidos['vista']))
+		include($contenidos['vista']);
+?>
+					</div><!-- container-fluid -->
+				</section>
+			</div>
+		<footer class="main-footer">
+			<?php if (!is_null($contenidos['footer'])) include($contenidos['footer']); ?>
+		</footer>
+	</div><!-- wrapper -->
+</body>
+</html>

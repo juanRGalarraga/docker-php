@@ -1,0 +1,52 @@
+<?php
+/*
+	Header común a todos los contenidos.
+*/
+?>
+
+<header id="header" class="container-fluid">
+	<div class="d-flex headerContainer inner align-items-center navbar-expand-lg">
+		<div class="col-lg-3 col-md-12 px-0">
+			<a href="<?php echo BASE_URL; ?>?home" id="gotoHome"><img class="logo float-left" src="<?php echo BASE_URL; ?>svg/logo_violeta.svg" alt="Logo de Tenela"></a>
+		</div>
+		<div class="d-none d-lg-block col-lg-6 headLinkUl">
+			<ul class="d-flex justify-content-between">
+				<li>
+					<a class="headLink font-weight-bold" href="#HowToGet" tabindex="-1" aria-disabled="true">¿Cómo funciona?</a>
+				</li>
+				<li>
+					<a class="headLink font-weight-bold" href="#FAQ" tabindex="-1" aria-disabled="true">Preguntas frecuentes</a>
+				</li>
+				<li>
+					<a class="headLink font-weight-bold" href="#AboutUs" tabindex="-1" aria-disabled="true">¿Quiénes somos?</a>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="col-lg-3 px-0">
+			<a class="float-right logOut font-weight-bold btnTenela btn" href="<?php echo URL_MI_CUENTA ?? ''; ?>">SOY CLIENTE</a>
+		</div>
+		<button type="button" class="d-flex justify-content-end navbar-toggler d-lg-none burgerBtn col-3 col-sm-4" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<img src="<?php echo BASE_URL; ?>svg/icon-hamburguer.svg" alt="MenuIcon" class="navbar-toggler-icon"></img>
+	</div>
+</header>
+
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+	<ul class="navbar-nav font-weight-bold">
+		<li class="nav-item">
+			<a class="nav-link headLink" href="#HowToGet" tabindex="-1" aria-disabled="true">¿Cómo funciona?</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link headLink" href="#FAQ" tabindex="-1" aria-disabled="true">Preguntas frecuentes</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link headLink" href="#AboutUs" tabindex="-1" aria-disabled="true">¿Quiénes somos?</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link headLink" href="<?php echo URL_MI_CUENTA ?? ''; ?>" tabindex="-1" aria-disabled="true">SOY CLIENTE</a>
+		</li>
+		<li class="nav-item p-2">
+			<p></p>
+		</li>
+	</ul>
+</div>

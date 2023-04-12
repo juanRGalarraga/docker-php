@@ -1,0 +1,65 @@
+[
+	{
+		"methods":"GET",
+		"route":"geo/ciudad/{id}:int",
+		"resolver":"geo/getCiudad",
+		"restricted":true,
+		"description":"Obtiene una ciudad dado un ID"
+	},
+	{
+		"methods":"GET",
+		"route":"geo/listciudadesregion/{id}:int",
+		"resolver":"geo/listCiudadesByRegion",
+		"restricted":true,
+		"description":"Obtiene un listado de ciudades segun la Region"
+	},
+	{
+		"methods":"GET",
+		"route":"geo/ciudades",
+		"resolver":"geo/getCiudades",
+		"restricted":true,
+		"description":"Obtiene un listado de ciudades"
+	},
+	{
+		"methods":"GET",
+		"route":"geo/list/{region}?:int",
+		"resolver":"geo/getCiudadesByLexema",
+		"restricted":true,
+		"description":"Obtiene un listado de ciudades que contienen un lexema dado"
+	},
+	{
+		"methods":"GET",
+		"route":"geo/region/{id}:int",
+		"resolver":"geo/getRegion",
+		"restricted":true,
+		"description":"Obtiene una región dado un ID"
+	},
+	{
+		"methods":"GET",
+		"route":"geo/listregionespais/{id}:int",
+		"resolver":"geo/listRegionesByPais",
+		"restricted":true,
+		"description":"Obtiene un listado de regiones segun el País"
+	},
+	{
+		"methods":"GET",
+		"route":"geo/regiones",
+		"resolver":"geo/getRegiones",
+		"restricted":true,
+		"description":"Obtiene un listado de regiones"
+	},
+	{
+		"methods":"GET",
+		"route":"geo/pais/{id}:int",
+		"resolver":"geo/getPais",
+		"restricted":true,
+		"description":"Obtiene un país dado un ID"
+	},
+	{
+		"methods":"GET",
+		"route":"geo/listpaises",
+		"resolver":"geo/listPaises",
+		"restricted":true,
+		"description":"Obtiene un listado de paises"
+	}
+]

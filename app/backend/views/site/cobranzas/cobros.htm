@@ -1,0 +1,25 @@
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				Listado de cobros a confirmar
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-4">
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" onKeyup="listado.Get(this);" name="buscar" id="buscar"  placeholder="Ingrese Nº de Préstamo" value="<?php echo (isset($objeto_contenido->parametros[0]) && SecureInt($objeto_contenido->parametros[0])) ? $objeto_contenido->parametros[0] : ''; ?>" aria-label="Ingrese Nº de Préstamo" aria-describedby="button-prestamo_id">
+							<button class="btn btn-outline-primary" onkeydown="" onClick="return false;" type="button" id="button-prestamo_id"> <i class="fas fa-search "></i> </button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="card">
+			<div class="card-body">
+				<div id="listado"></div>
+			</div>
+		</div>
+	</div>
+</div>

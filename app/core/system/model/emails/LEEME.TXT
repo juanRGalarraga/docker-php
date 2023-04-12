@@ -1,0 +1,1 @@
+Aquí está la(s) clase(es) que se encarga(n) de componer los mensajes de correo electrónico pero NO los envía!

@@ -1,0 +1,20 @@
+[
+	{
+		"methods":"GET",
+		"route":"prestamos/",
+		"resolver":"prestamos/listado",
+		"restricted":true
+	},
+	{
+		"methods":"POST",
+		"route":"prestamo/",
+		"resolver":"prestamos/agregar",
+		"restricted":true
+	},
+	{
+		"methods":"GET",
+		"route":"prestamo/{id}:int",
+		"resolver":"prestamos/ver",
+		"restricted":true
+	}
+]

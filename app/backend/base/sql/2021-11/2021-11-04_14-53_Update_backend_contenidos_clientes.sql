@@ -1,0 +1,1 @@
+UPDATE `backend_contenidos` SET `metadata` = '{\"js\": \"objListados.2.0,modalBs5,clientes/listado,clientes/editar,prestamos/modalVer\", \"css\": \"login\", \"vista\": \"clientes/main\", \"menutag\": \"Listado\", \"icon_class\": \"fad fa-list-alt\"}' WHERE `backend_contenidos`.`id` = 111;

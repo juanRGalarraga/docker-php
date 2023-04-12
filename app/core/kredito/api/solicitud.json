@@ -1,0 +1,51 @@
+[
+	{
+        "methods": "GET",
+        "route": "solicitudes/listado",
+        "resolver": "solicitud/listado",
+        "restricted": true,
+        "description": "Obtiene un listado de solicitudes"
+    },
+	{
+        "methods": "GET",
+        "route": "solicitudes/log/{id}:int",
+        "resolver": "solicitud/log_listado",
+        "restricted": true,
+        "description": "Obtiene un listado de logs de una solicitud"
+    },
+    {
+        "methods": "GET",
+        "route": "solicitud/{id}?:int",
+        "resolver": "solicitud/ver",
+        "restricted": true,
+        "description": "Obtiene un registro dado un ID"
+    },
+    {
+        "methods": "POST",
+        "route": "solicitud/log/{id}:int",
+        "resolver": "solicitud/log",
+        "restricted": true,
+        "description": "Agrega un registro al log de una solicitud"
+    },
+    {
+        "methods": "POST",
+        "route": "solicitud/aprobar/{id}:int",
+        "resolver": "solicitud/aprobar",
+        "restricted": true,
+        "description": "Aprueba una solicitud previamente agregada"
+    },
+    {
+        "methods": "POST",
+        "route": "solicitud",
+        "resolver": "solicitud/agregar",
+        "restricted": true,
+        "description": "Crea una nueva solicitud"
+    },
+    {
+        "methods": "PUT",
+        "route": "solicitud/{id}:int",
+        "resolver": "solicitud/modificar",
+        "restricted": true,
+        "description": "Modifica una solicitud existente"
+    }
+]

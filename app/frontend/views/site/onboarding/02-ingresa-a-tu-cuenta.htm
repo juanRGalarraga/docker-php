@@ -1,0 +1,36 @@
+	<div class="calculator row inner justify-content-sm-center">
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<div class="innerCalculator mx-auto d-flex flex-column justify-content-between">
+				<div>
+					<h3 class="mt-0 mb-3">Ingresa a tu cuenta</h3>
+					<p class="summaryTable mb-3">Te damos respuesta en el día.</p>
+				</div>
+				<div>
+					<div class="position-relative">
+						<!-- <img src="/svg/triangulo naranja.svg" class="adverIcon position-absolute" alt="Icono Advertencia"> -->
+						<input type="text" name="username" id="username" class="inputData borderTop" placeholder="INGRESA TU D.N.I." required>
+					</div>
+					<br>
+					<div class="position-relative">
+						<!-- <img src="/svg/triangulo naranja.svg" class="adverIcon position-absolute" alt="Icono Advertencia"> -->
+						<input type="password" name="password" id="password" class="inputData borderBottom" placeholder="INGRESA TU CONTRASEÑA" required>
+					</div>
+					<p class=""><a class="forgot">Olvidé mi contraseña</a></p>
+				</div>
+				<div>
+					<button class="btnTenela calculatorBtn px-4 mb-5" id="btnIrMiCuenta">INGRESAR</button>
+					<p class="expiration mb-1">Si todavía no tenés cuenta</p>
+					<button class="btnTenela calculatorBtn mt-1" id="btnNext">CREAR CUENTA</button>
+				</div>
+			</div>
+		</div>
+<?php
+require_once("simulador-calculadora.htm");
+?>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('ingresa-cuenta');
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","js":"ingresa-cuenta","callback":"InitIngresaCuenta"}');
+?></json>

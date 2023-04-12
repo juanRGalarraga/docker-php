@@ -1,0 +1,30 @@
+[
+	{
+		"methods":"GET",
+		"route":"prestamos/historial/{id}:int",
+		"resolver":"prestamos/historial/listado",
+		"restricted":true,
+		"description":"Obtiene un listado del historial de un préstamo"
+	},
+	{
+		"methods":"GET",
+		"route":"prestamos/{id}:int",
+		"resolver":"prestamos/get",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"POST",
+		"route":"prestamos/",
+		"resolver":"prestamos/post",
+		"restricted":true,
+		"description":"Añade un nuevo registro"
+	},
+	{
+		"methods":"GET",
+		"route":"prestamos/listado",
+		"resolver":"prestamos/list",
+		"restricted":true,
+		"description":"Obtiene un listado"
+	}
+]

@@ -1,0 +1,1 @@
+Aquí está(n) la(s) implementación(es) de la(s) interfaz(ces) con el core para enviar y validar SMS PIN.

@@ -1,0 +1,85 @@
+# Los guachos de Apache cuando PHP está en modo CGI pelan la cabecera Authorization por una estúpida razón que ni ellos se la creen... Esta directiva la habilita, pero no es suficiente, ver más abajo (*).
+# CGIPassAuth On
+
+# No olvides habilitar el módulo headers de Apache porque si no, la directiva Header no funciona.
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+	Header set Access-Control-Allow-Headers "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"
+	Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+	Header set Access-Control-Allow-Origin "*"
+	Header set Cross-Origin-Resource-Policy "cross-origin"
+</IfModule>
+php_value session.name RBTSESID
+# Header always set X-Frame-Options "SAMEORIGIN"
+# Para poner el sitio en mantenimiento
+RewriteEngine on
+
+Options -MultiViews
+# Por si tira algun pato
+Options +FollowSymlinks
+
+# Seteo el charset en UTF-8
+AddDefaultCharset utf-8
+
+# Bloqueo el listado de directorios
+Options -Indexes
+
+# Negar el acceso a ciertos archivos .php
+<FilesMatch "^(access|genpass|admin).*\.php$">
+Order deny,allow
+Deny from all
+</FilesMatch>
+
+# Negar acceso a archivos de configuración, temporales y ejemplos.
+<FilesMatch "\.(ini|log|bak|bak\.php|json|example)$">
+Order deny,allow
+Deny from all
+</FilesMatch>
+
+# Negar acceso directorios sensibles.
+RedirectMatch 403 ^/.git/.*$
+RedirectMatch 403 ^/.base/.*$
+RedirectMatch 403 ^/.system/.*$
+
+# Paginas personalizadas para los status HTTP de error. "errordocs" debe establecerse como un alias especial en config.inc.php
+ErrorDocument 403 /errordocs/403
+ErrorDocument 404 /errordocs/404
+ErrorDocument 500 /errordocs/500
+
+# Bloquear el acceso al propio .htaccess
+<Files .htaccess>
+	Order allow,deny
+	Deny from all
+</Files>
+
+<IfModule mod_headers.c>
+# Decirle al navegador que confíe en el tipo MIME de los archivo y no trate de "snifear".
+	Header set X-Content-Type-Options nosniff
+# No incluir el sitio en un frame/iframe
+	Header set X-Frame-Options SAMEORIGIN
+</IfModule>
+
+
+# SEO URL Settings
+RewriteEngine On
+
+# (*) La imbecilidad comentada más arriba se termina de arreglar con estas dos directivas.
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|js|css)
+
+# L hace que si coincide la regla, no procese ninguna mas
+# QSA hace que sarasa?firulete=algo se convierta en index.php?_virualpath_=sarasa&firulete=algo (convierte ? en &...)
+# Caracteres admitidos en la URL: letras (min/may), números, guión bajo y medio, barra /, punto y el signo más. Cuidado: este último llega como un caracter de espacio en blanco.
+RewriteRule ^([a-zA-Z0-9_\-/\.\+\@]+)$ index.php?_virualpath_=$1 [L,QSA]
+
+# Variables de entorno.
+# Determinan el nombre del desarrollo (DEVELOPE_NAME) y el tipo de ambiente en el que se ejecuta (DEPLOY)
+SetEnv DEVELOPE_NAME metropol
+# Posibles valores local, test, dev, uat, prod
+SetEnv DEPLOY prod
+# Posibles valores frontend, core, backend, etc...
+SetEnv INTERFACE_MODE backend

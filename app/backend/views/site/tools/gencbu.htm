@@ -1,0 +1,69 @@
+<?php
+
+require_once(DIR_model."tools".DS."class.wsclient.inc.php");
+
+$wsclient = new cWsClient;
+
+if (!$result = $wsclient->GetRandomCBU()) {
+	return cSideKick::ShowWarning('No se pudo generar CBU porque '.$wsclient->msgerr);
+}
+
+?>
+<div class="row">
+	<div class="col-12">
+		<h3 class="text-center">Generador de CBU aleatorio</h3>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-2 col-lg-4 col-xl-4"></div>
+	<div class="col-sm-8 col-lg-4 col-xl-4">
+		<div class="card">
+			<div class="card-body">
+				<h3 class="CARD-TEXT text-center text-danger" id="theCBU"><?php echo $result->cbu; ?></h3>
+				<p class="text-center" id="theBankName"><?php echo $result->banco; ?></p>
+			</div>
+			<div class="card-footer">
+				<p class="text-end"><button type="button" id="genotro" class="btn btn-primary" onClick="GenOtro(this);" title="Generar otro CBU">Otro...</button></p>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-2 col-lg-4 col-xl-4"></div>
+</div>
+<div class="row">
+	<div class="col-sm-2 col-lg-4 col-xl-4"></div>
+	<div class="col-sm-8 col-lg-4 col-xl-4">
+		<div class="card">
+			<div class="card-body">
+				<form id="frm" name="frm" class="form form-vertical">
+					<div class="form-body">
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group" title="">
+									<label for="first-name-vertical">Autocompletador</label>
+									<input type="text" id="inputTarget" class="form-control" name="inputTarget" placeholder="Autocompetar">
+									<input type="hidden" id="region_id" name="region_id" class="form-control" value="1" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-2 col-lg-4 col-xl-4"></div>
+</div>
+<script type="text/javascript">
+function GenOtro(btn) {
+	btn.setAttribute('disabled','disabled');
+	getAjax({
+		archivo: 'gencbu',
+		content: 'tools'
+	},function (a,b,c,d) {
+		if (d.ok) {
+			getElem('theCBU').innerHTML = d.cbu;
+			getElem('theBankName').innerHTML = d.banco;
+		}
+		btn.removeAttribute('disabled');
+	});
+}
+</script>

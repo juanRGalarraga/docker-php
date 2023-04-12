@@ -1,0 +1,117 @@
+<div class="row mb-2" title="Límites generales del plan">
+	<div class="col-12"><h5>Límites</h5></div>
+    <div class="col-12 row">
+        <!-- Vigencias -->
+        <div class="col-12 col-sm-3 form-group">
+            <label class="fw-bolder" for="vig_des">Vigencias Desde</label>
+            <input type="date" class="form-control" name="vig_des" id="vig_des" value="<?php echo $plan->vigencia_desde??null; ?>">
+        </div>
+        <div class="col-12 col-sm-3 form-group">
+            <label class="fw-bolder" for="vig_has">Vigencias Hasta</label>
+            <input type="date" class="form-control" name="vig_has" id="vig_has" value="<?php echo $plan->vigencia_hasta??null; ?>">
+        </div>
+        <!-- Montos -->
+        <div class="col-12 col-sm-3 form-group">
+            <label class="fw-bolder" for="mnt_min">Monto mínimo</label>
+            <input type="number" name="mnt_min" id="mnt_min" class="form-control" usage="amount" filtro-data="monto" value="<?php echo I($plan->monto_minimo??null,0); ?>">
+        </div>
+        <div class="col-12 col-sm-3 form-group">
+            <label class="fw-bolder" for="mnt_max">Monto máximo</label>
+            <input type="number" name="mnt_max" id="mnt_max" class="form-control" usage="amount" filtro-data="monto" value="<?php echo I($plan->monto_maximo??null,0); ?>">
+        </div>
+    </div>
+</div>
+<div class="row mb-2">
+	<div class="col-12"><h5>Tipo de plan</h5></div>
+        <!-- Vigencias -->
+		<div class="col-12 col-sm-3 form-group">
+			<label class="fw-bolder" for="vig_des">Tipo</label>
+			<select name="tipo_plan" class="form-select" id="tipo_plan">
+				<option value="PRESTAMO"<?php echo ($plan->tipo == 'PRESTAMO')?" selected":""; ?>>Otorgamiento de Préstamo</option>
+				<option value="REFIN"<?php echo ($plan->tipo == 'REFIN')?" selected":""; ?>>Refinanciación de préstamo existente</option>
+			</select>
+		</div>
+		<div class="col-12 col-sm-9 form-group">
+			<p>&nbsp;</p>
+			<p id="desc-tipo-prestamo" class="desc-tipo <?php echo ($plan->tipo != 'PRESTAMO')?"d-none":""; ?>">Plan de otorgamiento de un préstamo nuevo.</p>
+			<p id="desc-tipo-refin" class="desc-tipo <?php echo ($plan->tipo != 'REFIN')?"d-none":""; ?>">Plan de refinanciación de un préstamo moroso existente.</p>
+		</div>
+</div>
+<div class="row mb-2">
+	<div class="col-12"><h5>Tipo de otorgamiento</h5></div>
+    <div class="col-12 row mt-2">
+        
+        <!-- Periodos -->
+        <div class="col-12 col-sm-3 form-group">
+            <label class="fw-bolder" for="ing_per">Modalidad de pagos</label>
+            <select name="tipo_pagos" id="tipo_pagos" class="form-select">
+<?php
+	if (count($tipos_pagos->disponibles??null) > 0) {
+		foreach($tipos_pagos->disponibles as $value) {
+?>
+				<option value="<?php echo $value; ?>"<?php echo ($plan->tipo_pagos == $value)?" selected":""; ?> data-cuotas="<?php echo ($tipos_pagos->{$value}->cuotas)?"1":"0";?>" data-gracias="<?php echo ($tipos_pagos->{$value}->gracia??null)?"1":"0";?>" data-caida="<?php echo ($tipos_pagos->{$value}->caida??null)?"1":"0";?>"><?php echo ucfirst($value); ?></option>
+<?php
+		}
+	}
+?>
+			</select>
+        </div>
+		<div class="col-12 col-sm-9 form-group">
+			<p>&nbsp;</p>
+<?php
+	if (count($tipos_pagos->disponibles??null) > 0) {
+		foreach($tipos_pagos->disponibles as $value) {
+?>
+			<p class="desc-pago d-none" id="desc-pago-<?php echo $value; ?>"><?php echo $tipos_pagos->{$value}->descripcion??null; ?></p>
+<?php
+		}
+	}
+?>
+		</div>
+    </div>
+    <!-- Sin cuotas -->
+	<div class="col-12 row mt-2 cuotas sin-cuotas <?php echo ($tipos_pagos->{$value}->cuotas??true)?"d-none":"";?>">
+		<div class="col-12 col-sm-4 form-group" title="Plazo mínimo elegible">
+			<label class="fw-bolder" for="plazo_min">Plazo mínimo</label>
+			<input type="number" name="plazo_min" id="plazo_min" class="form-control" value="<?php echo $plan->plazo_minimo??null; ?>">
+		</div>
+		<div class="col-12 col-sm-4 form-group" title="Plazo máximo elegible">
+			<label class="fw-bolder" for="cto_max">Plazo máximo</label>
+			<input type="number" name="plazo_max" id="plazo_max" class="form-control" value="<?php echo $plan->plazo_maximo??null; ?>">
+		</div>
+	</div>
+
+
+	<!-- Con Cuotas -->
+	<div class="col-12 row mt-2 cuotas con-cuotas <?php echo ($tipos_pagos->{$value}->cuotas??true)?"":"d-none";?>">
+		<div class="col-12 col-sm-4 form-group" title="Cantidad mínima de cuotas">
+			<label class="fw-bolder" for="cto_min">Cuotas mínimas</label>
+			<input type="number" name="cto_min" id="cto_min" class="form-control" value="<?php echo $plan->plazo_minimo??null; ?>">
+		</div>
+		<div class="col-12 col-sm-4 form-group" title="Cantidad máxima de cuotas">
+			<label class="fw-bolder" for="cto_max">Cuotas máximas</label>
+			<input type="number" name="cto_max" id="cto_max" class="form-control" value="<?php echo $plan->plazo_maximo??null; ?>">
+		</div>
+		<div class="col-12 col-sm-4 form-group gracias <?php echo ($tipos_pagos->{$value}->gracia??true)?"":"d-none";?>" title="Cantidad de períodos de gracias antes de la primera cuota">
+			<label class="fw-bolder" for="cto_max">Períodos de gracias</label>
+			<input type="number" name="periodos_gracia" id="periodos_gracia" class="form-control" value="<?php echo $plan->data->periodos_gracia??null; ?>">
+		</div>
+	</div>
+	<div class="col-12 row mt-2 cuotas con-cuotas <?php echo ($tipos_pagos->{$value}->cuotas??true)?"":"d-none";?>">
+		<div class="col-12 col-sm-4 form-group">
+			<label class="fw-bolder" for="tip_mon">Porcentaje mímimo de entrega inicial</label>
+			<input type="number" name="porc_ini_minimo" id="porc_ini_minimo" class="form-control" value="<?php echo $plan->data->porc_ini_minimo??null; ?>">
+		</div>
+		<div class="col-12 col-sm-4 form-group">
+			<label class="fw-bolder" for="tip_mon">Procentaje máximo de entrega inicial</label>
+			<input type="number" name="porc_ini_maximo" id="porc_ini_maximo" class="form-control" value="<?php echo $plan->data->porc_ini_maximo??null; ?>">
+		</div>
+		<div class="col-12 col-sm-4 form-group caida <?php echo ($tipos_pagos->{$value}->caida??false)?"":"d-none";?>" title="Momento del período donde ubicar el vencimiento">
+			<label class="fw-bolder" for="cto_max">Momento de caída</label>
+			<input type="number" name="caida" id="caida" class="form-control" value="<?php echo $plan->data->caida??null; ?>">
+		</div>
+	</div>
+</div>
+<?php
+
+?>

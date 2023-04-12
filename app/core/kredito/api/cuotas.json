@@ -1,0 +1,31 @@
+[
+	{
+		"methods":"GET",
+		"route":"cuotas/history/{prestamoid}:int",
+		"resolver":"cuotas/getHistory",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"GET",
+		"route":"cuotas/{prestamoid}:int/{cuotaid}?:int",
+		"resolver":"cuotas/get",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	
+	{
+		"methods":"POST",
+		"route":"cuotas/",
+		"resolver":"cuotas/post",
+		"restricted":true,
+		"description":"Añade un nuevo registro"
+	},
+	{
+		"methods":"GET",
+		"route":"cuotas/",
+		"resolver":"cuotas/list",
+		"restricted":true,
+		"description":"Obtiene un listado"
+	}
+]

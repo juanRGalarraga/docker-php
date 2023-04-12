@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="es-AR">
+	<meta charset="UTF-8">
+	<meta name="Author" content="Rebrit" />
+	<meta name="AuthorLink" content="http://rebrit.ar/" />
+	<meta description="<?php echo @$objeto_contenido->metadata->description; ?>" />
+	<meta keywords="<?php echo @$objeto_contenido->metadata->keywords; ?>" />
+	<meta generator="RebritGenerator 2.0" />
+
+	<meta name="robots" content="INDEX,FOLLOW">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1">
+	<link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
+
+	<?php
+	if (!empty($objeto_contenido->geo)) {
+		foreach ($objeto_contenido->geo as $key => $value) {
+	?>
+			<meta name="geo.<?php echo $key; ?>" content="<?php echo $value; ?>" />
+	<?php
+		} // foreach geo
+	} // !empty geo
+	?>
+
+	<?php
+	if (!empty($objeto_contenido->metadata->seo)) {
+		foreach ($objeto_contenido->metadata->seo as $key => $value) {
+	?>
+			<meta property="og.<?php echo $key; ?>" content="<?php echo $value; ?>" />
+	<?php
+		} // foreach seo
+	} // !empty seo
+	?>
+
+	<title><?php echo $objeto_contenido->GetTitulo(true); ?></title>
+
+	<base href="<?php echo BASE_URL; ?>" />
+
+	<link rel="icon" type="image/png" href="<?php echo SITE_favicon; ?>" />
+	<link rel="author" type="text/plain" href="<?php echo SITE_humans; ?>" />
+	<link rel="stylesheet" type="text/css" media="all" href="<?php
+	echo BASE_URL . "css/" . $objeto_contenido->GetLink(false);
+	?>" />
+
+	<script type="text/javascript" src="<?php
+	echo BASE_URL . "js/" . $objeto_contenido->GetLink(false);
+	?>"></script>
+	<?php
+	if (!empty($objeto_contenido->metadata->customjs)) {
+		if (ExisteArchivo(CustPath(DIR_common . $objeto_contenido->metadata->customjs))) {
+			require(CustPath(DIR_common . $objeto_contenido->metadata->customjs));
+		} else {
+			if (ExisteArchivo(CustPath($objeto_contenido->metadata->customjs))) {
+				require(CustPath($objeto_contenido->metadata->customjs));
+			}
+		}
+	}
+	?>
+	<link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+	<link href="http://fonts.cdnfonts.com/css/myriad-pro" rel="stylesheet">
+	<?php if (isset($objeto_contenido->metadata->es_temporal) and $objeto_contenido->metadata->es_temporal) { ?>
+		<script>
+			var puede_modificar = <?php echo ($objeto_contenido->puede_modificar) ? $objeto_contenido->puede_modificar  : 0; ?>;
+		</script>
+		<script type="text/javascript" src="<?php echo BASE_URL; ?>js/f/usuario_temporal"></script>
+	<?php } ?>
+	<script type="text/javascript">
+		var __cfRLUnblockHandlers = 1;
+	</script>
+	<script src="https://kit.fontawesome.com/ab5f6c4380.js" crossorigin="anonymous"></script>
+</head>

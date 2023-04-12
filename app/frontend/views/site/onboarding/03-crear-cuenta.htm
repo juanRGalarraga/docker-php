@@ -1,0 +1,53 @@
+	<div class="calculator row inner justify-content-sm-center position-relative">
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<form id="frmCrearCuenta" name="frmCrearCuenta" class="">
+				<div class="innerCalculator mx-auto d-flex flex-column justify-content-between">
+					<div class="mb-3">
+						<h3 class="mt-0 mb-4">Información personal</h3>
+						<button class="btnTenela calculatorBtn" onClick="irAMiCuenta()">SOY CLIENTE</button>
+					</div>
+					<div>
+						<div class="position-relative">
+							<input type="text" name="nro_doc" id="nro_doc" class="inputData borderTop" placeholder="INGRESA TU D.N.I." required maxlength="10" value="<?php echo $onboarding->solictemp->data->nro_doc??null; ?>">
+						</div>
+						<br>
+						<div class="position-relative">
+							<input type="password" name="password" id="password" class="inputData borderBottom" placeholder="INGRESA TU CONTRASEÑA" required maxlength="32" value="<?php echo $onboarding->solictemp->data->password??null; ?>">
+						</div>
+						<p class="mb-4 mt-1 forgot">Debe tener al menos 8 caracteres,<br>1 Mayúscula y 1 Numero</p>
+					</div>
+					<div class="conditions justify-content-center">
+						<label class="custom-radio-checkbox text-left">
+							<input class="custom-radio-checkbox__input" type="checkbox" name="checkTyc" id="checkTyc" value="on" required <?php echo ((!empty($onboarding->solictemp->data->checkTyc))?"checked":null); ?>>
+							<span class="custom-radio-checkbox__show custom-radio-checkbox__show--radio"></span>
+							<span class="custom-radio-checkbox__text summaryTable">ACEPTO LOS TÉRMINOS Y CONDICIONES</span>
+						</label>
+						<label class="custom-radio-checkbox text-left">
+							<input class="custom-radio-checkbox__input" type="checkbox" name="checkPdP" id="checkPdP" value="on" required <?php echo ((!empty($onboarding->solictemp->data->checkPdP))?"checked":null); ?>>
+							<span class="custom-radio-checkbox__show custom-radio-checkbox__show--radio"></span>
+							<span class="custom-radio-checkbox__text summaryTable">ACEPTO LAS POLÍTICAS DE PRIVACIDAD</span>
+						</label>
+						<label class="custom-radio-checkbox text-left">
+							<input class="custom-radio-checkbox__input" type="checkbox" name="checkAuth" id="checkAuth" value="on" required <?php echo ((!empty($onboarding->solictemp->data->checkAuth))?"checked":null); ?>>
+							<span class="custom-radio-checkbox__show custom-radio-checkbox__show--radio"></span>
+							<span class="custom-radio-checkbox__text summaryTable">AUTORIZADO POR TENELA</span>
+						</label>
+					</div>
+
+					<div class="btnContainers">
+						<button type="button" class="btnTenela calculatorBtn px-4" title="Regresar al paso anterior" id="btnBack"><i class="fas fa-arrow-left"></i> ANTERIOR</button>
+						<button class="btnTenela calculatorBtn px-4" type="button" id="btnNext" title="Ir al siguiente paso">SIGUIENTE <i class="fas fa-arrow-right"></i> </button>
+					</div>
+				</div>
+			</form>
+		</div>
+<?php
+require_once("simulador-calculadora.htm");
+?>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('crear-cuenta');
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","js":"crear-cuenta","callback":"InitCrearCuenta"}');
+?></json>

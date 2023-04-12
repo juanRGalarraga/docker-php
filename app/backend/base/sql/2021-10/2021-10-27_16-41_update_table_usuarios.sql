@@ -1,0 +1,4 @@
+TRUNCATE `mecha_backend`.`backend_personas_data`;
+ALTER TABLE `backend_personas_data` DROP `dato`;
+ALTER TABLE `backend_personas_data` ADD `dato` JSON NULL AFTER `tipo`;
+INSERT INTO `backend_personas_data` (`id`, `persona_id`, `tipo`, `dato`, `estado`, `default`, `extras`, `duplicado`, `sys_fecha_alta`, `sys_fecha_modif`, `sys_usuario_id`) VALUES (1, 1, 'EMAIL', '{\"email\": \"diego.romero@rebrit.ar\"}', 'HAB', 1, '{\"razon\": \"Dirección aún no fue verificada\", \"valido\": false, \"verificado\": false}', NULL, '2021-09-21 16:09:22', '2021-09-21 16:09:22', 1), (2, 1, 'EMAIL', '{\"email\":\"driverop@gmail.com\"}', 'HAB', 0, '{\"razon\": \"Dirección aún no verificada\", \"valido\": false, \"verificado\": false}', NULL, '2021-09-21 16:14:47', '2021-09-21 16:14:47', 1)

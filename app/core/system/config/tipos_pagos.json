@@ -1,0 +1,25 @@
+{
+	"disponibles":["unico","diario","semanal","mensual","quicenal"],
+	"unico": {
+		"descripcion":"Pago único con plazo diario.",
+		"cuotas":false
+	},
+	"diario": {
+		"descripcion":"Pagos diarios.",
+		"cuotas":true,
+		"gracia":true
+	},
+	"semanal": {
+		"descripcion":"Pagos cada siete días.",
+		"cuotas":true
+	},
+	"mensual": {
+		"descripcion":"Pagos cada mes.",
+		"cuotas":true,
+		"caida":true
+	},
+	"quicenal": {
+		"descripcion":"Pago cada quince días.",
+		"cuotas":true
+	}
+}

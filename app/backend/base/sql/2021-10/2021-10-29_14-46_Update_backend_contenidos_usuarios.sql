@@ -1,0 +1,1 @@
+UPDATE `backend_contenidos` SET `metadata` = '{\"js\": \"usuarios/usuarios,sweetalert2.all.min\", \"css\": \"usuarios/usuarios\", \"vista\": \"usuarios/main\"}' WHERE `backend_contenidos`.`id` = 31;

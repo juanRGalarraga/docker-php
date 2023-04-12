@@ -1,0 +1,64 @@
+	<div class="calculator row inner justify-content-sm-center position-relative">
+		
+		<div class="col-lg-6 col-md-6 col-sm-9 col-12 d-sm-flex flex-sm-column p0 marginCalc">
+			<div class="innerCalculator mx-auto d-flex flex-column justify-content-between">
+				<div class="d-flex justify-content-around mb-4">
+					<div class="numStyle numBg">1</div>
+					<div class="numStyle">2</div>
+					<div class="numStyle">3</div>
+					<div class="numStyle">4</div>
+				</div>
+
+				<h3 class="mt-0">Datos personales</h3>
+
+				<div class="text-left">				
+					<label class="totalText font-weight-bold mb-3"><?php echo (($onboarding->solictemp->data->nombre??null)." ".($onboarding->solictemp->data->apellido??null)); ?></label>
+				</div>
+				
+				<div class="innerCalculator">
+					<ul class="summaryTable">
+						<li class="d-flex justify-content-between">
+							<h5 class="font-weight-bold">DNI:</h5>
+							<label class="valor"><?php echo $onboarding->solictemp->data->nro_doc??null; ?></label>
+						</li>
+						<li class="d-flex justify-content-between">
+							<h5 class="font-weight-bold">Dirección:</h5>
+							<label class="valor"><?php 
+							if (is_object($onboarding->solictemp->data->direccion)) {
+								echo $onboarding->solictemp->data->direccion->calle??null;
+								echo ' ';
+								echo $onboarding->solictemp->data->direccion->nro??null;
+							} else {
+								echo $onboarding->solictemp->data->direccion??null;
+							}
+							?></label>
+						</li>
+						<li class="d-flex justify-content-between">
+							<h5 class="font-weight-bold" id="etiqueta_1">TELÉFONO:</h5>
+							<label class="valor">+54 <?php echo $onboarding->solictemp->data->telcod; ?> - <?php echo $onboarding->solictemp->data->telnum; ?></label>
+						</li>
+						<li class="d-flex justify-content-between">
+							<h5 class="font-weight-bold" id="etiqueta_2" title="Costos administrativos incluye IVA">EMAIL:</h5>
+							<label class="valor"><?php echo $onboarding->solictemp->data->email; ?></label>
+						</li>
+					</ul>
+				</div>
+				<p class="text-center">¿No sos vos?, podés regresar a los pasos anteriores y modificar tus datos.</p>
+				<div class="btnContainers">
+					<button type="button" class="btnTenela calculatorBtn px-4" title="Regresar al paso anterior" id="btnBack"><i class="fas fa-arrow-left"></i> ANTERIOR</button>
+					<button class="btnTenela calculatorBtn px-4" type="button" id="btnNext" title="Ir al siguiente paso">SIGUIENTE <i class="fas fa-arrow-right"></i> </button>
+				</div>
+
+			</div>
+		</div>
+
+<?php
+require_once("simulador-calculadora.htm");
+?>
+	</div>
+<?php
+$theToken = $onboarding->GenToken('datos-personales');
+?>
+<json class="json"><?php
+echo Base64_encode('{"token":"'.$theToken.'","js":"datos-personales","callback":"InitDatosPersonales"}');
+?></json>

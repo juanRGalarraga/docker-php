@@ -1,0 +1,72 @@
+<?php
+/**
+*	Muestra el listado de préstamos.
+*	Created: 2021-11-05
+*	Author: Gastón Fernandez
+*/
+	require_once("filters.php");
+?>
+<div class="row">
+	<div class="col-12">
+		<div class="carousel slide" data-bs-interval="false" data-bs-ride="carousel" id="carrListado">
+			<section class="section carousel-item carousel-item active">
+				<div class="card">
+					<div class="card-header">
+						Listado de préstamos
+					</div>
+					<div class="card-body">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-auto" id="filters">
+							<div class="col">
+								<label for="buscar">Buscar</label>
+								<input type="search" name="buscar" id="buscar" class="form-control" value="" placeholder="Nombre, Apellido, Nro. Doc." onkeyup="FilterSearch(this,refreshList);" onchange="FilterSearch(this,refreshList)"/>
+							</div>
+
+							<div class="col">
+								<label for="estado">Estados</label>
+								<select id="estado" name="estado" class="form-select" multiple aria-label="Filtrar por estado..." hidden>
+									<?php 
+										foreach($estados as $key => $value) { ?>
+											<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+									<?php } ?>
+								</select>
+							</div>
+
+							<div class="col">
+								<label for="mora">Filtros por mora</label>
+								<select id="mora" name="mora" class="form-select" onchange="refreshList();">
+									<option value="-1" selected>- Todos -</option>
+									<?php 
+										foreach($mora_filters as $value) { ?>
+											<option value="<?php echo $value->id; ?>"><?php echo $value->nombre; ?></option>
+									<?php } ?>
+								</select>
+							</div>
+
+							<div class="col">
+								<label for="plan">Planes</label>
+								<select id="plan" name="plan" class="form-select" onchange="refreshList();">
+									<option value="-1" selected>- Todos -</option>
+									<?php 
+										foreach($plan_filters as $value) { ?>
+											<option value="<?php echo $value['id']; ?>"><?php echo $value['nombre']; ?></option>
+									<?php } ?>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-12" id="listado_prestamos"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="section carousel-item carousel-item" id="visualizacion">
+				
+			</section>
+		</div>
+	</div>
+</div>

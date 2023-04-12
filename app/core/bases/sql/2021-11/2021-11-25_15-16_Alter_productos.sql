@@ -1,0 +1,2 @@
+ALTER TABLE `productos` ADD `descripcion` VARCHAR(128) NULL COMMENT 'Descripción breve del producto si se necesita' AFTER `estado`;
+ALTER TABLE `productos` ADD `tipo_moneda` VARCHAR(3) NULL COMMENT 'Tipo de moneda que refleja el precio del producto' AFTER `precio`;

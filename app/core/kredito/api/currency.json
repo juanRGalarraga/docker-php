@@ -1,0 +1,23 @@
+[
+	{
+		"methods":"GET",
+		"route":"currency",
+		"resolver":"currency/list",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"POST",
+		"route":"currency",
+		"resolver":"currency/post",
+		"restricted":true,
+		"description":"Añade un nuevo registro"
+	},
+	{
+		"methods":"PUT",
+		"route":"currency/{alias}:string",
+		"resolver":"currency/put",
+		"restricted":true,
+		"description":"Actualiza un registro dado un ID"
+	}
+]

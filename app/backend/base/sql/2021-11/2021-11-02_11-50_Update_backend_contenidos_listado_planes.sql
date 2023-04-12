@@ -1,0 +1,1 @@
+UPDATE `backend_contenidos` SET `metadata` = '{\"js\": \"sweetalert2.all.min,planes/listado\", \"css\": \"planes\", \"vista\": \"planes/main\"}' WHERE `backend_contenidos`.`id` = 26;

@@ -1,0 +1,4 @@
+{
+	"descripcion":"Listado de los campos que se envían al cliente",
+	"fields":["`id`","`negocio_id`", "`estado`", "`estado_solicitud`","`prestamo_id`","`persona_id`","`data`","`solicitudes`.`data`->>'$.plazo' AS 'plazo'","`solicitudes`.`data`->>'$.origen' AS 'origen'","`solicitudes`.`data`->>'$.capital' AS 'capital'","`solicitudes`.`data`->>'$.nombre' AS 'nombre'","`solicitudes`.`data`->>'$.apellido'","AS 'apellido'","`solicitudes`.`data`->>'$.nro_doc' AS 'nro_doc'","`solicitudes`.`data`->>'$.paso_alias' AS 'paso'"]
+}

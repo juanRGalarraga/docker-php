@@ -1,0 +1,116 @@
+header {
+    background-color: var(--main-orange);
+    padding: 20px 0 20px 0;
+}
+
+.headerContainer {
+    padding: 8px 0 8px 0;
+}
+  
+.logo {
+    width: 200px;
+    height: 50px;
+    margin-right: auto;
+    color: var(--main-violet);
+}
+
+.logOut {
+    padding: 8px 60px 8px 60px;
+}
+
+.navbar-collapse {
+    text-align: center;
+    background-color: var(--main-blue);
+    color: var(--text-black);
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+}
+  
+.nav-item {
+    background-image: linear-gradient(to right, black 55%, rgba(255,255,255,0) 0%);
+    background-position: top;
+    background-size: 20px 1px;
+    background-repeat: repeat-x;
+}
+  
+.headLink {
+    color: var(--main-violet);
+}
+  
+.headLink:hover {
+    text-decoration: none;
+    color: var(--main-violet);
+    border-bottom: solid 2px var(--main-violet);   
+}
+  
+.headLink:active {
+    color: var(--white);
+}
+  
+.navbar-toggler-icon {
+    width: 35px;
+    height: 35px;
+}
+
+/*---------------------------------MEDIAQUERIES----------------------------------*/
+
+@media (max-width: 260px) {
+    .d-flex {
+        display: block !important;
+    }
+}
+
+@media (max-width: 325px) {
+    .logo {
+        width: 180px !important;
+        height: 60px !important;
+    
+    }
+
+    .burgerBtn {
+        position: relative !important;
+        left: 0 !important;
+    }
+
+    .headerContainer {
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .inner {
+        padding: 5px !important;
+    }
+
+    .headerContainer {
+        justify-content: left !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .logo {  
+        width: 225px;
+        height: 70px;
+        margin: 10px 0 10px 0;
+        float: none !important;
+    }
+
+    .headLink:hover {
+        border-bottom: none;   
+    }
+    
+    .headLink:active {
+        color: var(--white);
+        background-color: var(--hover-blue);
+        background-image: linear-gradient(to right, black 55%, rgba(255,255,255,0) 0%);
+        background-position: top;
+        background-size: 20px 1px;
+        background-repeat: repeat-x;
+    }
+}
+
+@media (min-width: 2000px) {
+    .inner {
+        max-width: 1200px !important;
+    }
+}

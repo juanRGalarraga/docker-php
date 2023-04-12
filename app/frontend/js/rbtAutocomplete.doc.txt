@@ -1,0 +1,72 @@
+	Documentación para Autocomplete ver 1.1. (rbtAutocomplete.js)
+	Author: Rebrit.
+	Developer: DriverOp
+	Created: 2021-03-21
+
+Require:
+
+	Navegador que soporte JavaScript ECMA 6.
+	
+Uso.
+
+	Al llamar al constructor, éste requiere como primer parámetro una referencia a un elemento HTML INPUT, o bién un selector CSS que apunte a un elemento INPUT.
+	Y como segundo parámetro, un objeto con las opciones, las cuales se emplican en la siguiente sección.
+	Ej:
+		autocomplete = new rbtAutocomplete('#buscar', {
+			source: 'http://localhost/resultados.php',
+			onSelect: function (li, data) {
+				console.log(data);
+			}
+		});
+
+Opciones:
+	
+	source: string. URL apuntando al script en el servidor que devolverá la lista de resultados,
+	delay: int default 250. Retardo de espera por la siguiente tecla presionada en el input donde se despliega el autocompletar.
+	fixedData: object null. Un objeto cuyos campos se pasará como parámetros POST al script apuntado por source.
+	extraClass: string null. El nombre de una clase CSS que se aplicará al selector, útil para ajustarle el estilo al selector.
+	onFetch: function. Evento justo antes de hacer la petición al servidor.
+	onOpen: function. Petición ajax al servidor abierta.
+	onFirstArrive: function. Llega el primer dato pero la petición ajax no está completa.
+	onLoading: function. Los datos siguen llegando.
+	onFinished: function. La petición aja llegó y se tienen todos los datos.
+	onSelect: function. Función JavaScript que se ejecuta cuando el usuario de la página selecciona un ítem devuelto por el servidor. La función recibirá dos parámetros. El primero es una referencia al ítem (tag HTML <li>)seleccionado por el usuario, y un segundo parámtro que contiene el dato seleccionado.
+
+	El plugin le envía a 'source' un parámetro con nombre 'term' usando el método POST con la cadena que el visitante ha escrito en el input.
+
+Métodos:
+
+	ExtraData(param): Agrega parámetros POST a la petición ajax; param debe ser un objeto.
+	Sig(): Selecciona el siguiente ítem del selector. Si no hay seleccionado, el primero.
+	Prev(): Selecciona el anterior ítem del selector. Si no hay seleccionado, el último.
+
+Cuando el usuario hace clic en una de las opciones del descolgable desplegado, el input al cual está atado, tomará el valor seleccionado.
+
+Source debe devolver una estructura JSON. Un array con los resultados que rellenarán el descolgable. 
+	Si el resultado es un array simple, entonces usará cada posición como relleno, ej:
+	["Resultado 1","Resultado 2","Resultado 3",...]
+
+Si cada posición del array es un objeto que tiene la propiedad 'label', entonces usará ese campo para rellenar el descolgable, ej: 
+	[{"label":"Resultado 1"},
+	{"label":"Resultado 2"},
+	{"label":"Resultado 3"},
+	...]
+
+El plugin usará 'label' para reemplazar el value del input cuando el visitante seleccione uno de los resultados.
+
+Pero si en el resultado existe el campo 'value', entonces usará ese campo para reemplazar el value del input, ej: 
+Mientras que se usará el valor de "label" para mostrar en el descolgable que ve el usuario.
+
+	[{"label":"Resultado 1","value":"Elejiste resultado 1"},
+	{"label":"Resultado 2"},
+	{"label":"Resultado 3"},
+	...]
+
+
+El resultado puede tener cualquier otra cosa que quieras devolver. Eres libre de devolver cualquier otro campo que quieras.
+
+Al seleccionar un resultado (haciendo clic o presionando Enter) se ejecuta el evento onSelect si ha sido establecida, pasándole como parámetros el elemento <li> que compone el resultado, y el dato devuelto por el resultado.
+
+El plugin le agrega al elemento <li> que compone el resultado un atributo con nombre 'frmdata' el cual contiene el resultado asociado a ese <li>.
+
+Puedes usar el primer parámetro pasado al evento onSelect como referencia para obtener el resto de los datos enviados por el servidor.

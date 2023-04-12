@@ -1,0 +1,9 @@
+[
+	{
+		"methods":"GET",
+		"route":"brokers/{id}:int",
+		"resolver":"brokers/get",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	}
+]

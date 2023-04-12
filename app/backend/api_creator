@@ -1,0 +1,251 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Crea apis y clases desde la linea de comandos de PHP
+ * Created: 2021-08-24
+ * Author: Gastón Fernandez
+ * Parametros requeridos
+ *      0 => (requerido) Nombre de la api a crear (string sin espacios, los espacios seran reemplazados por _ )
+ *      1 => (opcional) Indica si crear una clase para esta api (string indicando el nombre que tomara la clase, el nombre del archivo sera el mismo que el de la clase. 
+ *          Los espacios seran reemplazados por _ en nombre del archivo y camelcase en nombre de la lase)
+ */
+define("DEVELOPE_NAME", "metropol");
+define("INTERFACE_MODE", "backend");
+require_once("initialize.php");
+include(DIR_config . "config.inc.php");
+include(DIR_includes . "common.inc.php");
+require_once(DIR_includes . "class.logging.inc.php");
+require_once(DIR_includes."core_constants.inc.php");
+require_once(DIR_model . "creator" . DS . "class.creator.inc.php");
+$creator = new cCreator;
+$metodos_permitidos = array('post', 'get', 'put');
+define("VERSION","1.1");
+
+//con (::) opcional
+//con (:) requerido
+$opciones = array(
+	"a:", "api:",
+	"c::", "class::",
+	"h::", "help::",
+	"m::", "method::",
+	"r::", "resolver::",
+	"u::"
+);
+
+$simple = "a:";
+$simple .= "c::";
+$simple .= "h::";
+$simple .= "m::";
+$simple .= "r::";
+$simple .= "u::";
+$parametros = getopt($simple, $opciones);
+
+echo CLI_COLORES['Azul claro'];
+EchoLog("\t\tApi Creator V ".VERSION);
+echo CLI_COLORES['Ninguno'];
+if (isset($parametros['h']) || isset($parametros['help']) or !CanUseArray($parametros)) {
+	echo CLI_COLORES['Verde'];
+	EchoLog("Ayuda para la creación de API's");
+	echo CLI_COLORES['Ninguno'];
+	$ayuda = "Para utilizar el API Creator deberas indicar ciertos parametros";
+	$ayuda .= PHP_EOL . "\t\t" . CLI_COLORES['Cian'] . "**" . CLI_COLORES['Ninguno'] . " Los parametros admitidos son " . CLI_COLORES['Cian'] . "**" . CLI_COLORES['Ninguno'];
+	$ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . "-a --api" . CLI_COLORES['Ninguno'] . " Nombre de la api a crear." . CLI_COLORES['Amarillo'];
+	$ayuda .= PHP_EOL . "\t\tDe ser un nombre compuesto (example/{id}:?int) se ignorara el parametro -c";
+	$ayuda .= PHP_EOL . "\t\tDe ser un nombre simple (example). Se ignoraran los parametros -m, -r y -u" . CLI_COLORES['Ninguno'];
+	$ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . "-c --class" . CLI_COLORES['Ninguno'] . " Indica el nombre de la clase a crear";
+	$ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . "-h --help" . CLI_COLORES['Ninguno'] . " Muestra este texto de ayuda";
+	$ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . "-m --method" . CLI_COLORES['Ninguno'] . " Metodos a utilizar en la API";
+	$ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . "-r --resolver" . CLI_COLORES['Ninguno'] . " El resolver que sera utilizado para la API";
+	$ayuda .= PHP_EOL . "\t" . CLI_COLORES['Verde claro'] . "-u" . CLI_COLORES['Ninguno'] . " Indica si los metodos indicados en -m serán guardados de manera separada o en una sola posición";
+	EchoLog($ayuda);
+	exit;
+}
+
+try {
+	$customApi = false; //Indica si es una api tipo (test/hola), para estas apis solo se inserta el contenido en un archivo json, y no se crear las cosas del template
+	//Nombre de la API
+	$after = null;
+	$apiName = $parametros['a'] ?? $parametros['api'] ?? null;
+	if (empty($apiName)) {
+		throw new Exception("Debes indicar el nombre de la API");
+		exit;
+	}
+
+	//Lo primero que hacemos es ver si tiene una barra "/" en el nombre
+	if (($before = strstr($apiName, "/", true)) !== false) {
+		$after = trim(strstr($apiName, "/"));
+		$apiName = trim($before);
+		$customApi = true;
+	}
+
+	if (!preg_match("/^[_a-z0-9]+$/i", $apiName)) {
+		throw new Exception("El nombre de la api solo puede tener, letras y números");
+		exit;
+	}
+
+	if(!empty($after) && !preg_match("/^[_a-z0-9\/{a-z0-9}?:]+$/i", $after)){
+		throw new Exception("El contenido luego de la / solo puede contener letras, números, y variables con este formato {id}:int O {id}?:int");
+		exit;
+	}
+	
+	$apiName = str_replace(" ", "_", $apiName);
+	$apiName = strtolower($apiName);
+
+	$existe = false;
+	//Vemos si el nombre de la API esta duplicado
+	if ($creator->CheckApiName($apiName)) {
+		if (empty($after)) {
+			throw new Exception("El nombre de esta API ya existe");
+			exit;
+		}
+		//Ya existe? Veamos si existe el nombre completo en ese archivo
+		if ($creator->CheckApiName($apiName . $after)) { //Efectivamente, ya existe
+			throw new Exception("El nombre de esta API ya existe");
+			exit;
+		}
+
+		//Quiere decir que no haremos el paso de crear la clase, ni de copiar los archivos, solo agregaremos esta api al final del archivo $apiName
+		$existe = true;
+	}
+	$creator->CheckApiName($apiName . $after);
+
+	//Nunca existio, pues haremos todo el proceso
+	if (!$existe and !$customApi) {
+		//Vemos si puedo obtener el template
+		if (!$creator->GetApiTemplate()) {
+			throw new Exception("No se pudo obtener el template para la creación de la API");
+			exit;
+		}
+
+		//Nombre de la clase (opcional)
+		$className = trim($parametros['c'] ?? $parametros['class'] ?? null);
+		if (!empty($className) and !$customApi) {
+			//Solo vamos a aceptar letras, numeros y espacios, nada más
+			if (!preg_match("/^[a-z]+[a-z0-9\s]+$/i", $className)) {
+				throw new Exception("El nombre de la clase solo puede tener, letras, números, espacios y comenzar con una letra");
+				exit;
+			}
+			$className = trim($className);
+			$className = preg_replace("/[\s]+/", "_", $className);
+		}
+
+		//Ahora vamos con la clase de la API
+		$classFileName = $className;
+		if (!empty($className)) {
+			//Esto hace que una letra que este precedida por un espacio se convierta a mayuscula, haciendo la palabra camelcase
+			$className = preg_replace_callback(
+				"/[^a-z0-9]([a-z])/i",
+				function ($a) {
+					return strtoupper($a[1]);
+				},
+				$className
+			);
+
+
+			//En este punto ya tenemos todo lo necesario para crear la clase
+			$classFileName = "class." . $classFileName . ".inc.php";
+			$folderName = $className;
+
+			$className[0] = strtoupper($className[0]);
+			$className = "c" . $className;
+
+			$info = array(
+				'className' => $className,
+				'classFile' => $classFileName,
+				'classFolder' => $folderName
+			);
+
+			if (!$creator->GetClassTemplate()) {
+				throw new Exception("El template de la Clase no fue encontrado MSG-> " . ($creator->error_msg ?? 'Desconocido'));
+				exit;
+			}
+
+			if (!$creator->SetClassInfo($info)) {
+				throw new Exception("Hubo un problema colocando la INFO de la clase a crear para la API MSG-> " . ($creator->error_msg ?? 'Desconocido'));
+				exit;
+			}
+		}
+
+		if (!$creator->CreateApi()) {
+			throw new Exception("Hubo un problema al crear la API MSG -> " . ($creator->error_msg ?? 'Desconocido'));
+			exit;
+		}
+
+		if (!$creator->CreateFolder()) {
+			throw new Exception("Hubo un problema al crear la carpeta con las API's MSG -> " . ($creator->error_msg ?? 'Desconocido'));
+			exit;
+		}
+
+		if ($creator->CanCreateClass) {
+			if (!$creator->CreateClass()) {
+				throw new Exception("Hubo un problema al crear clase de la API MSG -> " . ($creator->error_msg ?? 'Desconocido'));
+				exit;
+			}
+		}
+	} else { //Ya existe o es una api personalizada, pues solo crearemos el nombre de la API en el json (si el json no existe, se creara)
+		$opciones = array(
+			'methods' => "",
+			'resolver' => "",
+			'separado' => false
+		);
+
+		if(isset($parametros['u']) AND !empty($parametros['u'])){
+			throw new Exception("El parámetro U no acepta valores");
+		}
+		$methods = 'POST,GET,PUT';
+		if (isset($parametros['m']) or isset($parametros['method'])) {
+			$methods = $parametros['m'] ?? $parametros['method'];
+			$preg = implode(",",$metodos_permitidos);
+			$preg = "/^[a-z][".$preg."]+[a-z]$/i";
+			if(!preg_match($preg,$methods)){
+				throw new Exception("El parámetro --method o -m esta mal formado");
+			}
+		}
+		$methods = strtolower($methods);
+		$methods = explode(" ",$methods);
+		$methods = array_shift($methods);
+		$methods = explode(",", $methods);
+		foreach ($methods as $value) {
+			if (in_array($value, $metodos_permitidos)) {
+				$opciones['methods'] = sprintf("%s%s", (!empty($opciones['methods'])) ? $opciones['methods'] . "," : "", strtoupper($value));
+			}
+		}
+
+		$resolver = strtolower($parametros['r'] ?? $parametros['resolver'] ?? null);
+		if (!empty($resolver)) {
+			if (!preg_match("/^[a-z0-9\/_]+$/", $resolver)) {
+				throw new Exception("El resolver solo se puede componer de números, letras, guión bajo(0 o más) y barras ( / ) ");
+				exit;
+			}
+
+			$resolver = preg_replace("/^\/+|\/+$/", "", $resolver);
+			if (stripos($resolver, "//") !== false) {
+				throw new Exception("El resolver no es válido, contiene más de una (/) consecutiva");
+				exit;
+			}
+			$opciones['resolver'] = $resolver;
+		}
+
+		$opciones['separado'] = (isset($parametros['u']));
+
+		if (!$creator->setCustomOptions($opciones)) {
+			throw new Exception("No se pudieron colocar las opciones de la API MSG -> " . ($creator->error_msg ?? 'Desconocido'));
+			exit;
+		}
+		
+		if (!$creator->InsertApi()) {
+			throw new Exception("Hubo un problema al crear la API MSG -> " . ($creator->error_msg ?? 'Desconocido'));
+			exit;
+		}
+	}
+} catch (Exception $e) {
+	echo CLI_COLORES['Rojo claro'];
+	EchoLog($e->getMessage());
+	echo CLI_COLORES['Ninguno'];
+	exit;
+}
+
+echo CLI_COLORES['Verde claro'];
+EchoLog("Api creada con exito");
+echo CLI_COLORES['Ninguno'];
+exit;

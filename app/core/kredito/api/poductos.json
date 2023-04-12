@@ -1,0 +1,30 @@
+[
+	{
+        "methods": "GET",
+        "route": "productos/listado",
+        "resolver": "productos/listado",
+        "restricted": true,
+        "description": "Obtiene un listado de productos"
+    },
+    {
+        "methods": "GET",
+        "route": "productos/{id}?:int",
+        "resolver": "productos/ver",
+        "restricted": true,
+        "description": "Obtiene un registro dado un ID"
+    },
+    {
+        "methods": "POST",
+        "route": "productos",
+        "resolver": "productos/agregar",
+        "restricted": true,
+        "description": "Crea una nueva productos"
+    },
+    {
+        "methods": "PUT",
+        "route": "productos/{id}:int",
+        "resolver": "productos/modificar",
+        "restricted": true,
+        "description": "Modifica una productos existente"
+    }
+]

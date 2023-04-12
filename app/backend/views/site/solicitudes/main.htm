@@ -1,0 +1,38 @@
+<?php
+/*
+	Muestra el listado de solicitudes.
+*/
+?>
+<div class="row">
+    <div class="col-12">
+        <div class="carousel slide" data-bs-interval="false" data-bs-ride="carousel" id="carrListado">
+			<section class="section carousel-item carousel-item active">
+				<div class="card">
+                    <div class="card-header">
+                        Listado de solicitudes
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="buscar">Buscar</label>
+                                <input type="search" name="buscar" id="buscar" class="form-control" value="" placeholder="Nombre, Apellido, Nro. Doc." onkeyup="FilterSearch(this,listado)" onchange="FilterSearch(this,listado)"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12" id="listado_solicitudes"></div>
+                        </div>
+                    </div>
+                </div>
+			</section>
+			<section class="section carousel-item carousel-item" id="visualizacion"></section>
+		</div>
+
+
+        
+    </div>
+</div>

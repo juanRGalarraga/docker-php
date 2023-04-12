@@ -1,0 +1,44 @@
+[
+	{
+		"methods":"GET",
+		"route":"pin/request/{solicitudid}:int/{pin}/?",
+		"resolver":"pin/checkPinRequest",
+		"restricted":false,
+        "description":"Determina si el PIN es correcto para la solicitud"
+	},
+	{
+		"methods":"GET",
+		"route":"pin/{pinid}/{pin}/?",
+		"resolver":"pin/checkPinID",
+		"restricted":false,
+        "description":"Determina si el PIN es correcto para el PINID"
+	},
+	{
+		"methods":"GET",
+		"route":"pin/config/?",
+		"resolver":"pin/sendConfig",
+		"restricted":false,
+        "description":"Le devuelve al cliente la configuración de uso del SMS PIN"
+	},
+	{
+		"methods":"POST",
+		"route":"pin/request/resend/{solicitudid}:int",
+		"resolver":"pin/resendPinRequest",
+		"restricted":false,
+        "description":"Reenvía un PIN al número de teléfono que está en la solicitud indicada"
+	},
+	{
+		"methods":"POST",
+		"route":"pin/request/{solicitudid}:int",
+		"resolver":"pin/sendPinRequest",
+		"restricted":false,
+        "description":"Envía un PIN al número de teléfono que está en la solicitud indicada"
+	},
+	{
+		"methods":"POST",
+		"route":"pin/{telnumber}?/?",
+		"resolver":"pin/sendPin",
+		"restricted":false,
+        "description":"Envía un PIN al número de teléfono indicado"
+	}
+]

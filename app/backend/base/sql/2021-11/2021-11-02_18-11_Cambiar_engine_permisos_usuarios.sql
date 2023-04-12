@@ -1,0 +1,1 @@
+ALTER TABLE `permisos_usuarios` ENGINE = INNODB;

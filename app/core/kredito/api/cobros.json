@@ -1,0 +1,44 @@
+[
+	{
+		"methods":"GET",
+		"route":"cobros/listprestamo/{prestamo_id}:int",
+		"resolver":"cobros/listbyprestamo",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"GET",
+		"route":"cobros/list/",
+		"resolver":"cobros/list",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"GET",
+		"route":"cobros/{id}:int",
+		"resolver":"cobros/get",
+		"restricted":true,
+		"description":"Obtiene un registro dado un ID"
+	},
+	{
+		"methods":"POST",
+		"route":"cobros/acreditar",
+		"resolver":"cobros/acreditar",
+		"restricted":true,
+		"description":"Añade un nuevo registro"
+	},
+	{
+		"methods":"POST",
+		"route":"cobros",
+		"resolver":"cobros/post",
+		"restricted":true,
+		"description":"Añade un nuevo registro"
+	},
+	{
+		"methods":"GET",
+		"route":"cobros/",
+		"resolver":"cobros/list",
+		"restricted":true,
+		"description":"Obtiene un listado"
+	}
+]
